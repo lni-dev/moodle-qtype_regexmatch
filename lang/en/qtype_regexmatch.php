@@ -24,6 +24,10 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 $string['pluginname'] = 'RegEx Matcher';
+$string['regex'] = 'Regular Expression';
+$string['pleaseenterananswer'] = 'Please enter a answer.';
+
+//TODO: unset
 $string['pluginname_help'] = 'Create a regexmatch question type with insert question description here.';
 $string['pluginname_link'] = 'question/type/regexmatch';
 $string['pluginnameadding'] = 'Adding a regexmatch question';

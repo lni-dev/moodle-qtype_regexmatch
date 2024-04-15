@@ -23,7 +23,7 @@
 
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
- 
+
  /*https://docs.moodle.org/dev/Question_types#Question_type_and_question_definition_classes*/
 
 
@@ -43,90 +43,19 @@ require_once($CFG->dirroot . '/question/type/regexmatch/question.php');
  */
 class qtype_regexmatch extends question_type {
 
-      /* ties additional table fields to the database */
-    public function extra_question_fields() {
-        return array('question_regexmatch', 'somefieldname','anotherfieldname');
-    }
-    public function move_files($questionid, $oldcontextid, $newcontextid) {
-        parent::move_files($questionid, $oldcontextid, $newcontextid);
-        $this->move_files_in_hints($questionid, $oldcontextid, $newcontextid);
-    }
-
-    protected function delete_files($questionid, $contextid) {
-        parent::delete_files($questionid, $contextid);
-        $this->delete_files_in_hints($questionid, $contextid);
-    }
-     /**
-     * @param stdClass $question
-     * @param array $form
-     * @return object
+    /**
+     * Response cannot be analysed, because the method get_possible_responses cannot be implemented.
+     * @return false
      */
-    public function save_question($question, $form) {
-        return parent::save_question($question, $form);
-    }
-    public function save_question_options($question) {
-        global $DB;
-        $options = $DB->get_record('question_regexmatch', array('questionid' => $question->id));
-        if (!$options) {
-            $options = new stdClass();
-            $options->questionid = $question->id;
-            /* add any more non combined feedback fields here */
-            $options->id = $DB->insert_record('question_imageselect', $options);
-        }
-        $options = $this->save_combined_feedback_helper($options, $question, $question->context, true);
-        $DB->update_record('question_regexmatch', $options);
-        $this->save_hints($question);
+    public function can_analyse_responses() {
+        return false;
     }
 
- /* 
- * populates fields such as combined feedback 
- * also make $DB calls to get data from other tables
- */
-   public function get_question_options($question) {
-     //TODO
-       parent::get_question_options($question);
+    public function extra_question_fields() {
+        return array('question_regexmatch', 'regex');
     }
-
- /**
- * executed at runtime (e.g. in a quiz or preview 
- **/
-    protected function initialise_question_instance(question_definition $question, $questiondata) {
-        parent::initialise_question_instance($question, $questiondata);
-        $this->initialise_question_answers($question, $questiondata);
-        parent::initialise_combined_feedback($question, $questiondata);
-    }
-    
-   public function initialise_question_answers(question_definition $question, $questiondata,$forceplaintextanswers = true){ 
-     //TODO
-    }
-    
-    public function import_from_xml($data, $question, qformat_xml $format, $extra = null) {
-        if (!isset($data['@']['type']) || $data['@']['type'] != 'question_regexmatch') {
-            return false;
-        }
-        $question = parent::import_from_xml($data, $question, $format, null);
-        $format->import_combined_feedback($question, $data, true);
-        $format->import_hints($question, $data, true, false, $format->get_format($question->questiontextformat));
-        return $question;
-    }
-    public function export_to_xml($question, qformat_xml $format, $extra = null) {
-        global $CFG;
-        $pluginmanager = core_plugin_manager::instance();
-        $gapfillinfo = $pluginmanager->get_plugin_info('question_regexmatch');
-        $output = parent::export_to_xml($question, $format);
-        //TODO
-        $output .= $format->write_combined_feedback($question->options, $question->id, $question->contextid);
-        return $output;
-    }
-
 
     public function get_random_guess_score($questiondata) {
-        // TODO.
         return 0;
-    }
-
-    public function get_possible_responses($questiondata) {
-        // TODO.
-        return array();
     }
 }

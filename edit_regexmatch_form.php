@@ -40,7 +40,17 @@ class qtype_regexmatch_edit_form extends question_edit_form {
     protected function definition_inner($mform) {
         //Add fields specific to this question type
         //remove any that come with the parent class you don't want
-        
+
+        $mform->addElement(
+            'text', // type
+            'regex', // id
+            get_string('regex', 'qtype_regexmatch'), // label
+            array('size' => 50) // props
+        );
+        $mform->setType('regex', PARAM_TEXT);
+        $mform->addRule('regex', null, 'required', null, 'client');
+        //TODO: $mform->addHelpButton('regex', 'key of lang string', 'qtype_regexmatch');
+
         // To add combined feedback (correct, partial and incorrect).
         $this->add_combined_feedback_fields(true);
         // Adds hinting features.

@@ -27,11 +27,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/** 
-*This holds the definition of a particular question of this type. 
-*If you load three questions from the question bank, then you will get three instances of 
+/**
+*This holds the definition of a particular question of this type.
+*If you load three questions from the question bank, then you will get three instances of
 *that class. This class is not just the question definition, it can also track the current
-*state of a question as a student attempts it through a question_attempt instance. 
+*state of a question as a student attempts it through a question_attempt instance.
 */
 
 
@@ -44,21 +44,47 @@ defined('MOODLE_INTERNAL') || die();
  */
 class qtype_regexmatch_question extends question_graded_automatically_with_countback {
 
+    public function start_attempt(question_attempt_step $step, $variant) {
+        // probably not needed
+    }
+
+    public function is_complete_response(array $response) {
+        return array_key_exists('answer', $response) &&
+            ($response['answer'] || $response['answer'] === '0');
+    }
+
+    public function get_validation_error(array $response) {
+        if ($this->is_gradable_response($response)) {
+            return '';
+        }
+        return get_string('pleaseenterananswer', 'qtype_regexmatch');
+    }
+
+    public function is_same_response(array $prevresponse, array $newresponse) {
+        return question_utils::arrays_same_at_key(
+            $prevresponse, $newresponse, 'answer');
+    }
+
+    // Template stuff
+    // Template stuff
+    // Template stuff
+    // Template stuff
+    // Template stuff
+    // Template stuff
+
+
+
     /* it may make more sense to think of this as get expected data types */
     public function get_expected_data() {
         // TODO.
         return array();
     }
-    
-     public function start_attempt(question_attempt_step $step, $variant) {
-        //TODO
-        /* there are 9 occurrances of this method defined in files called question.php a new install of Moodle
-        so you are probably going to have to define it */
-    }
-    
+
+
+
     /**
-     * @return summary 
-     * A string that summarises how the user responded. 
+     * @return summary
+     * A string that summarises how the user responded.
      * It is written to responsesummary field of
      * the question_attempts table, and used in the
      * the quiz responses report
@@ -68,28 +94,16 @@ class qtype_regexmatch_question extends question_graded_automatically_with_count
         return null;
     }
 
-    public function is_complete_response(array $response) {
-        // TODO.
-        /* You might want to check that the user has done something
-            before returning true, e.g. clicked a radio button or entered some 
-            text 
-            */
-        return true;
-    }
 
-    public function get_validation_error(array $response) {
-        // TODO.
-        return '';
-    }
-    
-    /** 
+
+    /**
      * if you are moving from viewing one question to another this will
      * discard the processing if the answer has not changed. If you don't
      * use this method it will constantantly generate new question steps and
      * the question will be repeatedly set to incomplete. This is a comparison of
      * the equality of two arrays.
      * Comment from base class:
-     * 
+     *
      * Use by many of the behaviours to determine whether the student's
      * response has changed. This is normally used to determine that a new set
      * of responses can safely be discarded.
@@ -100,23 +114,20 @@ class qtype_regexmatch_question extends question_graded_automatically_with_count
      * @return bool whether the two sets of responses are the same - that is
      *      whether the new set of responses can safely be discarded.
      */
-     
-    public function is_same_response(array $prevresponse, array $newresponse) {
-        // TODO.
-        return false;
-    }
+
+
 
      /**
      * @return question_answer an answer that
      * contains the a response that would get full marks.
-     * used in preview mode. If this doesn't return a 
+     * used in preview mode. If this doesn't return a
      * correct value the button labeled "Fill in correct response"
      * in the preview form will not work. This value gets written
      * into the rightanswer field of the question_attempts table
      * when a quiz containing this question starts.
      */
     public function get_correct_response() {
-        // TODO.        
+        // TODO.
         return array();
     }
     /**
@@ -153,32 +164,32 @@ class qtype_regexmatch_question extends question_graded_automatically_with_count
         $fraction = 0;
         return array($fraction, question_state::graded_state_for_fraction($fraction));
     }
-     
+
      /**
      * Work out a final grade for this attempt, taking into account all the
      * tries the student made. Used in interactive behaviour once all
-     * hints have been used.     * 
-     * @param array $responses an array of arrays of the response for each try. 
-     * Each element of this array is a response array, as would be 
-     * passed to {@link grade_response()}. There may be between 1 and 
-     * $totaltries responses. 
-     * @param int $totaltries is the maximum number of tries allowed. Generally 
+     * hints have been used.     *
+     * @param array $responses an array of arrays of the response for each try.
+     * Each element of this array is a response array, as would be
+     * passed to {@link grade_response()}. There may be between 1 and
+     * $totaltries responses.
+     * @param int $totaltries is the maximum number of tries allowed. Generally
      * not used in the implementation.
      * @return numeric the fraction that should be awarded for this
-     * sequence of response. 
-     * 
+     * sequence of response.
+     *
      */
     public function compute_final_grade($responses, $totaltries) {
-        /*This method is typically where penalty is used. 
-        When questions are run using the 'Interactive with multiple 
-        tries or 'Adaptive mode' behaviour, so that the student will 
-        have several tries to get the question right, then this option 
+        /*This method is typically where penalty is used.
+        When questions are run using the 'Interactive with multiple
+        tries or 'Adaptive mode' behaviour, so that the student will
+        have several tries to get the question right, then this option
         controls how much they are penalised for each incorrect try.
 
-        The penalty is a proportion of the total question grade, so if 
-        the question is worth three marks, and the penalty is 0.3333333, 
-        then the student will score 3 if they get the question right first 
-        time, 2 if they get it right second try, and 1 of they get it right 
+        The penalty is a proportion of the total question grade, so if
+        the question is worth three marks, and the penalty is 0.3333333,
+        then the student will score 3 if they get the question right first
+        time, 2 if they get it right second try, and 1 of they get it right
         on the third try.*/
         //TODO
         return 0;
