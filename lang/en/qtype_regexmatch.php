@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'qtype_regexmatch', language 'en', branch 'MOODLE_20_STABLE'
+ * Strings for component 'qtype_regexmatch', language 'en'
  *
  * @package    qtype
  * @subpackage regexmatch
@@ -28,8 +28,8 @@ $string['regex'] = 'Regular Expression';
 $string['pleaseenterananswer'] = 'Please enter a answer.';
 
 //TODO: unset
-$string['pluginname_help'] = 'Create a regexmatch question type with insert question description here.';
+$string['pluginname_help'] = 'Creates a question of type "regular expression matcher", which allows the answer to be checked using a regular expression.';
 $string['pluginname_link'] = 'question/type/regexmatch';
-$string['pluginnameadding'] = 'Adding a regexmatch question';
-$string['pluginnameediting'] = 'Editing a regexmatch question';
-$string['pluginnamesummary'] = 'A regexmatch question type that allows something to be done that can test a student on some understanding.';
+$string['pluginnameadding'] = 'Adding a regular expression matcher question';
+$string['pluginnameediting'] = 'Editing a regular expression matcher question';
+$string['pluginnamesummary'] = 'A regular expression matcher question type that allows checking question answers using regular expressions.';

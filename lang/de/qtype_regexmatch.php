@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'qtype_regexmatch', language 'en', branch 'MOODLE_20_STABLE'
+ * Strings for component 'qtype_regexmatch', language 'de'
  *
  * @package    qtype
  * @subpackage regexmatch
@@ -26,10 +26,8 @@
 $string['pluginname'] = 'RegEx Vergleicher';
 $string['regex'] = 'Regulärer Ausdruck';
 $string['pleaseenterananswer'] = 'Bitte geben Sie eine Antwort ein.';
-
-//TODO: untranslated
-$string['pluginname_help'] = 'Create a regexmatch question type with insert question description here.';
+$string['pluginname_help'] = 'Erstelle einen Fragetyp "RegEx Vergleicher", wobei die Antwort mithilfe eines regulären Ausdrucks überprüft wird.';
 $string['pluginname_link'] = 'question/type/regexmatch';
-$string['pluginnameadding'] = 'Adding a regexmatch question';
-$string['pluginnameediting'] = 'Editing a regexmatch question';
-$string['pluginnamesummary'] = 'A regexmatch question type that allows something to be done that can test a student on some understanding.';
+$string['pluginnameadding'] = '"RegEx Vergleicher" Frage hinzufügen';
+$string['pluginnameediting'] = '"RegEx Vergleicher" Frage editieren';
+$string['pluginnamesummary'] = '"RegEx Vergleicher" Fragetyp: Kann die Antwort von Studierenden mithilfe eines regulären Ausdrucks überprüfen';

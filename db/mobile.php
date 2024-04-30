@@ -17,8 +17,9 @@
 /**
  * regexmatch question type  capability definition
  *
- * @package    qtype_regexmatch
- * @copyright  20XX Author Name
+ * @package    qtype
+ * @subpackage regexmatch
+ * @copyright  2024 Linus Andera (linus@linusdev.de)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die();
