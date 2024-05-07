@@ -36,17 +36,40 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_regexmatch_renderer extends qtype_renderer {
-    public function formulation_and_controls(question_attempt $qa,
-            question_display_options $options) {
+    public function formulation_and_controls(
+        question_attempt $qa,
+        question_display_options $options
+    ): string {
 
+        // regexmatch question
         $question = $qa->get_question();
 
+        // Text to be displayed for this question (set when creating)
         $questiontext = $question->format_questiontext($qa);
-       
-        $result = html_writer::tag('div', $questiontext, array('class' => 'qtext'));
-        /* Some code to restore the state of the question as you move back and forth
-        from one question to another in a quiz and some code to disable the input fields
-        once a quesiton is submitted/marked */
+
+        // The last answer, that the student entered (if any)
+        $currentanswer = $qa->get_last_qt_var('answer');
+
+        $result = "";
+
+        // Add question text
+        $result .= html_writer::tag('div', $questiontext, array('class' => 'qtext'));
+
+        // Add input field
+        $inputname = $qa->get_qt_field_name('answer');
+        $inputattributes = array(
+            'type' => 'text',
+            'name' => $inputname,
+            'value' => $currentanswer,
+            'id' => $inputname,
+            'size' => 80,
+            'class' => 'form-control d-inline',
+        );
+
+        if ($options->readonly)
+            $inputattributes['readonly'] = 'readonly';
+
+        $result .= html_writer::empty_tag('input', $inputattributes);
 
         /* if ($qa->get_state() == question_state::$invalid) {
             $result .= html_writer::nonempty_tag('div',
