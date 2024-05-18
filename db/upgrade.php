@@ -36,20 +36,6 @@ function xmldb_qtype_regexmatch_upgrade($oldversion = 0) {
 
     $dbman = $DB->get_manager();
 
-    if ($oldversion < 2013012902) {
-
-        // Define field regex to be added to question_regexmatch.
-        $table = new xmldb_table('question_regexmatch');
-        $field = new xmldb_field('regex', XMLDB_TYPE_TEXT, null, null, null, null, null, 'questionid');
-
-        // Conditionally launch add field regex.
-        if (!$dbman->field_exists($table, $field)) {
-            $dbman->add_field($table, $field);
-        }
-
-        // Regexmatch savepoint reached.
-        upgrade_plugin_savepoint(true, 2013012902, 'qtype', 'regexmatch');
-    }
 
     return true;
 }

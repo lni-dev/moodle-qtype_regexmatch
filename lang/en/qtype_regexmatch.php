@@ -26,8 +26,7 @@
 $string['pluginname'] = 'RegEx Matcher';
 $string['regex'] = 'Regular Expression';
 $string['pleaseenterananswer'] = 'Please enter a answer.';
-
-//TODO: unset
+$string['regex-number'] = 'Regular Expression {$a}';
 $string['pluginname_help'] = 'Creates a question of type "regular expression matcher", which allows the answer to be checked using a regular expression.';
 $string['pluginname_link'] = 'question/type/regexmatch';
 $string['pluginnameadding'] = 'Adding a regular expression matcher question';

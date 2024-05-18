@@ -79,12 +79,31 @@ class qtype_regexmatch_renderer extends qtype_renderer {
         return $result;
     }
 
-    public function specific_feedback(question_attempt $qa) {
-        // TODO.
-        return '';
+    public function specific_feedback(question_attempt $qa): string {
+        /* @var qtype_regexmatch_question $question */
+        $question = $qa->get_question();
+
+        // The last answer, that the student entered (if any)
+        $currentanswer = $qa->get_last_qt_var('answer');
+
+        $feedback = '';
+        if($currentanswer != null) {
+            $fraction = 0;
+
+            foreach ($question->answers as $regex) {
+                if(preg_match("/" . str_replace("/", "\\/", $regex->answer) . "/", $currentanswer) == 1) {
+                    if($regex->fraction > $fraction) {
+                        $fraction = $regex->fraction;
+                        $feedback = $question->format_text($regex->feedback, $regex->feedbackformat, $qa, 'question', 'answerfeedback', $regex->id);
+                    }
+                }
+            }
+        }
+
+        return $feedback;
     }
 
-    public function correct_response(question_attempt $qa) {
+    public function correct_response(question_attempt $qa): string {
         // TODO.
         return '';
     }

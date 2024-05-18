@@ -45,6 +45,10 @@ defined('MOODLE_INTERNAL') || die();
 class qtype_regexmatch_question extends question_graded_automatically {
 
     public string $regex = "";
+    /**
+     * @var array array containing all the allowed regexes
+     */
+    public $answers = array();
 
     public function start_attempt(
         question_attempt_step $step,
@@ -90,10 +94,13 @@ class qtype_regexmatch_question extends question_graded_automatically {
         $submittedAnswer = $response['answer'] ?? null;
         $fraction = 0;
 
-        if($submittedAnswer == null)
-            $fraction = 0;
-        else if(preg_match("/" . str_replace("/", "\\/", $this->regex) . "/", $submittedAnswer) == 1)
-            $fraction = 1;
+        if($submittedAnswer != null) {
+            foreach ($this->answers as $regex) {
+                if(preg_match("/" . str_replace("/", "\\/", $regex->answer) . "/", $submittedAnswer) == 1) {
+                    $fraction = max($regex->fraction, $fraction);
+                }
+            }
+        }
 
         return array($fraction, question_state::graded_state_for_fraction($fraction));
     }

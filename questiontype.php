@@ -51,11 +51,32 @@ class qtype_regexmatch extends question_type {
         return false;
     }
 
+    public function save_question_options($question) {
+        parent::save_question_options($question);
+
+        $this->save_question_answers($question);
+    }
+
     public function extra_question_fields() {
-        return array('question_regexmatch', 'regex');
+        return null;
     }
 
     public function get_random_guess_score($questiondata) {
         return 0;
+    }
+
+    public function move_files($questionid, $oldcontextid, $newcontextid) {
+        parent::move_files($questionid, $oldcontextid, $newcontextid);
+        $this->move_files_in_answers($questionid, $oldcontextid, $newcontextid);
+    }
+
+    protected function delete_files($questionid, $contextid) {
+        parent::delete_files($questionid, $contextid);
+        $this->delete_files_in_answers($questionid, $contextid);
+    }
+
+    protected function initialise_question_instance(question_definition $question, $questiondata) {
+        parent::initialise_question_instance($question, $questiondata);
+        $this->initialise_question_answers($question, $questiondata);
     }
 }

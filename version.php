@@ -27,8 +27,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'qtype_regexmatch';
-$plugin->version   = 2013012902;
+$plugin->version   = 2013012903;
 
-$plugin->requires  = 2013012901;
+$plugin->requires  = 2013012902;
 
 $plugin->maturity  = MATURITY_ALPHA;

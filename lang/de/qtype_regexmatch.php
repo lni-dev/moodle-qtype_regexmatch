@@ -26,6 +26,7 @@
 $string['pluginname'] = 'RegEx Vergleicher';
 $string['regex'] = 'Regulärer Ausdruck';
 $string['pleaseenterananswer'] = 'Bitte geben Sie eine Antwort ein.';
+$string['regex-number'] = 'Regulärer Ausdruck {$a}';
 $string['pluginname_help'] = 'Erstelle einen Fragetyp "RegEx Vergleicher", wobei die Antwort mithilfe eines regulären Ausdrucks überprüft wird.';
 $string['pluginname_link'] = 'question/type/regexmatch';
 $string['pluginnameadding'] = '"RegEx Vergleicher" Frage hinzufügen';
