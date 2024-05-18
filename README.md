@@ -1,4 +1,16 @@
 # Moodle Question Type Regex Match
+Grades student answers based on a single or multiple regular expressions.
+
+## Current capabilities
+- Add "Regex Matcher" question type
+- Set question title, text, and feedback
+- Add as many regular expressions with different grades as needed
+- Start test, grade and get feedback
+
+## Probleme
+- Es ist aktuell noch möglich eine Frage dieses Types zu erstellen, die nie richtig beantwortet werden kann,
+  indem man keine Antwort hinzufügt
+- Es ist aktuell noch möglich die Bewertung "keine" für einen Regulären Ausdruck auszuwählen
 
 ## Moodle Installation
 
@@ -11,7 +23,7 @@
 ### Ubuntu
 - Step-by-Step Guide: https://docs.moodle.org/404/en/Step-by-step_Installation_Guide_for_Ubuntu
 
-## Installation
+## Regex Match Installation
 
 ### Installation Using Git
 To install using git for the latest version (the master branch), type this command in the
@@ -34,11 +46,11 @@ Unzip it into the `<moodle-installation>/question/type` folder, and then rename 
     - Get license: https://www.jetbrains.com/shop/eform/students
 - Select php executable: `Settings` -> `PHP` -> `CLI Interpreter` -> `...` -> `+` -> `Other Local...` -> `PHP executable`
   - If Moodle is already installed, you can use the PHP of the moodle installation
-- Check out the moodle folder as project
+- Check out the complete `<moodle-installation>` folder as project
 
 ### Eclipse
 - https://docs.moodle.org/dev/Setting_up_Eclipse
-- Check out the `<moodle-installation>` folder as project
+- Check out the complete `<moodle-installation>` folder as project
 
 ## Development Notes
 Additional advice can be found here:
