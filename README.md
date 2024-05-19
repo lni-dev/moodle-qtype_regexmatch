@@ -3,14 +3,14 @@ Grades student answers based on a single or multiple regular expressions.
 
 ## Current capabilities
 - Add "Regex Matcher" question type
-- Set question title, text, and feedback
+- Edit question title, text, and feedback
 - Add as many regular expressions with different grades as needed
 - Start test, grade and get feedback
 
-## Probleme
-- Es ist aktuell noch möglich eine Frage dieses Types zu erstellen, die nie richtig beantwortet werden kann,
-  indem man keine Antwort hinzufügt
-- Es ist aktuell noch möglich die Bewertung "keine" für einen Regulären Ausdruck auszuwählen
+## Problems
+- It is currently possible to create a question of this type, which can never be answered correctly:
+  - If no answer is added
+  - If only regular expressions with grade "none" ("keine") are added
 
 ## Moodle Installation
 
