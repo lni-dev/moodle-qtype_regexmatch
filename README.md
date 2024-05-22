@@ -4,13 +4,17 @@ Grades student answers based on a single or multiple regular expressions.
 ## Current capabilities
 - Add "Regex Matcher" question type
 - Edit question title, text, and feedback
-- Add as many regular expressions with different grades as needed
+- Add as many regular expressions (patterns) with different grades as needed
+  - Pattern must be compatible with [preg_match](https://www.php.net/manual/en/function.preg-match.php). 
+    A cheat sheet for preg_match can be found [here](https://courses.cs.washington.edu/courses/cse190m/12sp/cheat-sheets/php-regex-cheat-sheet.pdf)
+  - Pattern flags (modifiers) are currently not supported
 - Start test, grade and get feedback
 
 ## Problems
 - It is currently possible to create a question of this type, which can never be answered correctly:
   - If no answer is added
   - If only regular expressions with grade "none" ("keine") are added
+- Pattern flags/modifiers are not supported
 
 ## Moodle Installation
 
@@ -24,6 +28,9 @@ Grades student answers based on a single or multiple regular expressions.
 - Step-by-Step Guide: https://docs.moodle.org/404/en/Step-by-step_Installation_Guide_for_Ubuntu
 
 ## Regex Match Installation
+
+Install the Regex Match plugin using any of the methods below. After the installation the moodle administration website
+`Website Administration` must be visited.
 
 ### Installation Using Git
 To install using git for the latest version (the master branch), type this command in the
