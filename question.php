@@ -90,15 +90,37 @@ class qtype_regexmatch_question extends question_graded_automatically {
         }
     }
 
+    /**
+     * @param string $answer answer submitted from a student
+     * @return mixed|null regex of {@link self::$answers}, which matches given answer or null if none matches
+     */
+    public function get_regex_for_answer(string $answer) : object|null {
+        $ret = null;
+
+        foreach ($this->answers as $regex) {
+            // preg_match requires a delimiter ( we use "/").
+            // replace all actual occurrences of "/" in $regex->answer with an escaped version ("//").
+            // Add "^" at the start of the regex and "$" at the end, to match from start to end.
+            // Add Modifier m, to make "^" and "$" ignore new lines.
+            $constructedRegex = "/^" . str_replace("/", "\\/", $regex->answer) . "$/m";
+            if(preg_match($constructedRegex, $answer) == 1) {
+                if($ret == null || $regex->fraction > $ret->fraction) {
+                    $ret = $regex;
+                }
+            }
+        }
+
+        return $ret;
+    }
+
     public function grade_response(array $response): array {
         $submittedAnswer = $response['answer'] ?? null;
         $fraction = 0;
 
         if($submittedAnswer != null) {
-            foreach ($this->answers as $regex) {
-                if(preg_match("/" . str_replace("/", "\\/", $regex->answer) . "/", $submittedAnswer) == 1) {
-                    $fraction = max($regex->fraction, $fraction);
-                }
+            $regex = $this->get_regex_for_answer($submittedAnswer);
+            if($regex != null) {
+                $fraction = $regex->fraction;
             }
         }
 

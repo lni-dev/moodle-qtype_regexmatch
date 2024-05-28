@@ -25,7 +25,44 @@
  */
 $string['pluginname'] = 'RegEx Matcher';
 $string['regex'] = 'Regular Expression';
+$string['regex_help'] = /** @lang Markdown */
+'The regular expression must be compatible with the *preg_match* php function.
+Thus, the following syntax is allowed:
+
+|        |                    Structures                     |
+|:------:|:-------------------------------------------------:|
+|  abc   |                   Matches "abc"                   |
+| [abc]  | Matches any of the characters inside the brackets |
+| [^abc] |   Matches any character NOT inside the brackets   |
+| ab\|cd |                Match "ab" or "cd"                 |
+| (abc)  |           Matches the subpattern "abc"            |
+|   \    |         Escape character for []\|()/ etc.         |
+
+|        |        Quantifiers        |
+|:------:|:-------------------------:|
+|   a*   |    Zero or more of "a"    |
+|   a+   |    One or more of "a"     |
+|   a?   |    Zero or one of "a"     |
+|  a{n}  |    Exactly n times "a"    |
+| a{n,}  |     n or more of "a"      |
+| a{,m}  |     m or less of "a"      |
+| a{n,m} | Between n and m times "a" |
+
+|    |    Characters & Boundaries     |
+|:--:|:------------------------------:|
+| \w | Any word character (a-z 0-9 _) |
+| \W |     Any non word character     |
+| \s |    Whitespace (space, tab)     |
+| \S |  Any non whitespace character  |
+| \d |          Digits (0-9)          |
+| \D |    Any non digit character     |
+| .  |  Any character except newline  |
+| \b |         Word boundary          |
+| \B |      Not a word boundary       |
+';
 $string['pleaseenterananswer'] = 'Please enter a answer.';
+$string['notenoughregexes'] = 'At least one regular expression is required';
+$string['fborgradewithoutregex'] = 'If a feedback or a grade is set a regular expression must be entered';
 $string['regex-number'] = 'Regular Expression {$a}';
 $string['pluginname_help'] = 'Creates a question of type "regular expression matcher", which allows the answer to be checked using a regular expression.';
 $string['pluginname_link'] = 'question/type/regexmatch';

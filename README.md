@@ -62,3 +62,13 @@ Unzip it into the `<moodle-installation>/question/type` folder, and then rename 
 ## Development Notes
 Additional advice can be found here:
 - https://github.com/marcusgreen/moodle-qtype_TEMPLATE/wiki
+
+## Test
+
+
+
+
+
+
+
+

@@ -25,7 +25,44 @@
  */
 $string['pluginname'] = 'RegEx Vergleicher';
 $string['regex'] = 'Regulärer Ausdruck';
+$string['regex_help'] = /** @lang Markdown */
+'Der reguläre Ausdruck muss mit der PHP-Funktion *preg_match* kompatibel sein.
+Deswegen muss der folgende Syntax eingehalten werden:
+
+|        |                Strukturen                |
+|:------:|:----------------------------------------:|
+|  abc   |               Findet "abc"               |
+| [abc]  |    Findet ein Zeichen aus der Klammer    |
+| [^abc] | Findet ein Zeichen nicht aus der Klammer |
+| ab\|cd |          Findet "ab" oder "cd"           |
+| (abc)  |       Findet das Untermuster "abc"       |
+|   \    |      Escape Zeichen für []\|()/ usw      |
+
+|          |    Wiederholungen    |
+|:--------:|:--------------------:|
+|    a*    |  Null oder mehr "a"  |
+|    a+    |  Ein oder mehr "a"   |
+|    a?    |  Null oder Ein "a"   |
+|   a{n}   |     Genau n "a"      |
+|  a{n,}   |   n oder mehr "a"    |
+|  a{,m}   |  m oder weniger "a"  |
+|  a{n,m}  | Zwischen n und m "a" |
+
+|    |           Zeichen & Grenzen           |
+|:--:|:-------------------------------------:|
+| \w |  Irgendein Wort-Zeichen (a-z 0-9 _)   |
+| \W |     Irgendein nicht Wort-Zeichen      |
+| \s |       Leerzeichen (space, tab)        |
+| \S |  Irgendein Zeichen außer Leerzeichen  |
+| \d |             Ziffern (0-9)             |
+| \D |    Irgendein Zeichen außer Ziffern    |
+| .  | Irgendein Zeichen außer Zeilenumbruch |
+| \b |              Wortgrenze               |
+| \B |           Keine Wortgrenze            |
+';
 $string['pleaseenterananswer'] = 'Bitte geben Sie eine Antwort ein.';
+$string['notenoughregexes'] = 'Mindestens ein regulärer Ausdruck sollte angegeben werden';
+$string['fborgradewithoutregex'] = 'Wenn ein Feedback oder eine Bewertung angegeben ist, muss auch ein regulärer Ausdruck angegeben werden';
 $string['regex-number'] = 'Regulärer Ausdruck {$a}';
 $string['pluginname_help'] = 'Erstelle einen Fragetyp "RegEx Vergleicher", wobei die Antwort mithilfe eines regulären Ausdrucks überprüft wird.';
 $string['pluginname_link'] = 'question/type/regexmatch';

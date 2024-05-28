@@ -88,15 +88,16 @@ class qtype_regexmatch_renderer extends qtype_renderer {
 
         $feedback = '';
         if($currentanswer != null) {
-            $fraction = 0;
+            $regex = $question->get_regex_for_answer($currentanswer);
 
-            foreach ($question->answers as $regex) {
-                if(preg_match("/" . str_replace("/", "\\/", $regex->answer) . "/", $currentanswer) == 1) {
-                    if($regex->fraction > $fraction) {
-                        $fraction = $regex->fraction;
-                        $feedback = $question->format_text($regex->feedback, $regex->feedbackformat, $qa, 'question', 'answerfeedback', $regex->id);
-                    }
-                }
+            if($regex != null) {
+                $feedback = $question->format_text(
+                    $regex->feedback,
+                    $regex->feedbackformat,
+                    $qa,
+                    'question', 'answerfeedback',
+                    $regex->id
+                );
             }
         }
 
