@@ -27,7 +27,7 @@ $string['pluginname'] = 'RegEx Matcher';
 $string['regex'] = 'Regular Expression';
 $string['regex_help'] = /** @lang Markdown */
 'The regular expression must be compatible with the *preg_match* php function.
-Thus, the following syntax is allowed:
+Thus, [this](https://www.php.net/manual/en/reference.pcre.pattern.syntax.php) syntax is allowed:
 
 |        |                    Structures                     |
 |:------:|:-------------------------------------------------:|
@@ -60,6 +60,10 @@ Thus, the following syntax is allowed:
 | \b |         Word boundary          |
 | \B |      Not a word boundary       |
 ';
+$string['checkbox_ignorecase_name'] = 'Ignore case';
+$string['checkbox_ignorecase_description'] = 'The regular expression will ignore case if this is ticked';
+$string['checkbox_dotall_name'] = 'Dot all';
+$string['checkbox_dotall_description'] = 'All Dots (.) in the regular expression will also match new lines if this is ticked';
 $string['pleaseenterananswer'] = 'Please enter a answer.';
 $string['notenoughregexes'] = 'At least one regular expression is required';
 $string['fborgradewithoutregex'] = 'If a feedback or a grade is set a regular expression must be entered';

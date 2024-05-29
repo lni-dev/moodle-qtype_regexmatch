@@ -52,8 +52,7 @@ class qtype_regexmatch_edit_form extends question_edit_form {
         $mform->addHelpButton('answer[1]', 'regex', 'qtype_regexmatch', '', true);
         $mform->addHelpButton('answer[2]', 'regex', 'qtype_regexmatch', '', true);
 
-        // TODO: Adds hinting features.
-        //  $this->add_interactive_settings(true, true);
+        $this->add_interactive_settings();
     }
 
     protected function get_per_answer_fields(
@@ -66,9 +65,40 @@ class qtype_regexmatch_edit_form extends question_edit_form {
         $repeated = array();
 
         // Help button added in definition_inner
-        $repeated[] = $mform->createElement('text', 'answer', $label, array('size' => 40));
-        $repeated[] = $mform->createElement('select', 'fraction', get_string('gradenoun'), $gradeoptions);
-        $repeated[] = $mform->createElement('editor', 'feedback', get_string('feedback', 'question'), array('rows' => 5), $this->editoroptions);
+        $repeated[] = $mform->createElement('textarea',
+            'answer',
+            $label,
+            array('size' => 1000)
+        );
+
+        $repeated[] = $mform->createElement('advcheckbox',
+            'ignorecase',
+            get_string('checkbox_ignorecase_name', 'qtype_regexmatch'),
+            get_string('checkbox_ignorecase_description', 'qtype_regexmatch'),
+            null,
+            array(0, 1) // values returned by checkbox
+        );
+
+        $repeated[] = $mform->createElement('advcheckbox',
+            'dotall',
+            get_string('checkbox_dotall_name', 'qtype_regexmatch'),
+            get_string('checkbox_dotall_description', 'qtype_regexmatch'),
+            null,
+            array(0, 1) // values returned by checkbox
+        );
+
+        $repeated[] = $mform->createElement('select',
+            'fraction',
+            get_string('gradenoun'),
+            $gradeoptions
+        );
+
+        $repeated[] = $mform->createElement('editor',
+            'feedback',
+            get_string('feedback', 'question'),
+            array('rows' => 5),
+            $this->editoroptions
+        );
 
         $repeatedoptions['answer']['type'] = PARAM_RAW;
         $repeatedoptions['fraction']['default'] = 0;
@@ -79,6 +109,7 @@ class qtype_regexmatch_edit_form extends question_edit_form {
     protected function data_preprocessing($question) {
         $question = parent::data_preprocessing($question);
         $question = $this->data_preprocessing_answers($question);
+        $question = $this->data_preprocessing_hints($question);
 
         return $question;
     }

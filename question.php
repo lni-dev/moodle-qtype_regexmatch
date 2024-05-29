@@ -49,6 +49,7 @@ class qtype_regexmatch_question extends question_graded_automatically {
      * @var array array containing all the allowed regexes
      */
     public $answers = array();
+    public $options = array();
 
     public function start_attempt(
         question_attempt_step $step,
@@ -102,8 +103,20 @@ class qtype_regexmatch_question extends question_graded_automatically {
             // replace all actual occurrences of "/" in $regex->answer with an escaped version ("//").
             // Add "^" at the start of the regex and "$" at the end, to match from start to end.
             // Add Modifier m, to make "^" and "$" ignore new lines.
-            $constructedRegex = "/^" . str_replace("/", "\\/", $regex->answer) . "$/m";
-            if(preg_match($constructedRegex, $answer) == 1) {
+            // Also remove any \r
+            $constructedRegex = str_replace("\r", "", $regex->answer);
+            $constructedRegex = "/^" . str_replace("/", "\\/", $constructedRegex) . "$/m";
+
+            if($regex->ignorecase == 1)
+                $constructedRegex .= "i";
+
+            if($regex->dotall == 1)
+                $constructedRegex .= "s";
+
+            // remove \r from the answer, which should not be matched.
+            $processedAnswer = str_replace("\r", "", $answer);
+
+            if(preg_match($constructedRegex, $processedAnswer) == 1) {
                 if($ret == null || $regex->fraction > $ret->fraction) {
                     $ret = $regex;
                 }
@@ -140,10 +153,24 @@ class qtype_regexmatch_question extends question_graded_automatically {
             $args, $forcedownload) {
         if ($component == 'question' && $filearea == 'hint') {
             return $this->check_hint_file_access($qa, $options, $args);
-
         } else {
             return parent::check_file_access($qa, $options, $component, $filearea,
                     $args, $forcedownload);
         }
     }
+}
+
+class qtype_regexmatch_answer extends question_answer {
+    /** @var int|null Whether to use the ignore case modifier (0 = false, 1 = true). */
+    public int|null $ignorecase;
+
+    /** @var int|null Whether to use the dot all modifier (0 = false, 1 = true). */
+    public int|null $dotall;
+
+    public function __construct($id, $answer, $fraction, $feedback, $feedbackformat, $ignorecase, $dotall) {
+        parent::__construct($id, $answer, $fraction, $feedback, $feedbackformat);
+        $this->ignorecase = $ignorecase;
+        $this->dotall = $dotall;
+    }
+
 }

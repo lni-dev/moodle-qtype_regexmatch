@@ -27,7 +27,7 @@ $string['pluginname'] = 'RegEx Vergleicher';
 $string['regex'] = 'Regulärer Ausdruck';
 $string['regex_help'] = /** @lang Markdown */
 'Der reguläre Ausdruck muss mit der PHP-Funktion *preg_match* kompatibel sein.
-Deswegen muss der folgende Syntax eingehalten werden:
+Deswegen muss [dieser](https://www.php.net/manual/en/reference.pcre.pattern.syntax.php) Syntax eingehalten werden:
 
 |        |                Strukturen                |
 |:------:|:----------------------------------------:|
@@ -60,6 +60,10 @@ Deswegen muss der folgende Syntax eingehalten werden:
 | \b |              Wortgrenze               |
 | \B |           Keine Wortgrenze            |
 ';
+$string['checkbox_ignorecase_name'] = 'Ignoriere Groß-/Kleinschreibung';
+$string['checkbox_ignorecase_description'] = 'Der reguläre Ausdruck wird Groß- und Kleinschreibung ignorieren, wenn diese Box angehackt ist';
+$string['checkbox_dotall_name'] = 'Punkt findet alles';
+$string['checkbox_dotall_description'] = 'Alle Punkte (.) in dem regulären Ausdruck werden auch Zeilenumbrüche finden, wenn diese Box angehackt ist';
 $string['pleaseenterananswer'] = 'Bitte geben Sie eine Antwort ein.';
 $string['notenoughregexes'] = 'Mindestens ein regulärer Ausdruck sollte angegeben werden';
 $string['fborgradewithoutregex'] = 'Wenn ein Feedback oder eine Bewertung angegeben ist, muss auch ein regulärer Ausdruck angegeben werden';

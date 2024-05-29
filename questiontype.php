@@ -53,12 +53,32 @@ class qtype_regexmatch extends question_type {
 
     public function save_question_options($question) {
         parent::save_question_options($question);
-
         $this->save_question_answers($question);
+        $this->save_hints($question);
     }
 
     public function extra_question_fields() {
         return null;
+    }
+
+    public function extra_answer_fields() {
+        return array("question_regexmatch_answers", "ignorecase", "dotall");
+    }
+
+    protected function is_extra_answer_fields_empty($questiondata, $key): bool {
+        return $questiondata->ignorecase[$key] == 0 && $questiondata->dotall[$key] == 0;
+    }
+
+    protected function make_answer($answer): qtype_regexmatch_answer {
+        return new qtype_regexmatch_answer(
+            $answer->id,
+            $answer->answer,
+            $answer->fraction,
+            $answer->feedback,
+            $answer->feedbackformat,
+            $answer->ignorecase,
+            $answer->dotall
+        );
     }
 
     public function get_random_guess_score($questiondata) {
@@ -68,11 +88,13 @@ class qtype_regexmatch extends question_type {
     public function move_files($questionid, $oldcontextid, $newcontextid) {
         parent::move_files($questionid, $oldcontextid, $newcontextid);
         $this->move_files_in_answers($questionid, $oldcontextid, $newcontextid);
+        $this->move_files_in_hints($questionid, $oldcontextid, $newcontextid);
     }
 
     protected function delete_files($questionid, $contextid) {
         parent::delete_files($questionid, $contextid);
         $this->delete_files_in_answers($questionid, $contextid);
+        $this->delete_files_in_hints($questionid, $contextid);
     }
 
     protected function initialise_question_instance(question_definition $question, $questiondata) {

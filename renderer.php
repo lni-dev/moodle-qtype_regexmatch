@@ -69,7 +69,7 @@ class qtype_regexmatch_renderer extends qtype_renderer {
         if ($options->readonly)
             $inputattributes['readonly'] = 'readonly';
 
-        $result .= html_writer::empty_tag('input', $inputattributes);
+        $result .= html_writer::tag('textarea', $currentanswer, $inputattributes);
 
         /* if ($qa->get_state() == question_state::$invalid) {
             $result .= html_writer::nonempty_tag('div',
