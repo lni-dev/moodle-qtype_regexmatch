@@ -7,17 +7,21 @@ Grades student answers based on a single or multiple regular expressions.
 - Add as many regular expressions (patterns) with different grades as needed
   - Pattern must be compatible with [preg_match](https://www.php.net/manual/en/function.preg-match.php). 
     A cheat sheet for preg_match can be found [here](https://courses.cs.washington.edu/courses/cse190m/12sp/cheat-sheets/php-regex-cheat-sheet.pdf)
-  - Pattern flags (modifiers) are currently not supported
+    - There is a help button (?) next to the first three Regular Expression, which show most of the syntax.
+  - The student's answer must completely match the pattern to receive the selected grade. Technically this means: 
+    - "^" and "$" are always added to the beginning and end of the pattern respectively.
+    - Flag "m" (MULTILINE) is always set
+  - CASELESS ("i") and DOTALL ("s") flag can be selected
+    - CASELESS: Pattern ignores case when matching
+    - DOTALL: All dots (".") inside the pattern also match newlines.
+  - Sanity Check:
+    - At least one regular expression with a grade of 100% must exist.
+- Hints: If the test allows multiple tries (with possible grade reduction), hints can be set for each try
 - Start test, grade and get feedback
-
-## Problems
-- It is currently possible to create a question of this type, which can never be answered correctly:
-  - If no answer is added
-  - If only regular expressions with grade "none" ("keine") are added
-- Pattern flags/modifiers are not supported
+- Export question to XML (Import not yet working)
 
 ## Moodle Installation
-
+References for installation on Windows and Ubuntu are given below.
 ### Windows
 - https://download.moodle.org/windows/ 
   - Download and Extract Zip
@@ -44,7 +48,7 @@ Note: Repository is currently private.
 Unzip it into the `<moodle-installation>/question/type` folder, and then rename the new folder to `regexmatch`.
 
 ## IDE
-
+The following (example) IDEs can be used to edit the code.
 ### PHPStorm
 - Download: https://www.jetbrains.com/phpstorm/download/
   - Note: Student/Teacher license must only be used for non-commercial educational purposes.
@@ -59,11 +63,9 @@ Unzip it into the `<moodle-installation>/question/type` folder, and then rename 
 - https://docs.moodle.org/dev/Setting_up_Eclipse
 - Check out the complete `<moodle-installation>` folder as project
 
-## Development Notes
+## Development Links with useful information
 Additional advice can be found here:
 - https://github.com/marcusgreen/moodle-qtype_TEMPLATE/wiki
-
-## Test
 
 
 

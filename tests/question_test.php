@@ -16,8 +16,8 @@
 /**
  * Contains the helper class for the select missing words question type tests.
  *
- * @package    qtype
- * @copyright  Year Yourname
+ * @package    qtype_regexmatch
+ * @copyright  2024 Linus Andera
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die();
@@ -29,14 +29,14 @@ require_once($CFG->dirroot . '/question/type/regexmatch/helper.php');
 /**
  * Unit tests for the regexmatch question definition class.
  *
- * @copyright  2012 Marcus Green
+ * @copyright  2024 Linus Andera
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_regexmatch_question_test extends advanced_testcase {
-  
+
       public function test_get_expected_data() {
     }
-  
+
       public function test_compute_final_grade() {
 
     }

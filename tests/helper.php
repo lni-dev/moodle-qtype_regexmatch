@@ -17,7 +17,7 @@
  * Contains the helper class for the select missing words question type tests.
  *
  * @package    qtype_regexmatch
- * @copyright  Year Yourname
+ * @copyright  2024 Linus Andera
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die();
@@ -26,11 +26,11 @@ defined('MOODLE_INTERNAL') || die();
    * utilities used by the other test classes
    *
    * @package    qtype_regexmatch
-   * @copyright  YEAR YOURNAME
+   * @copyright  2024 Linus Andera
    * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
    */
   class helper extends question_test_helper {
-  
+
     public static function make_question() {
     }
   }
