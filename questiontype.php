@@ -106,44 +106,48 @@ class qtype_regexmatch extends question_type {
     }
 
     public function import_from_xml($data, $question, qformat_xml $format, $extra = null) {
-        $question_type = $data['@']['type'];
-        debugging("Test!");
-        if ($question_type != $this->name())
-            return false;
+        global $CFG;
+        require_once($CFG->dirroot.'/question/type/regexmatch/question.php');
 
-        $question = $format->import_headers($data);
-        $question->qtype = $question_type;
+        if (!isset($data['@']['type']) || $data['@']['type'] != 'question_regexmatch') {
+            return false;
+        }
+
+        $qo = $format->import_headers($data);
+        $qo->qtype = $data['@']['type'];
 
         // Run through the answers.
         $answers = $data['#']['answer'];
-        $a_count = 0;
-        $extraanswersfields = $this->extra_answer_fields();
-        if (is_array($extraanswersfields)) {
-            array_shift($extraanswersfields);
-        }
+        $acount = 0;
+
+        $qo->answer = [];
+        $qo->answerformat = [];
+        $qo->fraction = [];
+        $qo->feedback = [];
+        $qo->feedbackformat = [];
+        $qo->ignorecase = [];
+        $qo->dotall = [];
 
         foreach ($answers as $answer) {
-            $ans = $format->import_answer($answer);
-            if (!$this->has_html_answers()) {
-                $question->answer[$a_count] = $ans->answer['text'];
-            } else {
-                $question->answer[$a_count] = $ans->answer;
-            }
-            $question->fraction[$a_count] = $ans->fraction;
-            $question->feedback[$a_count] = $ans->feedback;
-            if (is_array($extraanswersfields)) {
-                foreach ($extraanswersfields as $field) {
-                    $question->{$field}[$a_count] =
-                        $format->getpath($answer, array('#', $field, 0, '#'), '');
-                }
-            }
-            ++$a_count;
+            $ans = $format->import_answer($answer, false, $format->get_format($qo->questiontextformat));
+            $qo->answer[$acount] = $ans->answer['text'];
+            $qo->fraction[$acount] = $ans->fraction;
+            $qo->feedback[$acount] = $ans->feedback;
+            $qo->ignorecase[$acount] = $format->getpath($answer, array('#', 'ignorecase', 0, '#'), 0);
+            $qo->dotall[$acount] = $format->getpath($answer, array('#', 'dotall', 0, '#'), 0);
+            ++$acount;
         }
 
-        $format->import_hints($question, $data);
-        return $question;
+        $format->import_hints($qo, $data);
+        return $qo;
     }
 
+    /**
+     * @param qtype_regexmatch_question $question
+     * @param qformat_xml $format
+     * @param $extra
+     * @return string
+     */
     public function export_to_xml($question, qformat_xml $format, $extra = null) {
         $expout = parent::export_to_xml($question, $format, $extra);
 
@@ -158,6 +162,8 @@ class qtype_regexmatch extends question_type {
             $extra = '';
             if (is_array($extraanswersfields)) {
                 foreach ($extraanswersfields as $field) {
+                    if(!isset($answer->$field) || $answer->$field == 0)
+                        continue;
                     $exportedvalue = $format->xml_escape($answer->$field);
                     $extra .= "      <{$field}>{$exportedvalue}</{$field}>\n";
                 }
