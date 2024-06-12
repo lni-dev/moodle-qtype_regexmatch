@@ -95,7 +95,7 @@ class qtype_regexmatch_question extends question_graded_automatically {
      * @param string $answer answer submitted from a student
      * @return mixed|null regex of {@link self::$answers}, which matches given answer or null if none matches
      */
-    public function get_regex_for_answer(string $answer) : object|null {
+    public function get_regex_for_answer(string $answer): mixed {
         $ret = null;
 
         foreach ($this->answers as $regex) {
@@ -162,10 +162,10 @@ class qtype_regexmatch_question extends question_graded_automatically {
 
 class qtype_regexmatch_answer extends question_answer {
     /** @var int|null Whether to use the ignore case modifier (0 = false, 1 = true). */
-    public int|null $ignorecase;
+    public mixed $ignorecase;
 
     /** @var int|null Whether to use the dot all modifier (0 = false, 1 = true). */
-    public int|null $dotall;
+    public mixed $dotall;
 
     public function __construct($id, $answer, $fraction, $feedback, $feedbackformat, $ignorecase, $dotall) {
         parent::__construct($id, $answer, $fraction, $feedback, $feedbackformat);
