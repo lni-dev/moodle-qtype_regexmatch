@@ -36,7 +36,7 @@ function xmldb_qtype_regexmatch_upgrade($oldversion = 0) {
 
     $dbman = $DB->get_manager();
 
-    if ($oldversion < 2024_29_05_02) {
+    if ($oldversion < 2024290502) {
 
         // Define table question_regexmatch_answers to be created.
         $table = new xmldb_table('question_regexmatch_answers');
@@ -57,7 +57,7 @@ function xmldb_qtype_regexmatch_upgrade($oldversion = 0) {
         }
 
         // Regexmatch savepoint reached.
-        upgrade_plugin_savepoint(true, 2024_29_05_02, 'qtype', 'regexmatch');
+        upgrade_plugin_savepoint(true, 2024290502, 'qtype', 'regexmatch');
 
     }
 
