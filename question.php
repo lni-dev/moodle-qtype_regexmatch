@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -161,10 +161,10 @@ class qtype_regexmatch_question extends question_graded_automatically {
 }
 
 class qtype_regexmatch_answer extends question_answer {
-    /** @var int|null Whether to use the ignore case modifier (0 = false, 1 = true). */
+    /** @var mixed Whether to use the ignore case modifier (0 = false, 1 = true). */
     public mixed $ignorecase;
 
-    /** @var int|null Whether to use the dot all modifier (0 = false, 1 = true). */
+    /** @var mixed Whether to use the dot all modifier (0 = false, 1 = true). */
     public mixed $dotall;
 
     public function __construct($id, $answer, $fraction, $feedback, $feedbackformat, $ignorecase, $dotall) {

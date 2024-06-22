@@ -27,7 +27,14 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'qtype_regexmatch';
+
+/**
+ * format: yyyymmddnn<br>
+ * nn: number to increase if needed<br>
+ * <br>
+ * underscores are not allowed inside the number
+ */
 $plugin->version   = 3000000001;
-$plugin->requires  = 2013012903;
+$plugin->requires  = 2022112807; // Moodle 4.1.7
 
 $plugin->maturity  = MATURITY_ALPHA;
