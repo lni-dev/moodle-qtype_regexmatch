@@ -62,14 +62,11 @@ class qtype_regexmatch extends question_type {
     }
 
     public function extra_answer_fields() {
-        return array("question_regexmatch_answers", "ignorecase", "dotall");
+        return array("question_regexmatch_answers", "ignorecase", "dotall", "infspace");
     }
 
     protected function is_extra_answer_fields_empty($questiondata, $key): bool {
-        return
-            (!isset($questiondata->ignorecase[$key]) || $questiondata->ignorecase[$key] == 0 || $questiondata->ignorecase[$key] == '')
-            &&
-            (!isset($questiondata->dotall[$key]) || $questiondata->dotall[$key] == 0 || $questiondata->ignorecase[$key] == '');
+        return false;
     }
 
     protected function make_answer($answer): qtype_regexmatch_answer {
@@ -80,7 +77,8 @@ class qtype_regexmatch extends question_type {
             $answer->feedback,
             $answer->feedbackformat,
             $answer->ignorecase,
-            $answer->dotall
+            $answer->dotall,
+            $answer->infspace
         );
     }
 
@@ -127,6 +125,7 @@ class qtype_regexmatch extends question_type {
         $qo->feedbackformat = [];
         $qo->ignorecase = [];
         $qo->dotall = [];
+        $qo->infspace = [];
 
         foreach ($answers as $answer) {
             $ans = $format->import_answer($answer, false, $format->get_format($qo->questiontextformat));
@@ -135,6 +134,7 @@ class qtype_regexmatch extends question_type {
             $qo->feedback[$acount] = $ans->feedback;
             $qo->ignorecase[$acount] = $format->getpath($answer, array('#', 'ignorecase', 0, '#'), 0);
             $qo->dotall[$acount] = $format->getpath($answer, array('#', 'dotall', 0, '#'), 0);
+            $qo->infspace[$acount] = $format->getpath($answer, array('#', 'infspace', 0, '#'), 0);
             ++$acount;
         }
 

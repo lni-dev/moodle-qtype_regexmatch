@@ -109,6 +109,11 @@ The supported moodle version must be set in `version.php.
   will repair the database. It is possible, that simply allowing `update.php` to run again
   may fix the problem.
 
+### Uninstalling the plugin
+To uninstall the plugin no questions of this plugin may exist. To achieve this, all entries in
+the table `mdl_question` where the variable `qtype` is `regexmatch` must be deleted. The Plugin
+[Moodle Adminer](https://moodle.org/plugins/local_adminer) can be used to easily do this.
+
 ## Development Links with useful information
 Additional advice can be found here:
 - https://github.com/marcusgreen/moodle-qtype_TEMPLATE/wiki

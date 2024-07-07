@@ -61,5 +61,20 @@ function xmldb_qtype_regexmatch_upgrade($oldversion = 0) {
 
     }
 
+    if ($oldversion < 3000000002) {
+
+        // Define field infspace to be added to question_regexmatch_answers.
+        $table = new xmldb_table('question_regexmatch_answers');
+        $field = new xmldb_field('infspace', XMLDB_TYPE_INTEGER, '2', null, null, null, '0', 'dotall');
+
+        // Conditionally launch add field infspace.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Regexmatch savepoint reached.
+        upgrade_plugin_savepoint(true, 3000000002, 'qtype', 'regexmatch');
+    }
+
     return true;
 }

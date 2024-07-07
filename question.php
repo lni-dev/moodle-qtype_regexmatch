@@ -44,7 +44,6 @@ defined('MOODLE_INTERNAL') || die();
  */
 class qtype_regexmatch_question extends question_graded_automatically {
 
-    public string $regex = "";
     /**
      * @var array array containing all the allowed regexes
      */
@@ -105,6 +104,10 @@ class qtype_regexmatch_question extends question_graded_automatically {
             // Add Modifier m, to make "^" and "$" ignore new lines.
             // Also remove any \r
             $constructedRegex = str_replace("\r", "", $regex->answer);
+
+            if($regex->infspace == 1)
+                $constructedRegex = str_replace(" ", "\s+", $constructedRegex);
+
             $constructedRegex = "/^" . str_replace("/", "\\/", $constructedRegex) . "$/m";
 
             if($regex->ignorecase == 1)
@@ -167,10 +170,14 @@ class qtype_regexmatch_answer extends question_answer {
     /** @var mixed Whether to use the dot all modifier (0 = false, 1 = true). */
     public mixed $dotall;
 
-    public function __construct($id, $answer, $fraction, $feedback, $feedbackformat, $ignorecase, $dotall) {
+    /** @var mixed Whether to replcase all spaces with \s+ (0 = false, 1 = true). */
+    public mixed $infspace;
+
+    public function __construct($id, $answer, $fraction, $feedback, $feedbackformat, $ignorecase, $dotall, $infspace) {
         parent::__construct($id, $answer, $fraction, $feedback, $feedbackformat);
         $this->ignorecase = $ignorecase;
         $this->dotall = $dotall;
+        $this->infspace = $infspace;
     }
 
 }

@@ -52,6 +52,11 @@ class qtype_regexmatch_edit_form extends question_edit_form {
         $mform->addHelpButton('answer[1]', 'regex', 'qtype_regexmatch', '', true);
         $mform->addHelpButton('answer[2]', 'regex', 'qtype_regexmatch', '', true);
 
+        $infspaceDefaults = array();
+        for ($i = 0; $i < 20; $i++) {
+            $infspaceDefaults["infspace[$i]"] = 1;
+        }
+        $mform->setDefaults($infspaceDefaults);
         $this->add_interactive_settings();
     }
 
@@ -86,6 +91,16 @@ class qtype_regexmatch_edit_form extends question_edit_form {
             null,
             array(0, 1) // values returned by checkbox
         );
+
+        $repeated[] = $mform->createElement('advcheckbox',
+            'infspace',
+            get_string('checkbox_infspace_name', 'qtype_regexmatch'),
+            get_string('checkbox_infspace_description', 'qtype_regexmatch'),
+            null,
+            array(0, 1) // values returned by checkbox
+        );
+
+
 
         $repeated[] = $mform->createElement('select',
             'fraction',

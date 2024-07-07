@@ -10,6 +10,7 @@
         <FIELD NAME="answerid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign key to question_answers table"/>
         <FIELD NAME="ignorecase" TYPE="int" LENGTH="2" DEFAULT="0" NOTNULL="false" SEQUENCE="false" COMMENT="Ignore case option"/>
         <FIELD NAME="dotall" TYPE="int" LENGTH="2" DEFAULT="0" NOTNULL="false" SEQUENCE="false" COMMENT="Dot all option"/>
+        <FIELD NAME="infspace" TYPE="int" LENGTH="2" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="infinte space option"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
