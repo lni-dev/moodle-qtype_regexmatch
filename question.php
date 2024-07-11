@@ -100,7 +100,8 @@ class qtype_regexmatch_question extends question_graded_automatically {
         foreach ($this->answers as $regex) {
             // preg_match requires a delimiter ( we use "/").
             // replace all actual occurrences of "/" in $regex->answer with an escaped version ("//").
-            // Add "^" at the start of the regex and "$" at the end, to match from start to end.
+            // Add "^(?:" at the start of the regex and ")$" at the end, to match from start to end.
+            // and put the regex in a non-capturing-group, so the function of the regex does not change (eg. "^a|b$" vs "^(?:a|b)$")
             // Add Modifier m, to make "^" and "$" ignore new lines.
             // Also remove any \r
             $constructedRegex = str_replace("\r", "", $regex->answer);
@@ -108,7 +109,7 @@ class qtype_regexmatch_question extends question_graded_automatically {
             if($regex->infspace == 1)
                 $constructedRegex = str_replace(" ", "\s+", $constructedRegex);
 
-            $constructedRegex = "/^" . str_replace("/", "\\/", $constructedRegex) . "$/m";
+            $constructedRegex = "/^(?:" . str_replace("/", "\\/", $constructedRegex) . ")$/m";
 
             if($regex->ignorecase == 1)
                 $constructedRegex .= "i";
