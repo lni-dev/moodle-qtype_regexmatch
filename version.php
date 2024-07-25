@@ -34,7 +34,7 @@ $plugin->component = 'qtype_regexmatch';
  * <br>
  * underscores are not allowed inside the number
  */
-$plugin->version   = 2024071100;
+$plugin->version   = 2024072500;
 $plugin->requires  = 2022112807; // Moodle 4.1.7
 
 $plugin->maturity  = MATURITY_ALPHA;

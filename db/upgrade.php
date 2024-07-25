@@ -36,5 +36,38 @@ function xmldb_qtype_regexmatch_upgrade($oldversion = 0) {
 
     $dbman = $DB->get_manager();
 
+    if ($oldversion < 2024072500) {
+
+        // Define field trimspaces to be added to question_regexmatch_answers.
+        $table = new xmldb_table('question_regexmatch_answers');
+        $field = new xmldb_field('trimspaces', XMLDB_TYPE_INTEGER, '2', null, null, null, '0', 'infspace');
+
+        // Conditionally launch add field trimspaces.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define field pipesemispace to be added to question_regexmatch_answers.
+        $table = new xmldb_table('question_regexmatch_answers');
+        $field = new xmldb_field('pipesemispace', XMLDB_TYPE_INTEGER, '2', null, null, null, '0', 'trimspaces');
+
+        // Conditionally launch add field pipesemispace.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define field redictspace to be added to question_regexmatch_answers.
+        $table = new xmldb_table('question_regexmatch_answers');
+        $field = new xmldb_field('redictspace', XMLDB_TYPE_INTEGER, '2', null, null, null, '0', 'pipesemispace');
+
+        // Conditionally launch add field redictspace.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Regexmatch savepoint reached.
+        upgrade_plugin_savepoint(true, 2024072500, 'qtype', 'regexmatch');
+    }
+
     return true;
 }

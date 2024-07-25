@@ -62,7 +62,7 @@ class qtype_regexmatch extends question_type {
     }
 
     public function extra_answer_fields() {
-        return array("question_regexmatch_answers", "ignorecase", "dotall", "infspace");
+        return array("question_regexmatch_answers", "ignorecase", "dotall", "infspace", "trimspaces", "pipesemispace","redictspace");
     }
 
     protected function is_extra_answer_fields_empty($questiondata, $key): bool {
@@ -78,7 +78,10 @@ class qtype_regexmatch extends question_type {
             $answer->feedbackformat,
             $answer->ignorecase,
             $answer->dotall,
-            $answer->infspace
+            $answer->infspace,
+            $answer->trimspaces,
+            $answer->pipesemispace,
+            $answer->redictspace
         );
     }
 
@@ -126,6 +129,9 @@ class qtype_regexmatch extends question_type {
         $qo->ignorecase = [];
         $qo->dotall = [];
         $qo->infspace = [];
+        $qo->trimspaces = [];
+        $qo->pipesemispace = [];
+        $qo->redictspace = [];
 
         foreach ($answers as $answer) {
             $ans = $format->import_answer($answer, false, $format->get_format($qo->questiontextformat));
@@ -135,6 +141,9 @@ class qtype_regexmatch extends question_type {
             $qo->ignorecase[$acount] = $format->getpath($answer, array('#', 'ignorecase', 0, '#'), 0);
             $qo->dotall[$acount] = $format->getpath($answer, array('#', 'dotall', 0, '#'), 0);
             $qo->infspace[$acount] = $format->getpath($answer, array('#', 'infspace', 0, '#'), 0);
+            $qo->trimspaces[$acount] = $format->getpath($answer, array('#', 'trimspaces', 0, '#'), 0);
+            $qo->pipesemispace[$acount] = $format->getpath($answer, array('#', 'pipesemispace', 0, '#'), 0);
+            $qo->redictspace[$acount] = $format->getpath($answer, array('#', 'redictspace', 0, '#'), 0);
             ++$acount;
         }
 

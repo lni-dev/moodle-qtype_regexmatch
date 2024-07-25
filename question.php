@@ -98,19 +98,44 @@ class qtype_regexmatch_question extends question_graded_automatically {
         $ret = null;
 
         foreach ($this->answers as $regex) {
+
+            $possiblyTrimmedAnswer = $answer;
+
+            // Trim answer if enabled.
+            if($regex->trimspaces == 1)
+                $possiblyTrimmedAnswer= trim($possiblyTrimmedAnswer);
+
+            // Remove any \r
+            $constructedRegex = str_replace("\r", "", $regex->answer);
+
+            // Construct regex based on enabled options
+            if($regex->infspace == 1)
+                $constructedRegex = str_replace(" ", "(?:\s+)", $constructedRegex);
+
+            if($regex->pipesemispace == 1)
+                $constructedRegex = str_replace(
+                    array(";", "|"),
+                    array("(?:\s*[;\\n]\s*)", "(?:\s*\|\s*)"),
+                    $constructedRegex
+                );
+
+            if($regex->redictspace == 1)
+                $constructedRegex = str_replace(
+                    array("<", "<<", ">", ">>"),
+                    array("(?:\s*<\s*)", "(?:\s*<<\s*)", "(?:\s*>\s*)", "(?:\s*>>\s*)"),
+                    $constructedRegex
+                );
+
             // preg_match requires a delimiter ( we use "/").
             // replace all actual occurrences of "/" in $regex->answer with an escaped version ("//").
             // Add "^(?:" at the start of the regex and ")$" at the end, to match from start to end.
             // and put the regex in a non-capturing-group, so the function of the regex does not change (eg. "^a|b$" vs "^(?:a|b)$")
             // Add Modifier m, to make "^" and "$" ignore new lines.
-            // Also remove any \r
-            $constructedRegex = str_replace("\r", "", $regex->answer);
+            $toEscape = array("/");
+            $escapeValue = array("\\/");
+            $constructedRegex = "/^(?:" . str_replace($toEscape, $escapeValue, $constructedRegex) . ")$/m";
 
-            if($regex->infspace == 1)
-                $constructedRegex = str_replace(" ", "\s+", $constructedRegex);
-
-            $constructedRegex = "/^(?:" . str_replace("/", "\\/", $constructedRegex) . ")$/m";
-
+            // Set Flags based on enabled options
             if($regex->ignorecase == 1)
                 $constructedRegex .= "i";
 
@@ -118,7 +143,7 @@ class qtype_regexmatch_question extends question_graded_automatically {
                 $constructedRegex .= "s";
 
             // remove \r from the answer, which should not be matched.
-            $processedAnswer = str_replace("\r", "", $answer);
+            $processedAnswer = str_replace("\r", "", $possiblyTrimmedAnswer);
 
             if(preg_match($constructedRegex, $processedAnswer) == 1) {
                 if($ret == null || $regex->fraction > $ret->fraction) {
@@ -174,11 +199,25 @@ class qtype_regexmatch_answer extends question_answer {
     /** @var mixed Whether to replcase all spaces with \s+ (0 = false, 1 = true). */
     public mixed $infspace;
 
-    public function __construct($id, $answer, $fraction, $feedback, $feedbackformat, $ignorecase, $dotall, $infspace) {
+    /** @var mixed trim leading and trailing spaces in the answer (0 = false, 1 = true). */
+    public mixed $trimspaces;
+
+    /** @var mixed allow infinite trailing and leading spaces around pipes and semicolons (0 = false, 1 = true). */
+    public mixed $pipesemispace;
+
+    /** @var mixed Allows infnite trailing and leading spaces around input/output redirections (0 = false, 1 = true). */
+    public mixed $redictspace;
+
+    public function __construct($id, $answer, $fraction, $feedback, $feedbackformat,
+        $ignorecase, $dotall, $infspace, $trimspaces, $pipesemispace, $redictspace
+    ) {
         parent::__construct($id, $answer, $fraction, $feedback, $feedbackformat);
         $this->ignorecase = $ignorecase;
         $this->dotall = $dotall;
         $this->infspace = $infspace;
+        $this->trimspaces = $trimspaces;
+        $this->pipesemispace = $pipesemispace;
+        $this->redictspace = $redictspace;
     }
 
 }

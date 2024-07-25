@@ -14,6 +14,8 @@ Grades student answers based on a single or multiple regular expressions.
   - CASELESS ("i") and DOTALL ("s") flag can be selected
     - CASELESS: Pattern ignores case when matching
     - DOTALL: All dots (".") inside the pattern also match newlines.
+  - Optionally the students answer can be trimmed from any leading and trailing spaces
+  - Shell Options: Two options exist which make writing regular expressions for shell-code easier.
   - Sanity Check:
     - At least one regular expression with a grade of 100% must exist.
 - Hints: If the test allows multiple tries (with possible grade reduction), hints can be set for each try

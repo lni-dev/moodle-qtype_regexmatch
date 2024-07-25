@@ -52,11 +52,14 @@ class qtype_regexmatch_edit_form extends question_edit_form {
         $mform->addHelpButton('answer[1]', 'regex', 'qtype_regexmatch', '', true);
         $mform->addHelpButton('answer[2]', 'regex', 'qtype_regexmatch', '', true);
 
-        $infspaceDefaults = array();
+        $defaults = array();
         for ($i = 0; $i < 20; $i++) {
-            $infspaceDefaults["infspace[$i]"] = 1;
+            $defaults["infspace[$i]"] = 1;
+            $defaults["trimspaces[$i]"] = 1;
+            //$defaults["pipesemispace[$i]"] = 1;
+            //$defaults["redictspace[$i]"] = 1;
         }
-        $mform->setDefaults($infspaceDefaults);
+        $mform->setDefaults($defaults);
         $this->add_interactive_settings();
     }
 
@@ -96,6 +99,30 @@ class qtype_regexmatch_edit_form extends question_edit_form {
             'infspace',
             get_string('checkbox_infspace_name', 'qtype_regexmatch'),
             get_string('checkbox_infspace_description', 'qtype_regexmatch'),
+            null,
+            array(0, 1) // values returned by checkbox
+        );
+
+        $repeated[] = $mform->createElement('advcheckbox',
+            'trimspaces',
+            get_string('checkbox_trimspaces_name', 'qtype_regexmatch'),
+            get_string('checkbox_trimspaces_description', 'qtype_regexmatch'),
+            null,
+            array(0, 1) // values returned by checkbox
+        );
+
+        $repeated[] = $mform->createElement('advcheckbox',
+            'pipesemispace',
+            get_string('checkbox_pipesemispace_name', 'qtype_regexmatch'),
+            get_string('checkbox_pipesemispace_description', 'qtype_regexmatch'),
+            null,
+            array(0, 1) // values returned by checkbox
+        );
+
+        $repeated[] = $mform->createElement('advcheckbox',
+            'redictspace',
+            get_string('checkbox_redictspace_name', 'qtype_regexmatch'),
+            get_string('checkbox_redictspace_description', 'qtype_regexmatch'),
             null,
             array(0, 1) // values returned by checkbox
         );
@@ -144,6 +171,10 @@ class qtype_regexmatch_edit_form extends question_edit_form {
             } else if ($fromform['fraction'][$key] != 0 || !html_is_blank($fromform['feedback'][$key]['text'])) {
                 $errors["answer[$key]"] = get_string('fborgradewithoutregex', 'qtype_regexmatch');
                 $answerCount++;
+            }
+
+            if(preg_match('/(?<!\\\\)(\\\\\\\\)*[$^]/', $fromform['answer'][$key]) == 1) {
+                $errors["answer[$key]"] = get_string('dollarroofmustbeescaped', 'qtype_regexmatch');
             }
         }
 
