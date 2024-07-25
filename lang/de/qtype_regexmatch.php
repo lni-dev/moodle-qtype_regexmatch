@@ -72,7 +72,7 @@ $string['checkbox_trimspaces_name'] = 'Trim spaces';
 $string['checkbox_trimspaces_description'] = 'Alle Leerzeichen zu Beginn und am Ende der Antwort des Studenten werden ignoriert, wenn diese Box angehackt ist.';
 $string['checkbox_pipesemispace_name'] = 'Unendlich Leerzeichen um Semikolons und Pipes';
 $string['checkbox_pipesemispace_description'] =
-    'Shell spezifisch: Alle Semikolons ";" und Pipes "|" werden durch jeweils durch "(?:\s*[;\n]\s*)" und "(?:\s*\|\s*)" ersetzt, wenn diese Box angehackt ist. ' .
+    'Shell spezifisch: Alle Semikolons ";" und Pipes "|" werden jeweils durch "(?:\s*[;\n]\s*)" und "(?:\s*\|\s*)" ersetzt, wenn diese Box angehackt ist. ' .
     'Dadurch finden diese unendlich Leerzeichen vor und nach dem Semikolon oder der Pipe. Zusätzlich kann das Semikolon auch eine Leerzeile finden. Das Regex-Oder "|" kann dann nichtmehr verwendet werden.';
 $string['checkbox_redictspace_name'] = 'Unendlich Leerzeichen um Umleitungen';
 $string['checkbox_redictspace_description'] = 'Shell spezifisch: Alle Umleitungen ("<", ">", "<<", ">>") werden durch "(?:\s*<\s*)" ersetzt. Dadurch können diese zeichen nicht mehr in anderen Regex-Funktionen verwendet werden (Z.B.: Lookbehind: "(?<=...)")';
