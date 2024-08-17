@@ -94,7 +94,7 @@ class qtype_regexmatch_question extends question_graded_automatically {
      * @param string $answer answer submitted from a student
      * @return mixed|null regex of {@link self::$answers}, which matches given answer or null if none matches
      */
-    public function get_regex_for_answer(string $answer): mixed {
+    public function get_regex_for_answer(string $answer) {
         $ret = null;
 
         foreach ($this->answers as $regex) {
@@ -191,22 +191,22 @@ class qtype_regexmatch_question extends question_graded_automatically {
 
 class qtype_regexmatch_answer extends question_answer {
     /** @var mixed Whether to use the ignore case modifier (0 = false, 1 = true). */
-    public mixed $ignorecase;
+    public $ignorecase;
 
     /** @var mixed Whether to use the dot all modifier (0 = false, 1 = true). */
-    public mixed $dotall;
+    public $dotall;
 
     /** @var mixed Whether to replcase all spaces with \s+ (0 = false, 1 = true). */
-    public mixed $infspace;
+    public $infspace;
 
     /** @var mixed trim leading and trailing spaces in the answer (0 = false, 1 = true). */
-    public mixed $trimspaces;
+    public $trimspaces;
 
     /** @var mixed allow infinite trailing and leading spaces around pipes and semicolons (0 = false, 1 = true). */
-    public mixed $pipesemispace;
+    public $pipesemispace;
 
     /** @var mixed Allows infnite trailing and leading spaces around input/output redirections (0 = false, 1 = true). */
-    public mixed $redictspace;
+    public $redictspace;
 
     public function __construct($id, $answer, $fraction, $feedback, $feedbackformat,
         $ignorecase, $dotall, $infspace, $trimspaces, $pipesemispace, $redictspace
