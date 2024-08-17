@@ -20,7 +20,7 @@ Grades student answers based on a single or multiple regular expressions.
     - At least one regular expression with a grade of 100% must exist.
 - Hints: If the test allows multiple tries (with possible grade reduction), hints can be set for each try
 - Start test, grade and get feedback
-- Export question to XML (Import not yet working)
+- Backup/Restore question
 
 ## Moodle Installation
 References for installation on Windows and Ubuntu are given below.
@@ -119,6 +119,7 @@ the table `mdl_question` where the variable `qtype` is `regexmatch` must be dele
 ## Development Links with useful information
 Additional advice can be found here:
 - https://github.com/marcusgreen/moodle-qtype_TEMPLATE/wiki
+- Backup/Restore: https://moodle.org/mod/forum/discuss.php?d=397659
 
 
 

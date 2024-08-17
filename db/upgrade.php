@@ -69,5 +69,6 @@ function xmldb_qtype_regexmatch_upgrade($oldversion = 0) {
         upgrade_plugin_savepoint(true, 2024072500, 'qtype', 'regexmatch');
     }
 
+
     return true;
 }

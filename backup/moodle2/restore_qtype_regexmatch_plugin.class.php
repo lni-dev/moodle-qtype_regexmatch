@@ -15,26 +15,29 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * regexmatch question type version information.
- *
- * @package    qtype
- * @subpackage regexmatch
- * @copyright  2024 Linus Andera (linus@linusdev.de)
-
+ * @package    moodlecore
+ * @subpackage backup-moodle2
+ * @copyright  2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'qtype_regexmatch';
 
 /**
- * format: yyyymmddnn<br>
- * nn: number to increase if needed<br>
- * <br>
- * underscores are not allowed inside the number
+ * restore plugin class that provides the necessary information
+ * needed to restore one numerical qtype plugin
+ *
+ * @copyright  2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-$plugin->version   = 2024081701;
-$plugin->requires  = 2022112807; // Moodle 4.1.7
+class restore_qtype_regexmatch_plugin extends restore_qtype_extrafields_plugin {
 
-$plugin->maturity  = MATURITY_ALPHA;
+    /**
+     * Process the qtype/regexmatch element
+     */
+    public function process_regexmatch($data) {
+        $this->really_process_extra_question_fields($data);
+    }
+}
