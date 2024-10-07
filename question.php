@@ -110,19 +110,19 @@ class qtype_regexmatch_question extends question_graded_automatically {
 
             // Construct regex based on enabled options
             if($regex->infspace == 1)
-                $constructedRegex = str_replace(" ", "(?:\s+)", $constructedRegex);
+                $constructedRegex = str_replace(" ", "(?:[ \t]+)", $constructedRegex);
 
             if($regex->pipesemispace == 1)
                 $constructedRegex = str_replace(
                     array(";", "|"),
-                    array("(?:\s*[;\\n]\s*)", "(?:\s*\|\s*)"),
+                    array("(?:[ \t]*[;\\n][ \t]*)", "(?:[ \t]*\|[ \t]*)"),
                     $constructedRegex
                 );
 
             if($regex->redictspace == 1)
                 $constructedRegex = str_replace(
                     array("<", "<<", ">", ">>"),
-                    array("(?:\s*<\s*)", "(?:\s*<<\s*)", "(?:\s*>\s*)", "(?:\s*>>\s*)"),
+                    array("(?:[ \t]*<[ \t]*)", "(?:[ \t]*<<[ \t]*)", "(?:[ \t]*>[ \t]*)", "(?:[ \t]*>>[ \t]*)"),
                     $constructedRegex
                 );
 
@@ -196,7 +196,7 @@ class qtype_regexmatch_answer extends question_answer {
     /** @var mixed Whether to use the dot all modifier (0 = false, 1 = true). */
     public $dotall;
 
-    /** @var mixed Whether to replcase all spaces with \s+ (0 = false, 1 = true). */
+    /** @var mixed Whether to replcase all spaces with [ \t]+ (0 = false, 1 = true). */
     public $infspace;
 
     /** @var mixed trim leading and trailing spaces in the answer (0 = false, 1 = true). */

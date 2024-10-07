@@ -47,11 +47,15 @@ class qtype_regexmatch_edit_form extends question_edit_form {
             question_bank::fraction_options()
         );
 
-        // Add Help Button to the first to third answer text field
-        $mform->addHelpButton('answer[0]', 'regex', 'qtype_regexmatch', '', true);
-        $mform->addHelpButton('answer[1]', 'regex', 'qtype_regexmatch', '', true);
-        $mform->addHelpButton('answer[2]', 'regex', 'qtype_regexmatch', '', true);
+        // Add Help Button to the first to 5th answer text field
+        // Add (?) / help button
+        for ($i = 0; $i < 5; $i++) {
+            $mform->addHelpButton("answer[$i]", 'regex', 'qtype_regexmatch', '', true);
+            $mform->addHelpButton("pipesemispace[$i]", 'checkbox_pipesemispace_name', 'qtype_regexmatch', '', true);
+            $mform->addHelpButton("redictspace[$i]", 'checkbox_redictspace_name', 'qtype_regexmatch', '', true);
+        }
 
+        // Set default values
         $defaults = array();
         for ($i = 0; $i < 20; $i++) {
             $defaults["infspace[$i]"] = 1;

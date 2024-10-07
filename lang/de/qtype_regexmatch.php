@@ -52,7 +52,7 @@ Deswegen muss [dieser](https://www.php.net/manual/en/reference.pcre.pattern.synt
 |:--:|:-------------------------------------:|
 | \w |  Irgendein Wort-Zeichen (a-z 0-9 _)   |
 | \W |     Irgendein nicht Wort-Zeichen      |
-| \s |       Leerzeichen (space, tab)        |
+| \s |  Leerzeichen (space, tab, leerzeile)  |
 | \S |  Irgendein Zeichen außer Leerzeichen  |
 | \d |             Ziffern (0-9)             |
 | \D |    Irgendein Zeichen außer Ziffern    |
@@ -67,15 +67,15 @@ $string['checkbox_ignorecase_description'] = 'Der reguläre Ausdruck wird Groß-
 $string['checkbox_dotall_name'] = 'Punkt findet alles';
 $string['checkbox_dotall_description'] = 'Alle Punkte (.) in dem regulären Ausdruck werden auch Zeilenumbrüche finden, wenn diese Box angehackt ist';
 $string['checkbox_infspace_name'] = 'Unendlich Whitespaces';
-$string['checkbox_infspace_description'] = 'Alle Leerzeichen innerhalb des Ausdrucks werden mit "(?:\s+)" ersetzt, wenn diese Box angehackt ist. Dadurch finden sie 1 oder mehr Whitespace Charakter.';
+$string['checkbox_infspace_description'] = 'Alle Leerzeichen innerhalb des Ausdrucks werden mit "([ \t]+)" ersetzt, wenn diese Box angehackt ist. Dadurch finden sie 1 oder mehr Whitespace Charakter.';
 $string['checkbox_trimspaces_name'] = 'Trim spaces';
 $string['checkbox_trimspaces_description'] = 'Alle Leerzeichen zu Beginn und am Ende der Antwort des Studenten werden ignoriert, wenn diese Box angehackt ist.';
 $string['checkbox_pipesemispace_name'] = 'Unendlich Leerzeichen um Semikolons und Pipes';
-$string['checkbox_pipesemispace_description'] =
-    'Shell spezifisch: Alle Semikolons ";" und Pipes "|" werden jeweils durch "(?:\s*[;\n]\s*)" und "(?:\s*\|\s*)" ersetzt, wenn diese Box angehackt ist. ' .
-    'Dadurch finden diese unendlich Leerzeichen vor und nach dem Semikolon oder der Pipe. Zusätzlich kann das Semikolon auch eine Leerzeile finden. Das Regex-Oder "|" kann dann nichtmehr verwendet werden.';
+$string['checkbox_pipesemispace_description'] = 'Shell spezifisch: Alle Semikolons ";" und Pipes "|" werden jeweils durch "([ \t]*[;\n][ \t]*)" und "([ \t]*\|[ \t]*)" ersetzt, wenn diese Box angehackt ist. ';
+$string['checkbox_pipesemispace_name_help'] ='Dadurch finden diese unendlich Leerzeichen vor und nach dem Semikolon oder der Pipe. Zusätzlich kann das Semikolon auch eine Leerzeile finden. Das Regex-Oder "|" kann dann nichtmehr verwendet werden. Note: Any spaces in front and after the pipe inside the regex, must also be contained in the answer.';
 $string['checkbox_redictspace_name'] = 'Unendlich Leerzeichen um Umleitungen';
-$string['checkbox_redictspace_description'] = 'Shell spezifisch: Alle Umleitungen ("<", ">", "<<", ">>") werden durch "(?:\s*<\s*)" ersetzt. Dadurch können diese zeichen nicht mehr in anderen Regex-Funktionen verwendet werden (Z.B.: Lookbehind: "(?<=...)")';
+$string['checkbox_redictspace_description'] = 'Shell spezifisch: Alle Umleitungen ("<", ">", "<<", ">>") werden durch "([ \t]*<[ \t]*)" ersetzt.';
+$string['checkbox_redictspace_name_help'] = 'Wenn aktiviert können diese Zeichen nicht mehr in anderen Regex-Funktionen verwendet werden (Z.B.: Lookbehind: "(?<=...)"). Note: Any spaces in front and after the redirect inside the regex, must also be contained in the answer.';
 $string['pleaseenterananswer'] = 'Bitte geben Sie eine Antwort ein.';
 $string['notenoughregexes'] = 'Mindestens ein regulärer Ausdruck sollte angegeben werden';
 $string['fborgradewithoutregex'] = 'Wenn ein Feedback oder eine Bewertung angegeben ist, muss auch ein regulärer Ausdruck angegeben werden';

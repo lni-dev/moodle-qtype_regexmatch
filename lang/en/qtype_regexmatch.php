@@ -48,17 +48,17 @@ Thus, [this](https://www.php.net/manual/en/reference.pcre.pattern.syntax.php) sy
 | a{,m}  |     m or less of "a"      |
 | a{n,m} | Between n and m times "a" |
 
-|    |    Characters & Boundaries     |
-|:--:|:------------------------------:|
-| \w | Any word character (a-z 0-9 _) |
-| \W |     Any non word character     |
-| \s |    Whitespace (space, tab)     |
-| \S |  Any non whitespace character  |
-| \d |          Digits (0-9)          |
-| \D |    Any non digit character     |
-| .  |  Any character except newline  |
-| \b |         Word boundary          |
-| \B |      Not a word boundary       |
+|    |      Characters & Boundaries      |
+|:--:|:---------------------------------:|
+| \w |  Any word character (a-z 0-9 _)   |
+| \W |      Any non word character       |
+| \s | Whitespace (space, tab, new line) |
+| \S |   Any non whitespace character    |
+| \d |           Digits (0-9)            |
+| \D |      Any non digit character      |
+| .  |   Any character except newline    |
+| \b |           Word boundary           |
+| \B |        Not a word boundary        |
 
 The regex anchors "$" and "^" cannot be used. If they should be matched as literals, they can be escaped: "\\$", "\\^"
 ';
@@ -67,15 +67,15 @@ $string['checkbox_ignorecase_description'] = 'The regular expression will ignore
 $string['checkbox_dotall_name'] = 'Dot all';
 $string['checkbox_dotall_description'] = 'All Dots (.) in the regular expression will also match new lines if this is ticked';
 $string['checkbox_infspace_name'] = 'Infinite spaces';
-$string['checkbox_infspace_description'] = 'All Spaces in the expression will be replaced with "(?:\s+)" if this is ticked. Thereby they match 1 or more whitespace characters.';
+$string['checkbox_infspace_description'] = 'All Spaces in the expression will be replaced with "([ \t]+)" if this is ticked. Thereby they match 1 or more whitespace characters.';
 $string['checkbox_trimspaces_name'] = 'Trim spaces';
 $string['checkbox_trimspaces_description'] = 'All trailing and leading spaces in the students answer will be ignored if this is ticked.';
 $string['checkbox_pipesemispace_name'] = 'Infinite spaces around semicolons and pipes';
-$string['checkbox_pipesemispace_description'] =
-    'Shell specific: All semicolons ";" and pipes "|" will be replaced with "(?:\s*[;\n]\s*)" and "(?:\s*\|\s*)" respectively if this is ticked. ' .
-    'Thereby infinite spaces are allowed around these and the semicolon will also match a new line. That also means, that the regex function "|" (OR) cannot be used anymore.';
+$string['checkbox_pipesemispace_description'] = 'Shell specific: All semicolons ";" and pipes "|" will be replaced with "([ \t]*[;\n][ \t]*)" and "([ \t]*\|[ \t]*)" respectively if this is ticked. ';
+$string['checkbox_pipesemispace_name_help'] ='Thereby infinite spaces are allowed around these and the semicolon will also match a new line. That also means, that the regex function "|" (OR) cannot be used anymore. Note: Any spaces in front and after the pipe inside the regex, must also be contained in the answer.';
 $string['checkbox_redictspace_name'] = 'Infinite spaces around redirections';
-$string['checkbox_redictspace_description'] = 'Shell specific: All redirections (<,>,<<,>>) will be replaced with "(?:\s*<\s*)". Then these cannot be used in other regex-functions (eg.: lookbehind "(?<=...)")';
+$string['checkbox_redictspace_description'] = 'Shell specific: All redirections (<,>,<<,>>) will be replaced with "([ \t]*<[ \t]*)".';
+$string['checkbox_redictspace_name_help'] = 'If enabled redirections cannot be used in other regex-functions (eg.: lookbehind "(?<=...)"). Note: Any spaces in front and after the redirect inside the regex, must also be contained in the answer.';
 $string['pleaseenterananswer'] = 'Please enter a answer.';
 $string['notenoughregexes'] = 'At least one regular expression is required';
 $string['fborgradewithoutregex'] = 'If a feedback or a grade is set a regular expression must be entered';
