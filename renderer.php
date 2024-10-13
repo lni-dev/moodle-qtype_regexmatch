@@ -105,7 +105,7 @@ class qtype_regexmatch_renderer extends qtype_renderer {
     }
 
     public function correct_response(question_attempt $qa): string {
-        // TODO.
+        // Cannot generate correct response from regex.
         return '';
     }
 }
