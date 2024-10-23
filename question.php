@@ -133,7 +133,7 @@ class qtype_regexmatch_question extends question_graded_automatically {
             // Add Modifier m, to make "^" and "$" ignore new lines.
             $toEscape = array("/");
             $escapeValue = array("\\/");
-            $constructedRegex = "/^(?:" . str_replace($toEscape, $escapeValue, $constructedRegex) . ")$/m";
+            $constructedRegex = "/^(?:" . str_replace($toEscape, $escapeValue, $constructedRegex) . ")$/";
 
             // Set Flags based on enabled options
             if($regex->ignorecase == 1)
@@ -145,6 +145,8 @@ class qtype_regexmatch_question extends question_graded_automatically {
             // remove \r from the answer, which should not be matched.
             $processedAnswer = str_replace("\r", "", $possiblyTrimmedAnswer);
 
+            // debugging("constructedRegex: $constructedRegex");
+            // debugging("processedAnswer: $processedAnswer");
             if(preg_match($constructedRegex, $processedAnswer) == 1) {
                 if($ret == null || $regex->fraction > $ret->fraction) {
                     $ret = $regex;

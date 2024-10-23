@@ -74,7 +74,7 @@ $string['checkbox_pipesemispace_name'] = 'Unendlich Leerzeichen um Semikolons un
 $string['checkbox_pipesemispace_description'] = 'Shell spezifisch: Alle Semikolons ";" und Pipes "|" werden jeweils durch "([ \t]*[;\n][ \t]*)" und "([ \t]*\|[ \t]*)" ersetzt, wenn diese Box angehackt ist. ';
 $string['checkbox_pipesemispace_name_help'] ='Dadurch finden diese unendlich Leerzeichen vor und nach dem Semikolon oder der Pipe. Zusätzlich kann das Semikolon auch eine Leerzeile finden. Das Regex-Oder "|" kann dann nichtmehr verwendet werden. Note: Alle Leerzeichen vor und nach der Pipe / dem Semikolon im Regulären Ausdruck müssen auch innerhalb der Antwort vorkommen.';
 $string['checkbox_redictspace_name'] = 'Unendlich Leerzeichen um Umleitungen';
-$string['checkbox_redictspace_description'] = 'Shell spezifisch: Alle Umleitungen ("<", ">", "<<", ">>") werden durch "([ \t]*<[ \t]*)" ersetzt.';
+$string['checkbox_redictspace_description'] = 'Shell spezifisch: Alle Umleitungen ("<", ">", "<<", ">>") werden durch z.B. "([ \t]*<[ \t]*)" ersetzt.';
 $string['checkbox_redictspace_name_help'] = 'Wenn aktiviert können diese Zeichen nicht mehr in anderen Regex-Funktionen verwendet werden (Z.B.: Lookbehind: "(?<=...)"). Note: Alle Leerzeichen vor und nach der Umleitung im Regulären Ausdruck müssen auch innerhalb der Antwort vorkommen.';
 $string['pleaseenterananswer'] = 'Bitte geben Sie eine Antwort ein.';
 $string['notenoughregexes'] = 'Mindestens ein regulärer Ausdruck sollte angegeben werden';
