@@ -36,7 +36,7 @@ Thus, [this](https://www.php.net/manual/en/reference.pcre.pattern.syntax.php) sy
 | [^abc] |   Matches any character NOT inside the brackets   |
 | ab\|cd |                Match "ab" or "cd"                 |
 | (abc)  |           Matches the subpattern "abc"            |
-|   \    |         Escape character for []\|()/ etc.         |
+|   \    |      Escape character for .^$*+-?()[]{}\\\|       |
 
 |        |        Quantifiers        |
 |:------:|:-------------------------:|
@@ -69,10 +69,11 @@ $string['checkbox_dotall_description'] = 'All Dots (.) in the regular expression
 $string['checkbox_infspace_name'] = 'Infinite spaces';
 $string['checkbox_infspace_description'] = 'All Spaces in the expression will be replaced with "([ \t]+)" if this is ticked. Thereby they match 1 or more whitespace characters.';
 $string['checkbox_trimspaces_name'] = 'Trim spaces';
-$string['checkbox_trimspaces_description'] = 'All trailing and leading spaces in the students answer will be ignored if this is ticked.';
+$string['checkbox_trimspaces_description'] = 'All trailing and leading empty lines in the answer, as well as all trailing and leading spaces of every line in the answer, will be ignored if this is ticked.';
+$string['checkbox_trimspaces_name_help'] = 'Trailing empty lines will always be ignored, even if this option is not enabled.';
 $string['checkbox_pipesemispace_name'] = 'Infinite spaces around semicolons and pipes';
-$string['checkbox_pipesemispace_description'] = 'Shell specific: All semicolons ";" and pipes "|" will be replaced with "([ \t]*[;\n][ \t]*)" and "([ \t]*\|[ \t]*)" respectively if this is ticked. ';
-$string['checkbox_pipesemispace_name_help'] ='Thereby infinite spaces are allowed around these and the semicolon will also match a new line. That also means, that the regex function "|" (OR) cannot be used anymore. Note: Any spaces in front and after the pipe inside the regex, must also be contained in the answer.';
+$string['checkbox_pipesemispace_description'] = 'Shell specific: All semicolons ";" and escaped pipes "\|" will be replaced with "([ \t]*[;\n][ \t]*)" and "([ \t]*\|[ \t]*)" respectively if this is ticked. ';
+$string['checkbox_pipesemispace_name_help'] ='Thereby infinite spaces are allowed around these and the semicolon will also match a new line. Note: Any spaces in front and after the pipe inside the regex, must also be contained in the answer.';
 $string['checkbox_redictspace_name'] = 'Infinite spaces around redirections';
 $string['checkbox_redictspace_description'] = 'Shell specific: All redirections (<,>,<<,>>) will be replaced for example with "([ \t]*<[ \t]*)".';
 $string['checkbox_redictspace_name_help'] = 'If enabled redirections cannot be used in other regex-functions (eg.: lookbehind "(?<=...)"). Note: Any spaces in front and after the redirect inside the regex, must also be contained in the answer.';

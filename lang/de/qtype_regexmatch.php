@@ -36,7 +36,7 @@ Deswegen muss [dieser](https://www.php.net/manual/en/reference.pcre.pattern.synt
 | [^abc] | Findet ein Zeichen nicht aus der Klammer |
 | ab\|cd |          Findet "ab" oder "cd"           |
 | (abc)  |       Findet das Untermuster "abc"       |
-|   \    |      Escape Zeichen für []\|()/ usw      |
+|   \    |   Escape Zeichen für .^$*+-?()[]{}\\\|   |
 
 |          |    Wiederholungen    |
 |:--------:|:--------------------:|
@@ -60,7 +60,7 @@ Deswegen muss [dieser](https://www.php.net/manual/en/reference.pcre.pattern.synt
 | \b |              Wortgrenze               |
 | \B |           Keine Wortgrenze            |
 
-Die Regex Anker "$" und "^" können nicht verwendet werden. Falls diese als Literal gesucht werden sollen, können sie escaped werden: "\\$", "\\^"
+Die Regex Anker "$" und "^" können nicht verwendet werden. Falls diese als Literal gesucht werden sollen, können sie escaped werden: "\$", "\^"
 ';
 $string['checkbox_ignorecase_name'] = 'Ignoriere Groß-/Kleinschreibung';
 $string['checkbox_ignorecase_description'] = 'Der reguläre Ausdruck wird Groß- und Kleinschreibung ignorieren, wenn diese Box angehackt ist';
@@ -69,10 +69,11 @@ $string['checkbox_dotall_description'] = 'Alle Punkte (.) in dem regulären Ausd
 $string['checkbox_infspace_name'] = 'Unendlich Whitespaces';
 $string['checkbox_infspace_description'] = 'Alle Leerzeichen innerhalb des Ausdrucks werden mit "([ \t]+)" ersetzt, wenn diese Box angehackt ist. Dadurch finden sie 1 oder mehr Whitespace Charakter.';
 $string['checkbox_trimspaces_name'] = 'Trim spaces';
-$string['checkbox_trimspaces_description'] = 'Alle Leerzeichen zu Beginn und am Ende der Antwort des Studenten werden ignoriert, wenn diese Box angehackt ist.';
+$string['checkbox_trimspaces_description'] = 'Leerzeilen zu Beginn und am Ende der Antwort, sowie Leerzeichen zu Beginn und am Ende jeder Zeile der Antwort, werden ignoriert, wenn diese Box angehackt ist.';
+$string['checkbox_trimspaces_name_help'] = 'Leerzeilen am Ende der Antwort werden immer ignoriert, egal ob diese Option aktiviert ist oder nicht.';
 $string['checkbox_pipesemispace_name'] = 'Unendlich Leerzeichen um Semikolons und Pipes';
-$string['checkbox_pipesemispace_description'] = 'Shell spezifisch: Alle Semikolons ";" und Pipes "|" werden jeweils durch "([ \t]*[;\n][ \t]*)" und "([ \t]*\|[ \t]*)" ersetzt, wenn diese Box angehackt ist. ';
-$string['checkbox_pipesemispace_name_help'] ='Dadurch finden diese unendlich Leerzeichen vor und nach dem Semikolon oder der Pipe. Zusätzlich kann das Semikolon auch eine Leerzeile finden. Das Regex-Oder "|" kann dann nichtmehr verwendet werden. Note: Alle Leerzeichen vor und nach der Pipe / dem Semikolon im Regulären Ausdruck müssen auch innerhalb der Antwort vorkommen.';
+$string['checkbox_pipesemispace_description'] = 'Shell spezifisch: Alle Semikolons ";" und maskierte Pipes "\|" werden jeweils durch "([ \t]*[;\n][ \t]*)" und "([ \t]*\|[ \t]*)" ersetzt, wenn diese Box angehackt ist. ';
+$string['checkbox_pipesemispace_name_help'] ='Dadurch finden diese unendlich Leerzeichen vor und nach dem Semikolon oder der Pipe. Zusätzlich kann das Semikolon auch eine Leerzeile finden. Note: Alle Leerzeichen vor und nach der Pipe / dem Semikolon im Regulären Ausdruck müssen auch innerhalb der Antwort vorkommen.';
 $string['checkbox_redictspace_name'] = 'Unendlich Leerzeichen um Umleitungen';
 $string['checkbox_redictspace_description'] = 'Shell spezifisch: Alle Umleitungen ("<", ">", "<<", ">>") werden durch z.B. "([ \t]*<[ \t]*)" ersetzt.';
 $string['checkbox_redictspace_name_help'] = 'Wenn aktiviert können diese Zeichen nicht mehr in anderen Regex-Funktionen verwendet werden (Z.B.: Lookbehind: "(?<=...)"). Note: Alle Leerzeichen vor und nach der Umleitung im Regulären Ausdruck müssen auch innerhalb der Antwort vorkommen.';

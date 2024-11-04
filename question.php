@@ -102,8 +102,17 @@ class qtype_regexmatch_question extends question_graded_automatically {
             $possiblyTrimmedAnswer = $answer;
 
             // Trim answer if enabled.
-            if($regex->trimspaces == 1)
-                $possiblyTrimmedAnswer= trim($possiblyTrimmedAnswer);
+            if($regex->trimspaces == 1) {
+                $parts = explode("\n", $possiblyTrimmedAnswer);
+                $possiblyTrimmedAnswer = '';
+                $first = true;
+                foreach ($parts as $part) {
+                    if ($first) $first = false;
+                    else $possiblyTrimmedAnswer .= "\n";
+                    $possiblyTrimmedAnswer .= trim($part);
+                }
+            }
+
 
             // Remove any \r
             $constructedRegex = str_replace("\r", "", $regex->answer);
@@ -114,7 +123,7 @@ class qtype_regexmatch_question extends question_graded_automatically {
 
             if($regex->pipesemispace == 1)
                 $constructedRegex = str_replace(
-                    array(";", "|"),
+                    array(";", "\|"),
                     array("(?:[ \t]*[;\\n][ \t]*)", "(?:[ \t]*\|[ \t]*)"),
                     $constructedRegex
                 );

@@ -53,6 +53,7 @@ class qtype_regexmatch_edit_form extends question_edit_form {
             $mform->addHelpButton("answer[$i]", 'regex', 'qtype_regexmatch', '', true);
             $mform->addHelpButton("pipesemispace[$i]", 'checkbox_pipesemispace_name', 'qtype_regexmatch', '', true);
             $mform->addHelpButton("redictspace[$i]", 'checkbox_redictspace_name', 'qtype_regexmatch', '', true);
+            $mform->addHelpButton("trimspaces[$i]", 'checkbox_trimspaces_name', 'qtype_regexmatch', '', true);
         }
 
         // Set default values
