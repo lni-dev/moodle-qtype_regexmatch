@@ -49,22 +49,11 @@ class qtype_regexmatch_edit_form extends question_edit_form {
 
         // Add Help Button to the first to 5th answer text field
         // Add (?) / help button
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $mform->addHelpButton("answer[$i]", 'regex', 'qtype_regexmatch', '', true);
-            $mform->addHelpButton("pipesemispace[$i]", 'checkbox_pipesemispace_name', 'qtype_regexmatch', '', true);
-            $mform->addHelpButton("redictspace[$i]", 'checkbox_redictspace_name', 'qtype_regexmatch', '', true);
-            $mform->addHelpButton("trimspaces[$i]", 'checkbox_trimspaces_name', 'qtype_regexmatch', '', true);
+            $mform->addHelpButton("options[$i]", 'options', 'qtype_regexmatch', '', true);
         }
 
-        // Set default values
-        $defaults = array();
-        for ($i = 0; $i < 20; $i++) {
-            $defaults["infspace[$i]"] = 1;
-            $defaults["trimspaces[$i]"] = 1;
-            //$defaults["pipesemispace[$i]"] = 1;
-            //$defaults["redictspace[$i]"] = 1;
-        }
-        $mform->setDefaults($defaults);
         $this->add_interactive_settings();
     }
 
@@ -84,55 +73,7 @@ class qtype_regexmatch_edit_form extends question_edit_form {
             array('size' => 1000)
         );
 
-        $repeated[] = $mform->createElement('advcheckbox',
-            'ignorecase',
-            get_string('checkbox_ignorecase_name', 'qtype_regexmatch'),
-            get_string('checkbox_ignorecase_description', 'qtype_regexmatch'),
-            null,
-            array(0, 1) // values returned by checkbox
-        );
-
-        $repeated[] = $mform->createElement('advcheckbox',
-            'dotall',
-            get_string('checkbox_dotall_name', 'qtype_regexmatch'),
-            get_string('checkbox_dotall_description', 'qtype_regexmatch'),
-            null,
-            array(0, 1) // values returned by checkbox
-        );
-
-        $repeated[] = $mform->createElement('advcheckbox',
-            'infspace',
-            get_string('checkbox_infspace_name', 'qtype_regexmatch'),
-            get_string('checkbox_infspace_description', 'qtype_regexmatch'),
-            null,
-            array(0, 1) // values returned by checkbox
-        );
-
-        $repeated[] = $mform->createElement('advcheckbox',
-            'trimspaces',
-            get_string('checkbox_trimspaces_name', 'qtype_regexmatch'),
-            get_string('checkbox_trimspaces_description', 'qtype_regexmatch'),
-            null,
-            array(0, 1) // values returned by checkbox
-        );
-
-        $repeated[] = $mform->createElement('advcheckbox',
-            'pipesemispace',
-            get_string('checkbox_pipesemispace_name', 'qtype_regexmatch'),
-            get_string('checkbox_pipesemispace_description', 'qtype_regexmatch'),
-            null,
-            array(0, 1) // values returned by checkbox
-        );
-
-        $repeated[] = $mform->createElement('advcheckbox',
-            'redictspace',
-            get_string('checkbox_redictspace_name', 'qtype_regexmatch'),
-            get_string('checkbox_redictspace_description', 'qtype_regexmatch'),
-            null,
-            array(0, 1) // values returned by checkbox
-        );
-
-
+        $repeated[] = $mform->createElement('static', 'options', get_string('options', 'qtype_regexmatch'), '');
 
         $repeated[] = $mform->createElement('select',
             'fraction',

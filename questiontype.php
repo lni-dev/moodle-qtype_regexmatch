@@ -62,7 +62,7 @@ class qtype_regexmatch extends question_type {
     }
 
     public function extra_answer_fields() {
-        return array("question_regexmatch_answers", "ignorecase", "dotall", "infspace", "trimspaces", "pipesemispace","redictspace");
+        return null;
     }
 
     protected function is_extra_answer_fields_empty($questiondata, $key): bool {
@@ -75,13 +75,7 @@ class qtype_regexmatch extends question_type {
             $answer->answer,
             $answer->fraction,
             $answer->feedback,
-            $answer->feedbackformat,
-            $answer->ignorecase,
-            $answer->dotall,
-            $answer->infspace,
-            $answer->trimspaces,
-            $answer->pipesemispace,
-            $answer->redictspace
+            $answer->feedbackformat
         );
     }
 

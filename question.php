@@ -102,7 +102,7 @@ class qtype_regexmatch_question extends question_graded_automatically {
             $possiblyTrimmedAnswer = $answer;
 
             // Trim answer if enabled.
-            if($regex->trimspaces == 1) {
+            if($regex->trimspaces) {
                 $parts = explode("\n", $possiblyTrimmedAnswer);
                 $possiblyTrimmedAnswer = '';
                 $first = true;
@@ -115,20 +115,20 @@ class qtype_regexmatch_question extends question_graded_automatically {
 
 
             // Remove any \r
-            $constructedRegex = str_replace("\r", "", $regex->answer);
+            $constructedRegex = str_replace("\r", "", $regex->regex);
 
             // Construct regex based on enabled options
-            if($regex->infspace == 1)
+            if($regex->infspace)
                 $constructedRegex = str_replace(" ", "(?:[ \t]+)", $constructedRegex);
 
-            if($regex->pipesemispace == 1)
+            if($regex->pipesemispace)
                 $constructedRegex = str_replace(
                     array(";", "\|"),
                     array("(?:[ \t]*[;\\n][ \t]*)", "(?:[ \t]*\|[ \t]*)"),
                     $constructedRegex
                 );
 
-            if($regex->redictspace == 1)
+            if($regex->redictspace)
                 $constructedRegex = str_replace(
                     array("<", "<<", ">", ">>"),
                     array("(?:[ \t]*<[ \t]*)", "(?:[ \t]*<<[ \t]*)", "(?:[ \t]*>[ \t]*)", "(?:[ \t]*>>[ \t]*)"),
@@ -145,10 +145,10 @@ class qtype_regexmatch_question extends question_graded_automatically {
             $constructedRegex = "/^(?:" . str_replace($toEscape, $escapeValue, $constructedRegex) . ")$/";
 
             // Set Flags based on enabled options
-            if($regex->ignorecase == 1)
+            if($regex->ignorecase)
                 $constructedRegex .= "i";
 
-            if($regex->dotall == 1)
+            if($regex->dotall)
                 $constructedRegex .= "s";
 
             // remove \r from the answer, which should not be matched.
@@ -219,16 +219,55 @@ class qtype_regexmatch_answer extends question_answer {
     /** @var mixed Allows infnite trailing and leading spaces around input/output redirections (0 = false, 1 = true). */
     public $redictspace;
 
-    public function __construct($id, $answer, $fraction, $feedback, $feedbackformat,
-        $ignorecase, $dotall, $infspace, $trimspaces, $pipesemispace, $redictspace
-    ) {
+    public $matchAny;
+
+    public $regex;
+
+    public function __construct($id, $answer, $fraction, $feedback, $feedbackformat) {
         parent::__construct($id, $answer, $fraction, $feedback, $feedbackformat);
-        $this->ignorecase = $ignorecase;
-        $this->dotall = $dotall;
-        $this->infspace = $infspace;
-        $this->trimspaces = $trimspaces;
-        $this->pipesemispace = $pipesemispace;
-        $this->redictspace = $redictspace;
+
+        $this->ignorecase = false;
+        $this->dotall = false;
+        $this->pipesemispace = false;
+        $this->redictspace = false;
+        $this->matchAny = false;
+
+        // On by default
+        $this->infspace = true;
+        $this->trimspaces = true;
+        $this->parse($answer);
     }
+
+    private function parse($unparsed) {
+        //
+        if(str_ends_with($unparsed, '/')) {
+            // remove the '/' at the end
+            $unparsed = substr($unparsed, 0, strlen($unparsed) - 1);
+
+            $startOptionIndex = strrpos($unparsed, '/');
+
+            if($startOptionIndex !== false) {
+                $options = substr($unparsed, $startOptionIndex + 1);
+                $this->regex = substr($unparsed, 0, $startOptionIndex);
+
+                foreach (str_split($options) as $option) {
+                    switch ($option) {
+                        case 'I': $this->ignorecase = true; break;
+                        case 'D': $this->dotall = true; break;
+                        case 'P': $this->pipesemispace = true; break;
+                        case 'R': $this->redictspace = true; break;
+                        case 'A': $this->matchAny = true; break;
+
+                        // These are on by default, disable them instead.
+                        case 'S': $this->infspace = false; break;
+                        case 'T': $this->trimspaces = false; break;
+                    }
+                }
+            } else {
+                $this->regex = $unparsed;
+            }
+        }
+    }
+
 
 }
