@@ -52,6 +52,7 @@ class qtype_regexmatch_edit_form extends question_edit_form {
         for ($i = 0; $i < 10; $i++) {
             $mform->addHelpButton("answer[$i]", 'regex', 'qtype_regexmatch', '', true);
             $mform->addHelpButton("options[$i]", 'options', 'qtype_regexmatch', '', true);
+            $mform->addHelpButton("default-options[$i]", 'default_options', 'qtype_regexmatch', '', true);
         }
 
         $this->add_interactive_settings();
@@ -73,7 +74,9 @@ class qtype_regexmatch_edit_form extends question_edit_form {
             array('size' => 1000)
         );
 
-        $repeated[] = $mform->createElement('static', 'options', get_string('options', 'qtype_regexmatch'), '');
+        $repeated[] = $mform->createElement('static', 'options', get_string('options', 'qtype_regexmatch'), 'I, D, P, R, O');
+        $repeated[] = $mform->createElement('static', 'default-options', get_string('default_options', 'qtype_regexmatch'), 'S, T');
+
 
         $repeated[] = $mform->createElement('select',
             'fraction',

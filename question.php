@@ -45,7 +45,7 @@ defined('MOODLE_INTERNAL') || die();
 class qtype_regexmatch_question extends question_graded_automatically {
 
     /**
-     * @var array array containing all the allowed regexes
+     * @var array<qtype_regexmatch_answer> array containing all the allowed regexes
      */
     public $answers = array();
     public $options = array();
@@ -90,6 +90,45 @@ class qtype_regexmatch_question extends question_graded_automatically {
         }
     }
 
+    public function constructRegex(string $regex, qtype_regexmatch_answer $options): string {
+        $constructedRegex = $regex;
+
+        if($options->infspace)
+            $constructedRegex = str_replace(" ", "(?:[ \t]+)", $constructedRegex);
+
+        if($options->pipesemispace)
+            $constructedRegex = str_replace(
+                array(";", "\|"),
+                array("(?:[ \t]*[;\\n][ \t]*)", "(?:[ \t]*\|[ \t]*)"),
+                $constructedRegex
+            );
+
+        if($options->redictspace)
+            $constructedRegex = str_replace(
+                array("<", "<<", ">", ">>"),
+                array("(?:[ \t]*<[ \t]*)", "(?:[ \t]*<<[ \t]*)", "(?:[ \t]*>[ \t]*)", "(?:[ \t]*>>[ \t]*)"),
+                $constructedRegex
+            );
+
+        // preg_match requires a delimiter ( we use "/").
+        // replace all actual occurrences of "/" in $regex->answer with an escaped version ("//").
+        // Add "^(?:" at the start of the regex and ")$" at the end, to match from start to end.
+        // and put the regex in a non-capturing-group, so the function of the regex does not change (eg. "^a|b$" vs "^(?:a|b)$")
+        // Add Modifier m, to make "^" and "$" ignore new lines.
+        $toEscape = array("/");
+        $escapeValue = array("\\/");
+        $constructedRegex = "/^(?:" . str_replace($toEscape, $escapeValue, $constructedRegex) . ")$/";
+
+        // Set Flags based on enabled options
+        if($options->ignorecase)
+            $constructedRegex .= "i";
+
+        if($options->dotall)
+            $constructedRegex .= "s";
+
+        return $constructedRegex;
+    }
+
     /**
      * @param string $answer answer submitted from a student
      * @return mixed|null regex of {@link self::$answers}, which matches given answer or null if none matches
@@ -113,52 +152,55 @@ class qtype_regexmatch_question extends question_graded_automatically {
                 }
             }
 
+            // remove \r from the answer, which should not be matched.
+            $processedAnswer = str_replace("\r", "", $possiblyTrimmedAnswer);
 
             // Remove any \r
             $constructedRegex = str_replace("\r", "", $regex->regex);
 
-            // Construct regex based on enabled options
-            if($regex->infspace)
-                $constructedRegex = str_replace(" ", "(?:[ \t]+)", $constructedRegex);
+            if($regex->matchAnyOrder) {
+                $regexLines = explode("\n", $constructedRegex);
+                $answerLines = explode("\n", $possiblyTrimmedAnswer);
 
-            if($regex->pipesemispace)
-                $constructedRegex = str_replace(
-                    array(";", "\|"),
-                    array("(?:[ \t]*[;\\n][ \t]*)", "(?:[ \t]*\|[ \t]*)"),
-                    $constructedRegex
-                );
+                $answerLineCount = count($answerLines);
+                foreach ($regexLines as $line) {
+                    $line = $this->constructRegex($line, $regex);
 
-            if($regex->redictspace)
-                $constructedRegex = str_replace(
-                    array("<", "<<", ">", ">>"),
-                    array("(?:[ \t]*<[ \t]*)", "(?:[ \t]*<<[ \t]*)", "(?:[ \t]*>[ \t]*)", "(?:[ \t]*>>[ \t]*)"),
-                    $constructedRegex
-                );
+                    $i = 0;
+                    for (; $i < $answerLineCount; $i++) {
+                        if($answerLines[$i] === null)
+                            continue;
+                        if(preg_match($line, $answerLines[$i]) == 1) {
+                            break;
+                        }
+                    }
 
-            // preg_match requires a delimiter ( we use "/").
-            // replace all actual occurrences of "/" in $regex->answer with an escaped version ("//").
-            // Add "^(?:" at the start of the regex and ")$" at the end, to match from start to end.
-            // and put the regex in a non-capturing-group, so the function of the regex does not change (eg. "^a|b$" vs "^(?:a|b)$")
-            // Add Modifier m, to make "^" and "$" ignore new lines.
-            $toEscape = array("/");
-            $escapeValue = array("\\/");
-            $constructedRegex = "/^(?:" . str_replace($toEscape, $escapeValue, $constructedRegex) . ")$/";
+                    if($i !== $answerLineCount) {
+                        $answerLines[$i] = null;
+                    }
+                }
 
-            // Set Flags based on enabled options
-            if($regex->ignorecase)
-                $constructedRegex .= "i";
+                $wrongAnswerCount = 0;
+                foreach ($answerLines as $answerLine) {
+                    if($answerLine !== null) $wrongAnswerCount++;
+                }
 
-            if($regex->dotall)
-                $constructedRegex .= "s";
+                $maxPoints = count($regexLines);
+                $answerCountDif = $maxPoints - $answerLineCount;
+                $points = max(0, $maxPoints - abs($answerCountDif) - ($wrongAnswerCount - max(0, -$answerCountDif)));
 
-            // remove \r from the answer, which should not be matched.
-            $processedAnswer = str_replace("\r", "", $possiblyTrimmedAnswer);
+                $fraction = $regex->fraction * (floatval($points) / floatval($maxPoints));
+                $ret = new qtype_regexmatch_answer($regex->id, $regex->regex, $fraction, $regex->feedback, $regex->feedbackformat);
+            } else {
+                // Construct regex based on enabled options
+                $constructedRegex = $this->constructRegex($constructedRegex, $regex);
 
-            // debugging("constructedRegex: $constructedRegex");
-            // debugging("processedAnswer: $processedAnswer");
-            if(preg_match($constructedRegex, $processedAnswer) == 1) {
-                if($ret == null || $regex->fraction > $ret->fraction) {
-                    $ret = $regex;
+                // debugging("constructedRegex: $constructedRegex");
+                // debugging("processedAnswer: $processedAnswer");
+                if(preg_match($constructedRegex, $processedAnswer) == 1) {
+                    if($ret == null || $regex->fraction > $ret->fraction) {
+                        $ret = $regex;
+                    }
                 }
             }
         }
@@ -219,8 +261,14 @@ class qtype_regexmatch_answer extends question_answer {
     /** @var mixed Allows infnite trailing and leading spaces around input/output redirections (0 = false, 1 = true). */
     public $redictspace;
 
-    public $matchAny;
+    /**
+     * @var boolean matches multiple regexes in any order
+     */
+    public $matchAnyOrder;
 
+    /**
+     * @var string The actual regex without any options.
+     */
     public $regex;
 
     public function __construct($id, $answer, $fraction, $feedback, $feedbackformat) {
@@ -230,7 +278,7 @@ class qtype_regexmatch_answer extends question_answer {
         $this->dotall = false;
         $this->pipesemispace = false;
         $this->redictspace = false;
-        $this->matchAny = false;
+        $this->matchAnyOrder = false;
 
         // On by default
         $this->infspace = true;
@@ -256,7 +304,7 @@ class qtype_regexmatch_answer extends question_answer {
                         case 'D': $this->dotall = true; break;
                         case 'P': $this->pipesemispace = true; break;
                         case 'R': $this->redictspace = true; break;
-                        case 'A': $this->matchAny = true; break;
+                        case 'O': $this->matchAnyOrder = true; break;
 
                         // These are on by default, disable them instead.
                         case 'S': $this->infspace = false; break;
@@ -265,6 +313,11 @@ class qtype_regexmatch_answer extends question_answer {
                 }
             } else {
                 $this->regex = $unparsed;
+            }
+
+            // remove all trailing empty lines from the regex
+            while (str_ends_with($this->regex, "\n") || str_ends_with($this->regex, "\r")) {
+                $this->regex = substr($this->regex, 0, strlen($this->regex) - 1);
             }
         }
     }

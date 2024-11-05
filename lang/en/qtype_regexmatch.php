@@ -63,26 +63,42 @@ Thus, [this](https://www.php.net/manual/en/reference.pcre.pattern.syntax.php) sy
 The regex anchors "$" and "^" cannot be used. If they should be matched as literals, they can be escaped: "\\$", "\\^"
 ';
 $string['options'] = "Options";
+$string['default_options'] = "Default Options";
 $string['options_help'] = /** @lang Markdown */
     'Some options may be set. Options must be placed at the end of the regex. Furthermore, they must start and end with
 a forward slash (/). For example: "/PI/". Every option is enabled/disabled by a single letter. The options are described below.
-#### P: Infinite spaces around pipes and semicolons
+
+**I: Ignore case**<br>
+The regular expression will ignore case.
+
+**D: Dot all**<br>
+All Dots (.) in the regular expression will also match new lines.
+
+**P: Pipes and semicolons**<br>
 This is a shell specific option. All semicolons ";" and escaped pipes "\|" will be replaced with "(\[ \t]\*\[;\n]\[ \t]\*)"
-and "(\[ \t]\*\|\[ \t]*)" respectively if this is ticked. Thereby infinite spaces are allowed around these and the semicolon
+and "(\[ \t]\*\|\[ \t]*)" respectively. Thereby infinite spaces are allowed around these and the semicolon
 will also match a new line. Note: Any spaces in front and after the pipe inside the regex, must also be contained in the answer.
+
+**R: Infinite spaces around redirects**<br>
+This is a shell specific option. All redirections (<,>,<<,>>) will be replaced for example with "(\[ \t]\*<\[ \t]\*)".
+If enabled redirections cannot be used in other regex-functions (eg.: lookbehind "(?<=...)"). Note: Any spaces in front
+and after the redirect inside the regex, must also be contained in the answer.
+
+**O: Match Any Order**<br>
+The regex must consist of multiple regexes (one on each line).
+The answer (also one answer per line) must match each regex, but order is not important.
 ';
-$string['checkbox_ignorecase_name'] = 'Ignore case';
-$string['checkbox_ignorecase_description'] = 'The regular expression will ignore case if this is ticked';
-$string['checkbox_dotall_name'] = 'Dot all';
-$string['checkbox_dotall_description'] = 'All Dots (.) in the regular expression will also match new lines if this is ticked';
-$string['checkbox_infspace_name'] = 'Infinite spaces';
-$string['checkbox_infspace_description'] = 'All Spaces in the expression will be replaced with "([ \t]+)" if this is ticked. Thereby they match 1 or more whitespace characters.';
-$string['checkbox_trimspaces_name'] = 'Trim spaces';
-$string['checkbox_trimspaces_description'] = 'All trailing and leading empty lines in the answer, as well as all trailing and leading spaces of every line in the answer, will be ignored if this is ticked.';
-$string['checkbox_trimspaces_name_help'] = 'Trailing empty lines will always be ignored, even if this option is not enabled.';
-$string['checkbox_redictspace_name'] = 'Infinite spaces around redirections';
-$string['checkbox_redictspace_description'] = 'Shell specific: All redirections (<,>,<<,>>) will be replaced for example with "([ \t]*<[ \t]*)".';
-$string['checkbox_redictspace_name_help'] = 'If enabled redirections cannot be used in other regex-functions (eg.: lookbehind "(?<=...)"). Note: Any spaces in front and after the redirect inside the regex, must also be contained in the answer.';
+$string['default_options_help'] = /** @lang Markdown */
+    'These options are enabled by default and can be disabled by specifying the corresponding letter.
+
+**S: Infinite space**<br>
+All Spaces will be replaced with "([ \t]+)". Thereby they match one or more whitespace characters.
+
+**T: Trim spaces**<br>
+All trailing and leading empty lines in the answer, as well as all trailing and leading
+spaces of every line in the answer, will be ignored. Trailing empty lines will always be
+ignored, even if this option is disabled.';
+
 $string['pleaseenterananswer'] = 'Please enter a answer.';
 $string['notenoughregexes'] = 'At least one regular expression is required';
 $string['fborgradewithoutregex'] = 'If a feedback or a grade is set a regular expression must be entered';
