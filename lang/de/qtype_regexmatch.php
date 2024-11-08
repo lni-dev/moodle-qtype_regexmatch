@@ -62,21 +62,47 @@ Deswegen muss [dieser](https://www.php.net/manual/en/reference.pcre.pattern.synt
 
 Die Regex Anker "$" und "^" können nicht verwendet werden. Falls diese als Literal gesucht werden sollen, können sie escaped werden: "\$", "\^"
 ';
-$string['checkbox_ignorecase_name'] = 'Ignoriere Groß-/Kleinschreibung';
-$string['checkbox_ignorecase_description'] = 'Der reguläre Ausdruck wird Groß- und Kleinschreibung ignorieren, wenn diese Box angehackt ist';
-$string['checkbox_dotall_name'] = 'Punkt findet alles';
-$string['checkbox_dotall_description'] = 'Alle Punkte (.) in dem regulären Ausdruck werden auch Zeilenumbrüche finden, wenn diese Box angehackt ist';
-$string['checkbox_infspace_name'] = 'Unendlich Whitespaces';
-$string['checkbox_infspace_description'] = 'Alle Leerzeichen innerhalb des Ausdrucks werden mit "([ \t]+)" ersetzt, wenn diese Box angehackt ist. Dadurch finden sie 1 oder mehr Whitespace Charakter.';
-$string['checkbox_trimspaces_name'] = 'Trim spaces';
-$string['checkbox_trimspaces_description'] = 'Leerzeilen zu Beginn und am Ende der Antwort, sowie Leerzeichen zu Beginn und am Ende jeder Zeile der Antwort, werden ignoriert, wenn diese Box angehackt ist.';
-$string['checkbox_trimspaces_name_help'] = 'Leerzeilen am Ende der Antwort werden immer ignoriert, egal ob diese Option aktiviert ist oder nicht.';
-$string['checkbox_pipesemispace_name'] = 'Unendlich Leerzeichen um Semikolons und Pipes';
-$string['checkbox_pipesemispace_description'] = 'Shell spezifisch: Alle Semikolons ";" und maskierte Pipes "\|" werden jeweils durch "([ \t]*[;\n][ \t]*)" und "([ \t]*\|[ \t]*)" ersetzt, wenn diese Box angehackt ist. ';
-$string['checkbox_pipesemispace_name_help'] ='Dadurch finden diese unendlich Leerzeichen vor und nach dem Semikolon oder der Pipe. Zusätzlich kann das Semikolon auch eine Leerzeile finden. Note: Alle Leerzeichen vor und nach der Pipe / dem Semikolon im Regulären Ausdruck müssen auch innerhalb der Antwort vorkommen.';
-$string['checkbox_redictspace_name'] = 'Unendlich Leerzeichen um Umleitungen';
-$string['checkbox_redictspace_description'] = 'Shell spezifisch: Alle Umleitungen ("<", ">", "<<", ">>") werden durch z.B. "([ \t]*<[ \t]*)" ersetzt.';
-$string['checkbox_redictspace_name_help'] = 'Wenn aktiviert können diese Zeichen nicht mehr in anderen Regex-Funktionen verwendet werden (Z.B.: Lookbehind: "(?<=...)"). Note: Alle Leerzeichen vor und nach der Umleitung im Regulären Ausdruck müssen auch innerhalb der Antwort vorkommen.';
+$string['options'] = "Options";
+$string['default_options'] = "Default Options";
+$string['options_help'] = /** @lang Markdown */
+    'Einige Optionen können aktiviert werden. Optionen müssen am Ende des Regulären Ausdrucks stehen.
+Weiterhin, müssen diese mit einem Schräger (`/`) anfangen und enden. Zum Beispiel: `/PI/`. Jede Option wird durch einen
+einzigen Buchstaben aktiviert oder deaktiviert.
+
+**I: Ignoriere Groß-/Kleinschreibung**<br>
+Der reguläre Ausdruck wird Groß- und Kleinschreibung ignorieren.
+
+**D: Punkt findet alles**<br>
+Alle Punkte (`.`) in dem regulären Ausdruck werden auch Zeilenumbrüche finden.
+
+**P: Semikolons und Pipes**<br>
+Shell spezifisch: Alle Semikolons `;` und maskierte Pipes `\|` werden jeweils
+durch `([ \t]*[;\n][ \t]*)` und `([ \t]*\|[ \t]*)` ersetzt.
+Dadurch finden diese unendlich Leerzeichen vor und nach dem Semikolon oder der Pipe.
+Zusätzlich kann das Semikolon auch eine Leerzeile finden. Note: Alle Leerzeichen vor und nach
+der Pipe / dem Semikolon im Regulären Ausdruck müssen auch innerhalb der Antwort vorkommen.
+
+**R: Umleitungen**<br>
+Shell spezifisch: Alle Umleitungen (`<`, `>`, `<<`, `>>`) werden durch z.B. `([ \t]*<[ \t]*)` ersetzt.
+Wenn aktiviert können diese Zeichen nicht mehr in anderen Regex-Funktionen verwendet werden (Z.B.: Lookbehind:
+`(?<=...)`). Note: Alle Leerzeichen vor und nach der Umleitung im Regulären Ausdruck müssen auch innerhalb
+der Antwort vorkommen.
+
+**O: Match Any Order**<br>
+The regex must consist of multiple regexes (one on each line).
+The answer (also one answer per line) must match each regex, but order is not important.
+';
+$string['default_options_help'] = /** @lang Markdown */
+    'Die folgenden Optionen sind standardmäßig aktiviert und können durch Angabe des jeweiligen Buchstaben deaktiviert werden.
+
+**S: Unendlich Leerzeichen**<br>
+Alle Leerzeichen innerhalb des Ausdrucks werden mit `([ \t]+)` ersetzt. Dadurch finden sie 1 oder mehr Whitespace Charakter.
+
+**T: Trim spaces**<br>
+Leerzeilen zu Beginn und am Ende der Antwort, sowie Leerzeichen zu Beginn und am Ende jeder Zeile 
+der Antwort, werden ignoriert. Leerzeilen am Ende der Antwort werden immer ignoriert, egal ob diese
+Option aktiviert ist oder nicht.';
+
 $string['pleaseenterananswer'] = 'Bitte geben Sie eine Antwort ein.';
 $string['notenoughregexes'] = 'Mindestens ein regulärer Ausdruck sollte angegeben werden';
 $string['fborgradewithoutregex'] = 'Wenn ein Feedback oder eine Bewertung angegeben ist, muss auch ein regulärer Ausdruck angegeben werden';

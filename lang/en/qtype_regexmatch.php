@@ -66,22 +66,22 @@ $string['options'] = "Options";
 $string['default_options'] = "Default Options";
 $string['options_help'] = /** @lang Markdown */
     'Some options may be set. Options must be placed at the end of the regex. Furthermore, they must start and end with
-a forward slash (/). For example: "/PI/". Every option is enabled/disabled by a single letter. The options are described below.
+a forward slash (`/`). For example: `/PI/`. Every option is enabled/disabled by a single letter. The options are described below.
 
-**I: Ignore case**<br>
+**I: Ignore Case**<br>
 The regular expression will ignore case.
 
-**D: Dot all**<br>
-All Dots (.) in the regular expression will also match new lines.
+**D: Dot All**<br>
+All Dots (`.`) in the regular expression will also match new lines.
 
-**P: Pipes and semicolons**<br>
-This is a shell specific option. All semicolons ";" and escaped pipes "\|" will be replaced with "(\[ \t]\*\[;\n]\[ \t]\*)"
-and "(\[ \t]\*\|\[ \t]*)" respectively. Thereby infinite spaces are allowed around these and the semicolon
+**P: Pipes and Semicolons**<br>
+This is a shell specific option. All semicolons `;` and escaped pipes `\|` will be replaced with `([ \t]*[;\n][ \t]*)`
+and `([ \t]*\|[ \t]*)` respectively. Thereby infinite spaces are allowed around these and the semicolon
 will also match a new line. Note: Any spaces in front and after the pipe inside the regex, must also be contained in the answer.
 
-**R: Infinite spaces around redirects**<br>
-This is a shell specific option. All redirections (<,>,<<,>>) will be replaced for example with "(\[ \t]\*<\[ \t]\*)".
-If enabled redirections cannot be used in other regex-functions (eg.: lookbehind "(?<=...)"). Note: Any spaces in front
+**R: Redirects**<br>
+This is a shell specific option. All redirections (`<`,`>`,`<<`,`>>`) will be replaced for example with `([ \t]*<[ \t]*)`.
+If enabled redirections cannot be used in other regex-functions (eg.: lookbehind `(?<=...)`). Note: Any spaces in front
 and after the redirect inside the regex, must also be contained in the answer.
 
 **O: Match Any Order**<br>
@@ -91,10 +91,10 @@ The answer (also one answer per line) must match each regex, but order is not im
 $string['default_options_help'] = /** @lang Markdown */
     'These options are enabled by default and can be disabled by specifying the corresponding letter.
 
-**S: Infinite space**<br>
-All Spaces will be replaced with "([ \t]+)". Thereby they match one or more whitespace characters.
+**S: Infinite Space**<br>
+All Spaces will be replaced with `([ \t]+)`. Thereby they match one or more whitespace characters.
 
-**T: Trim spaces**<br>
+**T: Trim Spaces**<br>
 All trailing and leading empty lines in the answer, as well as all trailing and leading
 spaces of every line in the answer, will be ignored. Trailing empty lines will always be
 ignored, even if this option is disabled.';

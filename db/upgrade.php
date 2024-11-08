@@ -69,6 +69,41 @@ function xmldb_qtype_regexmatch_upgrade($oldversion = 0) {
         upgrade_plugin_savepoint(true, 2024072500, 'qtype', 'regexmatch');
     }
 
+    if($oldversion < 2024110802) {
+        $allQuestions = $DB->get_records('question', ["qtype" => "regexmatch"]);
+        foreach ($allQuestions as $question) {
+            $allAnswers = $DB->get_records('question_answers', ['question' => $question->id]);
+            foreach ($allAnswers as $answer) {
+                $options = $DB->get_record_sql("SELECT * FROM {question_regexmatch_answers} WHERE answerid = $answer->id", null, IGNORE_MISSING);
+
+                if($options === false)
+                    continue;
+
+                $answer->answer .= "/";
+                if($options->ignorecase === 1)
+                    $answer->answer .= "I";
+
+                if($options->dotall === 1)
+                    $answer->answer .= "D";
+
+                if($options->infspace === 0)
+                    $answer->answer .= "S";
+
+                if($options->trimspaces === 0)
+                    $answer->answer .= "T";
+
+                if($options->pipesemispace === 1)
+                    $answer->answer .= "P";
+
+                if($options->redictspace === 1)
+                    $answer->answer .= "R";
+
+                $answer->answer .= "/";
+
+                $DB->update_record('question_answers', $answer);
+            }
+        }
+    }
 
     return true;
 }

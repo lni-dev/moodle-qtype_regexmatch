@@ -65,10 +65,6 @@ class qtype_regexmatch extends question_type {
         return null;
     }
 
-    protected function is_extra_answer_fields_empty($questiondata, $key): bool {
-        return false;
-    }
-
     protected function make_answer($answer): qtype_regexmatch_answer {
         return new qtype_regexmatch_answer(
             $answer->id,

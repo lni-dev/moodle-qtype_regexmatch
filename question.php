@@ -314,11 +314,13 @@ class qtype_regexmatch_answer extends question_answer {
             } else {
                 $this->regex = $unparsed;
             }
+        } else {
+            $this->regex = $unparsed;
+        }
 
-            // remove all trailing empty lines from the regex
-            while (str_ends_with($this->regex, "\n") || str_ends_with($this->regex, "\r")) {
-                $this->regex = substr($this->regex, 0, strlen($this->regex) - 1);
-            }
+        // remove all trailing empty lines from the regex
+        while (str_ends_with($this->regex, "\n") || str_ends_with($this->regex, "\r")) {
+            $this->regex = substr($this->regex, 0, strlen($this->regex) - 1);
         }
     }
 
