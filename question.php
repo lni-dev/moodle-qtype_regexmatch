@@ -114,7 +114,6 @@ class qtype_regexmatch_question extends question_graded_automatically {
         // replace all actual occurrences of "/" in $regex->answer with an escaped version ("//").
         // Add "^(?:" at the start of the regex and ")$" at the end, to match from start to end.
         // and put the regex in a non-capturing-group, so the function of the regex does not change (eg. "^a|b$" vs "^(?:a|b)$")
-        // Add Modifier m, to make "^" and "$" ignore new lines.
         $toEscape = array("/");
         $escapeValue = array("\\/");
         $constructedRegex = "/^(?:" . str_replace($toEscape, $escapeValue, $constructedRegex) . ")$/";
@@ -288,7 +287,7 @@ class qtype_regexmatch_answer extends question_answer {
 
     private function parse($unparsed) {
         //
-        if(str_ends_with($unparsed, '/')) {
+        if(substr($unparsed, -1) == '/') {
             // remove the '/' at the end
             $unparsed = substr($unparsed, 0, strlen($unparsed) - 1);
 
@@ -319,7 +318,7 @@ class qtype_regexmatch_answer extends question_answer {
         }
 
         // remove all trailing empty lines from the regex
-        while (str_ends_with($this->regex, "\n") || str_ends_with($this->regex, "\r")) {
+        while (substr($this->regex, -1) == "\n" || substr($this->regex, -1) == "\r") {
             $this->regex = substr($this->regex, 0, strlen($this->regex) - 1);
         }
     }
