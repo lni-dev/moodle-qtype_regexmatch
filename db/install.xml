@@ -3,23 +3,6 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../../lib/xmldb/xmldb.xsd"
 >
-  <TABLES>
-    <TABLE NAME="question_regexmatch_answers" COMMENT="Extra answer fields for question type regexmatch">
-      <FIELDS>
-        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" COMMENT="Primary key"/>
-        <FIELD NAME="answerid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign key to question_answers table"/>
-        <FIELD NAME="ignorecase" TYPE="int" LENGTH="2" DEFAULT="0" NOTNULL="false" SEQUENCE="false" COMMENT="Ignore case option"/>
-        <FIELD NAME="dotall" TYPE="int" LENGTH="2" DEFAULT="0" NOTNULL="false" SEQUENCE="false" COMMENT="Dot all option"/>
-        <FIELD NAME="infspace" TYPE="int" LENGTH="2" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="infinte space option"/>
-        <FIELD NAME="trimspaces" TYPE="int" LENGTH="2" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="trim leading and trailing spaces in the answer"/>
-        <FIELD NAME="pipesemispace" TYPE="int" LENGTH="2" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="allow infinite trailing and leading spaces around pipes and semicolons"/>
-        <FIELD NAME="redictspace" TYPE="int" LENGTH="2" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Allows infnite trailing and leading spaces around input/output redirections"/>
-      </FIELDS>
-      <KEYS>
-        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-        <KEY NAME="answerid" TYPE="foreign" FIELDS="answerid" REFTABLE="question_answers" REFFIELDS="id"/>
-      </KEYS>
-    </TABLE>
-  </TABLES>
+  
 </XMLDB>
 

@@ -60,7 +60,9 @@ Thus, [this](https://www.php.net/manual/en/reference.pcre.pattern.syntax.php) sy
 | \b |           Word boundary           |
 | \B |        Not a word boundary        |
 
-The regex anchors "$" and "^" cannot be used. If they should be matched as literals, they can be escaped: "\\$", "\\^"
+The regex anchors "$" and "^" cannot be used. If they should be matched as literals, they can be escaped: "\\$", "\\^".
+If the forward slash is used as the last character in a regular expression, it must be followed by the options, even if no
+options are changed (add `//` then).
 ';
 $string['options'] = "Options";
 $string['default_options'] = "Default Options";

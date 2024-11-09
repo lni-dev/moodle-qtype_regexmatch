@@ -60,7 +60,10 @@ Deswegen muss [dieser](https://www.php.net/manual/en/reference.pcre.pattern.synt
 | \b |              Wortgrenze               |
 | \B |           Keine Wortgrenze            |
 
-Die Regex Anker "$" und "^" können nicht verwendet werden. Falls diese als Literal gesucht werden sollen, können sie escaped werden: "\$", "\^"
+Die Regex Anker "$" und "^" können nicht verwendet werden. Falls diese als Literal gesucht werden
+sollen, können sie escaped werden: "\$", "\^". 
+Falls der Schräger (`/`) als letztes Zeichen in dem Regulären Ausdruck verwendet wird, müssen die Optionen angebeben werden.
+Auch wenn keine Optionen verändert werden (In diesem fall `//` hinzufügen).
 ';
 $string['options'] = "Options";
 $string['default_options'] = "Default Options";
