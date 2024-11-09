@@ -137,29 +137,28 @@ class qtype_regexmatch_question extends question_graded_automatically {
 
         foreach ($this->answers as $regex) {
 
-            $possiblyTrimmedAnswer = $answer;
-
-            // Trim answer if enabled.
-            if($regex->trimspaces) {
-                $parts = explode("\n", $possiblyTrimmedAnswer);
-                $possiblyTrimmedAnswer = '';
-                $first = true;
-                foreach ($parts as $part) {
-                    if ($first) $first = false;
-                    else $possiblyTrimmedAnswer .= "\n";
-                    $possiblyTrimmedAnswer .= trim($part);
-                }
-            }
-
             // remove \r from the answer, which should not be matched.
-            $processedAnswer = str_replace("\r", "", $possiblyTrimmedAnswer);
+            $processedAnswer = str_replace("\r", "", $answer);
 
             // Remove any \r
             $constructedRegex = str_replace("\r", "", $regex->regex);
 
+            // Trim answer if enabled.
+            if($regex->trimspaces) {
+                $parts = explode("\n", $processedAnswer);
+                $processedAnswer = '';
+                $first = true;
+                foreach ($parts as $part) {
+                    if ($first) $first = false;
+                    else $processedAnswer .= "\n";
+                    $processedAnswer .= trim($part);
+                }
+            }
+
+
             if($regex->matchAnyOrder) {
                 $regexLines = explode("\n", $constructedRegex);
-                $answerLines = explode("\n", $possiblyTrimmedAnswer);
+                $answerLines = explode("\n", $processedAnswer);
 
                 $answerLineCount = count($answerLines);
                 foreach ($regexLines as $line) {

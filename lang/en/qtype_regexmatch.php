@@ -88,7 +88,8 @@ and after the redirect inside the regex, must also be contained in the answer.
 
 **O: Match Any Order**<br>
 The regex must consist of multiple regexes (one on each line).
-The answer (also one answer per line) must match each regex, but order is not important.
+The answers (also one answer per line) must match any of the regexes, but order is not important.
+Each regex can only be matched by a single answer. Wrong, too many or too few answers results in point reduction.
 ';
 $string['default_options_help'] = /** @lang Markdown */
     'These options are enabled by default and can be disabled by specifying the corresponding letter.

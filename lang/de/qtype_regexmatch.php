@@ -91,9 +91,11 @@ Wenn aktiviert können diese Zeichen nicht mehr in anderen Regex-Funktionen verw
 `(?<=...)`). Note: Alle Leerzeichen vor und nach der Umleitung im Regulären Ausdruck müssen auch innerhalb
 der Antwort vorkommen.
 
-**O: Match Any Order**<br>
-The regex must consist of multiple regexes (one on each line).
-The answer (also one answer per line) must match each regex, but order is not important.
+**O: Beliebige Reihenfolge**<br>
+Der reguläre Ausdruck muss aus mehreren regulären Ausdrucken bestehen (Auf jeder Zeile einer).
+Die Antworten (Auch auf jeder Zeile eine antwort) müssen einem der regulären Ausdrücke gefunden werden, die 
+Reihenfolge ist allerdings egal. Jeder regulärer Ausdruck kann nur einmal gefunden werden.
+Falsche, zu viele oder zu wenige Antworten geben Punktabzug.
 ';
 $string['default_options_help'] = /** @lang Markdown */
     'Die folgenden Optionen sind standardmäßig aktiviert und können durch Angabe des jeweiligen Buchstaben deaktiviert werden.
@@ -101,7 +103,7 @@ $string['default_options_help'] = /** @lang Markdown */
 **S: Unendlich Leerzeichen**<br>
 Alle Leerzeichen innerhalb des Ausdrucks werden mit `([ \t]+)` ersetzt. Dadurch finden sie 1 oder mehr Whitespace Charakter.
 
-**T: Trim spaces**<br>
+**T: Leerzeichen Trimmen**<br>
 Leerzeilen zu Beginn und am Ende der Antwort, sowie Leerzeichen zu Beginn und am Ende jeder Zeile 
 der Antwort, werden ignoriert. Leerzeilen am Ende der Antwort werden immer ignoriert, egal ob diese
 Option aktiviert ist oder nicht.';
