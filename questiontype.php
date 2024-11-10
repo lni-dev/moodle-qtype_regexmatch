@@ -116,24 +116,12 @@ class qtype_regexmatch extends question_type {
         $qo->fraction = [];
         $qo->feedback = [];
         $qo->feedbackformat = [];
-        $qo->ignorecase = [];
-        $qo->dotall = [];
-        $qo->infspace = [];
-        $qo->trimspaces = [];
-        $qo->pipesemispace = [];
-        $qo->redictspace = [];
 
         foreach ($answers as $answer) {
             $ans = $format->import_answer($answer, false, $format->get_format($qo->questiontextformat));
             $qo->answer[$acount] = $ans->answer['text'];
             $qo->fraction[$acount] = $ans->fraction;
             $qo->feedback[$acount] = $ans->feedback;
-            $qo->ignorecase[$acount] = $format->getpath($answer, array('#', 'ignorecase', 0, '#'), 0);
-            $qo->dotall[$acount] = $format->getpath($answer, array('#', 'dotall', 0, '#'), 0);
-            $qo->infspace[$acount] = $format->getpath($answer, array('#', 'infspace', 0, '#'), 0);
-            $qo->trimspaces[$acount] = $format->getpath($answer, array('#', 'trimspaces', 0, '#'), 0);
-            $qo->pipesemispace[$acount] = $format->getpath($answer, array('#', 'pipesemispace', 0, '#'), 0);
-            $qo->redictspace[$acount] = $format->getpath($answer, array('#', 'redictspace', 0, '#'), 0);
             ++$acount;
         }
 
