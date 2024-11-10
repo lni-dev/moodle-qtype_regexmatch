@@ -103,6 +103,8 @@ function xmldb_qtype_regexmatch_upgrade($oldversion = 0) {
                 $DB->update_record('question_answers', $answer);
             }
         }
+
+        upgrade_plugin_savepoint(true, 2024110802, 'qtype', 'regexmatch');
     }
 
     return true;
