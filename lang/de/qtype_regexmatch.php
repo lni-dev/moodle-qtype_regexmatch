@@ -93,7 +93,7 @@ der Antwort vorkommen.
 
 **O: Beliebige Reihenfolge**<br>
 Der reguläre Ausdruck muss aus mehreren regulären Ausdrucken bestehen (Auf jeder Zeile einer).
-Die Antworten (Auch auf jeder Zeile eine antwort) müssen einem der regulären Ausdrücke gefunden werden, die 
+Die Antworten (Auch auf jeder Zeile eine antwort) müssen von einem der regulären Ausdrücke gefunden werden, die 
 Reihenfolge ist allerdings egal. Jeder regulärer Ausdruck kann nur einmal gefunden werden.
 Falsche, zu viele oder zu wenige Antworten geben Punktabzug.
 ';

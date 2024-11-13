@@ -145,7 +145,7 @@ class qtype_regexmatch_question extends question_graded_automatically {
 
             // Trim answer if enabled.
             if($regex->trimspaces) {
-                $parts = explode("\n", $processedAnswer);
+                $parts = explode("\n", trim($processedAnswer));
                 $processedAnswer = '';
                 $first = true;
                 foreach ($parts as $part) {
