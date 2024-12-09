@@ -1,3 +1,5 @@
+THIS IS A FUTURE SYNTAX WHICH IS NOT YET IMPLEMENTED!
+
 # Regexmatch Syntax
 This file contains information used for both the regexmatch question type and the (future) regexmatch gap-filling question type.
 
@@ -97,8 +99,8 @@ Legend:
 ```
 [[<regex>]] /<options>/
 %<percent-1> [[<regex-1>]] /<options-1>/
-%<percent-2> [[<regex-2>]] /<options-3>/
-points=5
+%<percent-2> [[<regex-2>]] /<options-2>/
+points=<points>
 size=<size-int>
 feedback=<feedback-text>
 comment=<comment-text>
@@ -111,9 +113,9 @@ the maximal possible points.
 ```
 [[<regex-01>]] [[<regex-02>]] [[<regex-03>]] /O<options>/
 %<percent-1> [[<regex-1>]] /<options-1>/
-%<percent-2> [[<regex-2>]] /<options-3>/
+%<percent-2> [[<regex-2>]] /<options-2>/
 separator=<seperator-char>
-points=5 
+points=<points>
 size=<size-int>
 feedback=<feedback-text>
 comment=<comment-text>
