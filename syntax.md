@@ -195,6 +195,5 @@ It is important, that all `[` and `]` must be escaped if used as literal, even
 if PCRE would not force it to be escaped. For example the
 regular expression `[[]` would be valid in PCRE , but in Regexmatch it must
 be `[\[]`.
-
-### Example
-`abc|def+` matches `abc`, `def`, `defdef`, ...
+<br><br>
+Examples can be found in [usage-examples.md](usage-examples.md).
