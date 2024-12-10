@@ -1,15 +1,15 @@
 THIS IS A FUTURE SYNTAX WHICH IS NOT YET IMPLEMENTED!
 
 # Regexmatch Syntax
-This file contains information used for both the regexmatch question type and the (future) regexmatch gap-filling question type.
+This file contains information used for both the regexmatch question type and the (future) regexmatch cloze question type.
 
 ## Syntax
 Legend:
 - `<options>`: Options specified by a single letter
 - `<regex>`: The regular expression
-- `<spaces>`: All spaces in the syntax are optional
 - `<separator-char>`: separator 
 - `<comment-text>`: comment. Only visible to the editor. Must not contain `/` as last char.
+- spaces: All spaces in the syntax are optional
 
 **Syntax for a single regular expression**:
 ```
@@ -60,7 +60,7 @@ option enabled. Note that the default options
 (infinite space and trim spaces) are also enabled. Example matches are:
 - `this is a test`
 - `This IS a TEst` due to the ignore case option
-- `this is     a test` due to the infinite space option
+- `this is     a test` due to the infinite space option. (There are multiple spaces between `is` and `a`, which is not visible on some browsers)
 
 **Example 2**
 ```
@@ -84,7 +84,7 @@ Partial matches are:
 For a description on how the rating is calculated,
 please see [usage-examples.md](usage-examples.md#o-match-any-order)
 
-## Regexmatch Gap-Filling Text Syntax
+## Regexmatch Cloze Syntax
 Legend:
 - `<options>`: Options specified by a single letter
 - `<regex>`: The regular expression
