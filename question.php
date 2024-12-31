@@ -285,6 +285,19 @@ class qtype_regexmatch_answer extends question_answer {
     }
 
     private function parse($unparsed) {
+
+        // First look for the options "]] /OPTIONS/"
+
+        $index = -1;
+        if(preg_match("%]] */[a-zA-Z]*/%", $unparsed, $matches, PREG_OFFSET_CAPTURE)) {
+            $index = intval($matches[0][1]);
+
+            $regularExpressions = substr($unparsed, 0, $index); // regexes without the last "]]". E.g.: [[regex1]] [[regex2
+        } else {
+            //Invalid syntax. Maybe it is an old regex
+        }
+
+        //TODO: old cold below:
         //
         if(substr($unparsed, -1) == '/') {
             // remove the '/' at the end
