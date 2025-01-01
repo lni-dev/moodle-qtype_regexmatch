@@ -265,9 +265,24 @@ class qtype_regexmatch_answer extends question_answer {
     public $matchAnyOrder;
 
     /**
-     * @var string The actual regex without any options.
+     * @var array<string> The actual regex without any options.
      */
     public $regex;
+
+    /**
+     * @var string Separator used by the match any order (O) option
+     */
+    public $separator;
+
+    /**
+     * @var int points. Only used by the cloze regex plugin.
+     */
+    public $points;
+
+    /**
+     * @var int size of the input field. Only used by the cloze regex plugin.
+     */
+    public $size;
 
     public function __construct($id, $answer, $fraction, $feedback, $feedbackformat) {
         parent::__construct($id, $answer, $fraction, $feedback, $feedbackformat);
@@ -284,55 +299,144 @@ class qtype_regexmatch_answer extends question_answer {
         $this->parse($answer);
     }
 
+    /**
+     * @param string $haysack
+     * @param string $needle
+     * @return bool true of haysack starts with needle.
+     */
+    private function my_str_starts_with($haysack, $needle) {
+        return substr($haysack, 0, strlen($needle)) === $needle;
+    }
+
+    private function readKeyValuePairs($keyValuePairs) {
+        $lines = preg_split("/\\n/", $keyValuePairs);
+        $current = -1;
+        foreach ($lines as $line) {
+            if($this->my_str_starts_with($line, "comment=")) {
+                $current = 0;
+                //This can safely be ignored
+
+            } else if ($this->my_str_starts_with($line, "separator=")) {
+                $current = -1; // separator can only be a single line
+                $this->separator = $line;
+
+            } else if ($this->my_str_starts_with($line, "feedback=")) {
+                $current = 1;
+                $this->feedback = $line;
+                //TODO: set feedback format to TEXT RAW
+
+            } else if ($this->my_str_starts_with($line, "points=")) {
+                $current = -1; // points can only be a single line
+                $this->points = intval($line);
+
+            } else if ($this->my_str_starts_with($line, "size=")) {
+                $current = -1; // size can only be a single line
+                $this->size = intval($line);
+
+            } else {
+                if($current === 0) continue;
+                if($current === 1) $this->feedback .= $line;
+            }
+        }
+    }
+
+    /**
+     * @param string $options without leading or trailing "/"
+     * @return void
+     */
+    private function readOptions($options) {
+        foreach (str_split($options) as $option) {
+            switch ($option) {
+                // Capital letter enables the option, lower case letter disables the option.
+
+                case 'I': $this->ignorecase = true; break;
+                case 'D': $this->dotall = true; break;
+                case 'P': $this->pipesemispace = true; break;
+                case 'R': $this->redictspace = true; break;
+                case 'O': $this->matchAnyOrder = true; break;
+                case 'S': $this->infspace = true; break;
+                case 'T': $this->trimspaces = true; break;
+
+                case 'i': $this->ignorecase = false; break;
+                case 'd': $this->dotall = false; break;
+                case 'p': $this->pipesemispace = false; break;
+                case 'r': $this->redictspace = false; break;
+                case 'o': $this->matchAnyOrder = false; break;
+                case 's': $this->infspace = false; break;
+                case 't': $this->trimspaces = false; break;
+            }
+        }
+    }
+
     private function parse($unparsed) {
 
         // First look for the options "]] /OPTIONS/"
 
-        $index = -1;
         if(preg_match("%]] */[a-zA-Z]*/%", $unparsed, $matches, PREG_OFFSET_CAPTURE)) {
             $index = intval($matches[0][1]);
 
-            $regularExpressions = substr($unparsed, 0, $index); // regexes without the last "]]". E.g.: [[regex1]] [[regex2
+            // Regexes without the last "]]". E.g.: [[regex1]] [[regex2
+            $regularExpressions = substr($unparsed, 0, $index);
+            $regularExpressions = trim($regularExpressions); // Now trim all spaces at the beginning and end
+            $regularExpressions = substr($regularExpressions, 2); // remove the starting "[["
+
+            // Options E.g.: "OPTIONS"#
+            $options = substr($matches[0][0], 2); // first remove the "]]" at the beginning
+            $options = trim($options); // Now trim all spaces at the beginning and end
+            $options = substr($options, 1, strlen($options) - 1); // remove first and last "/"
+
+            // Key Value pairs
+            $keyValuePairs = substr($unparsed, $index + strlen($matches[0][0]));
+
+            // Now split the regexes into an array
+            $this->regex = preg_split("/]][ \\n]*\[\[/", $regularExpressions);
+
+            // Next read the different options
+            $this->readOptions($options);
+
+            // At last read the key value pairs
+            $this->readKeyValuePairs($keyValuePairs);
+
         } else {
             //Invalid syntax. Maybe it is an old regex
-        }
+            //TODO: old cold below:
+            if(substr($unparsed, -1) == '/') {
+                // remove the '/' at the end
+                $unparsed = substr($unparsed, 0, strlen($unparsed) - 1);
 
-        //TODO: old cold below:
-        //
-        if(substr($unparsed, -1) == '/') {
-            // remove the '/' at the end
-            $unparsed = substr($unparsed, 0, strlen($unparsed) - 1);
+                $startOptionIndex = strrpos($unparsed, '/');
 
-            $startOptionIndex = strrpos($unparsed, '/');
+                if($startOptionIndex !== false) {
+                    $options = substr($unparsed, $startOptionIndex + 1);
+                    $this->regex = substr($unparsed, 0, $startOptionIndex);
 
-            if($startOptionIndex !== false) {
-                $options = substr($unparsed, $startOptionIndex + 1);
-                $this->regex = substr($unparsed, 0, $startOptionIndex);
+                    foreach (str_split($options) as $option) {
+                        switch ($option) {
+                            case 'I': $this->ignorecase = true; break;
+                            case 'D': $this->dotall = true; break;
+                            case 'P': $this->pipesemispace = true; break;
+                            case 'R': $this->redictspace = true; break;
+                            case 'O': $this->matchAnyOrder = true; break;
 
-                foreach (str_split($options) as $option) {
-                    switch ($option) {
-                        case 'I': $this->ignorecase = true; break;
-                        case 'D': $this->dotall = true; break;
-                        case 'P': $this->pipesemispace = true; break;
-                        case 'R': $this->redictspace = true; break;
-                        case 'O': $this->matchAnyOrder = true; break;
-
-                        // These are on by default, disable them instead.
-                        case 'S': $this->infspace = false; break;
-                        case 'T': $this->trimspaces = false; break;
+                            // These are on by default, disable them instead.
+                            case 'S': $this->infspace = false; break;
+                            case 'T': $this->trimspaces = false; break;
+                        }
                     }
+                } else {
+                    $this->regex = $unparsed;
                 }
             } else {
                 $this->regex = $unparsed;
             }
-        } else {
-            $this->regex = $unparsed;
+
+            // remove all trailing empty lines from the regex
+            while (substr($this->regex, -1) == "\n" || substr($this->regex, -1) == "\r") {
+                $this->regex = substr($this->regex, 0, strlen($this->regex) - 1);
+            }
         }
 
-        // remove all trailing empty lines from the regex
-        while (substr($this->regex, -1) == "\n" || substr($this->regex, -1) == "\r") {
-            $this->regex = substr($this->regex, 0, strlen($this->regex) - 1);
-        }
+
     }
 
 
