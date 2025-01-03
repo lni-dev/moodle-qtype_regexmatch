@@ -125,6 +125,67 @@ class qtype_regexmatch_edit_form extends question_edit_form {
             if(preg_match('/(?<!\\\\)(\\\\\\\\)*[$^]/', $fromform['answer'][$key]) == 1) {
                 $errors["answer[$key]"] = get_string('dollarroofmustbeescaped', 'qtype_regexmatch');
             }
+
+            //check syntax
+
+            if(preg_match('%^(\[\[.*\]\]\\n? *)+/[a-zA-Z]*/.*$%s', $fromform['answer'][$key]) != 1) {
+                $errors["answer[$key]"] = "illegal syntax"; //TODO:lang string
+            } else {
+                if(preg_match("%]][ \\n]*/[a-zA-Z]*/%", $fromform['answer'][$key], $matches, PREG_OFFSET_CAPTURE)) {
+                    $index = intval($matches[0][1]);
+
+                    // Options E.g.: "OPTIONS"
+                    $options = substr($matches[0][0], 2); // first remove the "]]" at the beginning
+                    $options = trim($options); // Now trim all spaces at the beginning and end
+                    $options = substr($options, 1, strlen($options) - 2); // remove first and last "/"
+
+                    foreach (str_split($options) as $option) {
+                        $found = false;
+                        foreach (ALLOWED_OPTIONS as $allowed) {
+                           if ($option == $allowed) {
+                               $found = true;
+                           }
+                        }
+
+                        if(!$found) {
+                            $errors["answer[$key]"] = "illegal option '$option'";
+                        }
+                    }
+
+                    // Key Value pairs
+                    $keyValuePairs = substr($fromform['answer'][$key], $index + strlen($matches[0][0]));
+                    $nextKey = 0;
+                    foreach (preg_split("/\\n/", $keyValuePairs) as $keyValuePair) {
+                        if(preg_match("/[a-z]+=/", $keyValuePair, $matches)) {
+                            $match = $matches[0];
+                            $found = false;
+                            for (; $nextKey < count(REGEXMATCH_ALLOWED_KEYS); $nextKey++) {
+                                if($match == REGEXMATCH_ALLOWED_KEYS[$nextKey]) {
+                                    $found = true;
+                                    break;
+                                }
+                            }
+
+                            if(!$found) {
+                                $isAllowed = false;
+                                foreach (REGEXMATCH_ALLOWED_KEYS as $allowed) {
+                                    if ($allowed == $match) {
+                                        $isAllowed = true;
+                                        break;
+                                    }
+                                }
+                                if($isAllowed) {
+                                    $errors["answer[$key]"] = "illegal key order  for '$match'. Order: " . implode(', ', REGEXMATCH_ALLOWED_KEYS);
+                                } else  {
+                                    $errors["answer[$key]"] = "illegal key '$match'.";
+                                }
+
+                            }
+
+                        }
+                    }
+                }
+            }
         }
 
         if ($answerCount==0)

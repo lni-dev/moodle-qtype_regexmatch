@@ -27,6 +27,16 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+const SEPARATOR_KEY = 'separator=';
+const FEEDBACK_KEY = 'feedback=';
+const SIZE_KEY = "size=";
+const POINTS_KEY = 'points=';
+const COMMENT_KEY = 'comment=';
+
+const REGEXMATCH_ALLOWED_KEYS = array(SEPARATOR_KEY, COMMENT_KEY);
+
+const ALLOWED_OPTIONS = array('I', 'D', 'P', 'R', 'O', 'S', 'T', 'i', 'd', 'p', 'r', 'o', 's', 't');
+
 /**
 *This holds the definition of a particular question of this type.
 *If you load three questions from the question bank, then you will get three instances of
@@ -135,16 +145,13 @@ class qtype_regexmatch_question extends question_graded_automatically {
     public function get_regex_for_answer(string $answer) {
         $ret = null;
 
-        foreach ($this->answers as $regex) {
+        foreach ($this->answers as $correctAnswer) {
 
             // remove \r from the answer, which should not be matched.
             $processedAnswer = str_replace("\r", "", $answer);
 
-            // Remove any \r
-            $constructedRegex = str_replace("\r", "", $regex->regex);
-
             // Trim answer if enabled.
-            if($regex->trimspaces) {
+            if($correctAnswer->trimspaces) {
                 $parts = explode("\n", trim($processedAnswer));
                 $processedAnswer = '';
                 $first = true;
@@ -156,19 +163,18 @@ class qtype_regexmatch_question extends question_graded_automatically {
             }
 
 
-            if($regex->matchAnyOrder) {
-                $regexLines = explode("\n", $constructedRegex);
-                $answerLines = explode("\n", $processedAnswer);
+            if($correctAnswer->matchAnyOrder) {
+                $answerLines = explode($correctAnswer->separator, $processedAnswer);
 
                 $answerLineCount = count($answerLines);
-                foreach ($regexLines as $line) {
-                    $line = $this->constructRegex($line, $regex);
+                foreach ($correctAnswer->regexes as $r) {
+                    $r = $this->constructRegex($r, $correctAnswer);
 
                     $i = 0;
                     for (; $i < $answerLineCount; $i++) {
                         if($answerLines[$i] === null)
                             continue;
-                        if(preg_match($line, $answerLines[$i]) == 1) {
+                        if(preg_match($r, $answerLines[$i]) == 1) {
                             break;
                         }
                     }
@@ -183,21 +189,21 @@ class qtype_regexmatch_question extends question_graded_automatically {
                     if($answerLine !== null) $wrongAnswerCount++;
                 }
 
-                $maxPoints = count($regexLines);
+                $maxPoints = count($correctAnswer->regexes);
                 $answerCountDif = $maxPoints - $answerLineCount;
                 $points = max(0, $maxPoints - abs($answerCountDif) - ($wrongAnswerCount - max(0, -$answerCountDif)));
 
-                $fraction = $regex->fraction * (floatval($points) / floatval($maxPoints));
-                $ret = new qtype_regexmatch_answer($regex->id, $regex->regex, $fraction, $regex->feedback, $regex->feedbackformat);
+                $fraction = $correctAnswer->fraction * (floatval($points) / floatval($maxPoints));
+                $ret = new qtype_regexmatch_answer($correctAnswer->id, $correctAnswer->answer, $fraction, $correctAnswer->feedback, $correctAnswer->feedbackformat);
             } else {
                 // Construct regex based on enabled options
-                $constructedRegex = $this->constructRegex($constructedRegex, $regex);
+                $constructedRegex = $this->constructRegex($correctAnswer->regexes[0], $correctAnswer);
 
                 // debugging("constructedRegex: $constructedRegex");
                 // debugging("processedAnswer: $processedAnswer");
                 if(preg_match($constructedRegex, $processedAnswer) == 1) {
-                    if($ret == null || $regex->fraction > $ret->fraction) {
-                        $ret = $regex;
+                    if($ret == null || $correctAnswer->fraction > $ret->fraction) {
+                        $ret = $correctAnswer;
                     }
                 }
             }
@@ -264,15 +270,19 @@ class qtype_regexmatch_answer extends question_answer {
      */
     public $matchAnyOrder;
 
+
+
     /**
      * @var array<string> The actual regex without any options.
      */
-    public $regex;
+    public $regexes;
+
+
 
     /**
      * @var string Separator used by the match any order (O) option
      */
-    public $separator;
+    public $separator = "\n";
 
     /**
      * @var int points. Only used by the cloze regex plugin.
@@ -310,28 +320,28 @@ class qtype_regexmatch_answer extends question_answer {
 
     private function readKeyValuePairs($keyValuePairs) {
         $lines = preg_split("/\\n/", $keyValuePairs);
-        $current = -1;
+        $current = -1; // For multi line values
         foreach ($lines as $line) {
-            if($this->my_str_starts_with($line, "comment=")) {
+            if($this->my_str_starts_with($line, COMMENT_KEY)) {
                 $current = 0;
                 //This can safely be ignored
 
-            } else if ($this->my_str_starts_with($line, "separator=")) {
+            } else if ($this->my_str_starts_with($line, SEPARATOR_KEY)) {
                 $current = -1; // separator can only be a single line
-                $this->separator = $line;
+                $this->separator = substr($line, strlen(SEPARATOR_KEY));
 
-            } else if ($this->my_str_starts_with($line, "feedback=")) {
+            } else if ($this->my_str_starts_with($line, FEEDBACK_KEY)) {
                 $current = 1;
-                $this->feedback = $line;
-                //TODO: set feedback format to TEXT RAW
+                $this->feedback = substr($line, strlen(FEEDBACK_KEY));
+                $this->feedbackformat = FORMAT_PLAIN;
 
-            } else if ($this->my_str_starts_with($line, "points=")) {
+            } else if ($this->my_str_starts_with($line, POINTS_KEY)) {
                 $current = -1; // points can only be a single line
-                $this->points = intval($line);
+                $this->points = intval(substr($line, strlen(POINTS_KEY)));
 
-            } else if ($this->my_str_starts_with($line, "size=")) {
+            } else if ($this->my_str_starts_with($line, SIZE_KEY)) {
                 $current = -1; // size can only be a single line
-                $this->size = intval($line);
+                $this->size = intval(substr($line, strlen(SIZE_KEY)));
 
             } else {
                 if($current === 0) continue;
@@ -370,9 +380,12 @@ class qtype_regexmatch_answer extends question_answer {
 
     private function parse($unparsed) {
 
-        // First look for the options "]] /OPTIONS/"
+        // Remove all \r
+        $unparsed= preg_replace("/\\r/", "", $unparsed);
 
-        if(preg_match("%]] */[a-zA-Z]*/%", $unparsed, $matches, PREG_OFFSET_CAPTURE)) {
+
+        // First look for the options "]] /OPTIONS/"
+        if(preg_match("%]][ \\n]*/[a-zA-Z]*/%", $unparsed, $matches, PREG_OFFSET_CAPTURE)) {
             $index = intval($matches[0][1]);
 
             // Regexes without the last "]]". E.g.: [[regex1]] [[regex2
@@ -380,16 +393,16 @@ class qtype_regexmatch_answer extends question_answer {
             $regularExpressions = trim($regularExpressions); // Now trim all spaces at the beginning and end
             $regularExpressions = substr($regularExpressions, 2); // remove the starting "[["
 
-            // Options E.g.: "OPTIONS"#
+            // Options E.g.: "OPTIONS"
             $options = substr($matches[0][0], 2); // first remove the "]]" at the beginning
             $options = trim($options); // Now trim all spaces at the beginning and end
-            $options = substr($options, 1, strlen($options) - 1); // remove first and last "/"
+            $options = substr($options, 1, strlen($options) - 2); // remove first and last "/"
 
             // Key Value pairs
             $keyValuePairs = substr($unparsed, $index + strlen($matches[0][0]));
 
             // Now split the regexes into an array
-            $this->regex = preg_split("/]][ \\n]*\[\[/", $regularExpressions);
+            $this->regexes = preg_split("/]][ \\n]*\[\[/", $regularExpressions);
 
             // Next read the different options
             $this->readOptions($options);
@@ -399,7 +412,6 @@ class qtype_regexmatch_answer extends question_answer {
 
         } else {
             //Invalid syntax. Maybe it is an old regex
-            //TODO: old cold below:
             if(substr($unparsed, -1) == '/') {
                 // remove the '/' at the end
                 $unparsed = substr($unparsed, 0, strlen($unparsed) - 1);
@@ -408,7 +420,7 @@ class qtype_regexmatch_answer extends question_answer {
 
                 if($startOptionIndex !== false) {
                     $options = substr($unparsed, $startOptionIndex + 1);
-                    $this->regex = substr($unparsed, 0, $startOptionIndex);
+                    $this->regexes = array(substr($unparsed, 0, $startOptionIndex));
 
                     foreach (str_split($options) as $option) {
                         switch ($option) {
@@ -423,16 +435,20 @@ class qtype_regexmatch_answer extends question_answer {
                             case 'T': $this->trimspaces = false; break;
                         }
                     }
+
+                    if($this->matchAnyOrder) {
+                        $this->regexes = preg_split("/\\n/", $this->regexes[0], -1, PREG_SPLIT_NO_EMPTY);
+                    }
                 } else {
-                    $this->regex = $unparsed;
+                    $this->regexes = array($unparsed);
                 }
             } else {
-                $this->regex = $unparsed;
+                $this->regexes = array($unparsed);
             }
 
             // remove all trailing empty lines from the regex
-            while (substr($this->regex, -1) == "\n" || substr($this->regex, -1) == "\r") {
-                $this->regex = substr($this->regex, 0, strlen($this->regex) - 1);
+            while (substr($this->regexes[0], -1) == "\n" || substr($this->regexes[0], -1) == "\r") {
+                $this->regexes[0] = substr($this->regexes[0], 0, strlen($this->regexes[0]) - 1);
             }
         }
 
