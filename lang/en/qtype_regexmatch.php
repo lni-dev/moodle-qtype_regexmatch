@@ -26,8 +26,21 @@
 $string['pluginname'] = 'RegEx Matcher';
 $string['regex'] = 'Regular Expression';
 $string['regex_help'] = /** @lang Markdown */
-'The regular expression must be compatible with the *preg_match* php function.
-Thus, [this](https://www.php.net/manual/en/reference.pcre.pattern.syntax.php) syntax is allowed:
+'The following syntax must be respected:
+```
+[[regex]] /OPTIONS/
+separator=,
+comment=text
+```
+A more concrete description (with examples) can be found [here](https://github.com/lni-dev/moodle-qtype_regexmatch/blob/master/usage-examples.md).
+
+The keys `separator` and `comment` are optional. `separator` is described in help-field of the options.
+`comment` is a text field only visible in the question edit form.
+
+`/OPTIONS/` are described in the help-field of the options below. If no options are enabled or disabled an empty `//` must be present.
+
+`regex` is a regular expression in the [PCRE syntax](https://www.php.net/manual/en/reference.pcre.pattern.syntax.php).
+The regex must be between double square brackets (\[\[\]\]). A short description of the most important regex features:
 
 |        |                    Structures                     |
 |:------:|:-------------------------------------------------:|
@@ -87,8 +100,8 @@ If enabled redirections cannot be used in other regex-functions (eg.: lookbehind
 and after the redirect inside the regex, must also be contained in the answer.
 
 **O: Match Any Order**<br>
-The regex must consist of multiple regexes (one on each line).
-The answers (also one answer per line) must match any of the regexes, but order is not important.
+The regex must consist of multiple regexes (`[[regex1]] [[regex2]]`).
+The answers (separated by the value of the key `separator=`. New line by default.) must match any of the regexes, but order is not important.
 Each regex can only be matched by a single answer. Wrong, too many or too few answers results in point reduction.
 ';
 $string['default_options_help'] = /** @lang Markdown */

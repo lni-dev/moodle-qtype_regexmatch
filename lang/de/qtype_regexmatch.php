@@ -34,13 +34,15 @@ comment=text
 ```
 Eine genauere Beschreibung (mit Beispielen) finden sich [hier](https://github.com/lni-dev/moodle-qtype_regexmatch/blob/master/usage-examples.md).
 
-The keys `separator` and `comment` are optional. `separator` is described in help-field of the options.
-`comment` is a text field only visible in the question edit form.
+Die Schlüssel `separator=` und `comment=` sind Optional. `separator=` wird in dem Hilfefeld zu den Optionen beschrieben.
+`comment` ist ein Textfeld, welches nur hier sichtbar ist.
 
-`/OPTIONS/` are described in the help-field of the options below. If no options are enabled or disabled an empty `//` must be present.
+`/OPTIONS/` werden in dem Hilfefeld zu den Optionen beschrieben. Falls keine Optionen an oder ausgeschaltet werden müssen 
+leere Optionen (`//`) angegeben werden.
 
-`regex` is a regular expression in the [PCRE syntax](https://www.php.net/manual/en/reference.pcre.pattern.syntax.php).
-The regex must be between double square brackets (\[\[\]\]). A short description of the most important regex features:
+`regex` ist ein regulärer Ausdruck im [PCRE syntax](https://www.php.net/manual/en/reference.pcre.pattern.syntax.php).
+Der reguläre Ausdruck muss sich zwischen doppelten eckigen Klammern (\[\[\]\]) befinden. 
+Hier ist eine kurze Beschreibung der wichtigsten regex Funktionen:
 
 |        |                Strukturen                |
 |:------:|:----------------------------------------:|
@@ -106,7 +108,7 @@ der Antwort vorkommen.
 
 **O: Beliebige Reihenfolge**<br>
 Der reguläre Ausdruck muss aus mehreren regulären Ausdrucken bestehen (`[[regex1]] [[regex2]]`).
-Die Antworten (von einem Separator getrennt. Dieser wird mittel dem Schlüssel `separator=` und ist standardmäßig ein Zeilenumbruch) müssen von einem der regulären Ausdrücke gefunden werden, die 
+Die Antworten (Von dem Wert des Schlüssels `separator=` getrennt. Standardmäßig ein Zeilenumbruch.) müssen von einem der regulären Ausdrücke gefunden werden, die 
 Reihenfolge ist allerdings egal. Jeder regulärer Ausdruck kann nur einmal gefunden werden.
 Falsche, zu viele oder zu wenige Antworten geben Punktabzug.
 ';
