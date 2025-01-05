@@ -1,5 +1,3 @@
-THIS IS A FUTURE SYNTAX WHICH IS NOT YET IMPLEMENTED!
-
 # Regexmatch Syntax
 This file contains information used for both the regexmatch question type and the (future) regexmatch cloze question type.
 

@@ -129,7 +129,7 @@ class qtype_regexmatch_edit_form extends question_edit_form {
             //check syntax
 
             if(preg_match('%^(\[\[.*\]\]\\n? *)+/[a-zA-Z]*/.*$%s', $fromform['answer'][$key]) != 1) {
-                $errors["answer[$key]"] = "illegal syntax"; //TODO:lang string
+                $errors["answer[$key]"] = get_string('valerror_illegalsyntax', 'qtype_regexmatch');
             } else {
                 if(preg_match("%]][ \\n]*/[a-zA-Z]*/%", $fromform['answer'][$key], $matches, PREG_OFFSET_CAPTURE)) {
                     $index = intval($matches[0][1]);
@@ -148,7 +148,7 @@ class qtype_regexmatch_edit_form extends question_edit_form {
                         }
 
                         if(!$found) {
-                            $errors["answer[$key]"] = "illegal option '$option'";
+                            $errors["answer[$key]"] = get_string('valerror_illegaloption', 'qtype_regexmatch', $option);
                         }
                     }
 
@@ -175,9 +175,9 @@ class qtype_regexmatch_edit_form extends question_edit_form {
                                     }
                                 }
                                 if($isAllowed) {
-                                    $errors["answer[$key]"] = "illegal key order  for '$match'. Order: " . implode(', ', REGEXMATCH_ALLOWED_KEYS);
+                                    $errors["answer[$key]"] = get_string('valerror_illegalkeyorder', 'qtype_regexmatch', implode(', ', REGEXMATCH_ALLOWED_KEYS));
                                 } else  {
-                                    $errors["answer[$key]"] = "illegal key '$match'.";
+                                    $errors["answer[$key]"] = get_string('valerror_unkownkey', 'qtype_regexmatch', $match);
                                 }
 
                             }

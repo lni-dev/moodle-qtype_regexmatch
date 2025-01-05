@@ -112,3 +112,7 @@ $string['pluginnameadding'] = 'Adding a regular expression matcher question';
 $string['pluginnameediting'] = 'Editing a regular expression matcher question';
 $string['pluginnamesummary'] = 'A regular expression matcher question type that allows checking question answers using regular expressions.';
 $string['dollarroofmustbeescaped'] = 'The regex anchors "$" and "^" cannot be used. If they should be matched as literals, they can be escaped: "\\$", "\\^"';
+$string['valerror_illegalsyntax'] = 'Illegal syntax.';
+$string['valerror_illegaloption'] = 'Illegal option "{$a}".';
+$string['valerror_illegalkeyorder'] = 'Illegal key order. Required order: {$a}.';
+$string['valerror_unkownkey'] = 'Unknown key "{$a}".';

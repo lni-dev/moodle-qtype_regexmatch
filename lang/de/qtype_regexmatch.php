@@ -26,8 +26,21 @@
 $string['pluginname'] = 'RegEx Vergleicher';
 $string['regex'] = 'Regulärer Ausdruck';
 $string['regex_help'] = /** @lang Markdown */
-'Der reguläre Ausdruck muss mit der PHP-Funktion *preg_match* kompatibel sein.
-Deswegen muss [dieser](https://www.php.net/manual/en/reference.pcre.pattern.syntax.php) Syntax eingehalten werden:
+'Es muss der folgende Syntax eingehalten werden:
+```
+[[regex]] /OPTIONS/
+separator=,
+comment=text
+```
+Eine genauere Beschreibung (mit Beispielen) finden sich [hier](https://github.com/lni-dev/moodle-qtype_regexmatch/blob/master/usage-examples.md).
+
+The keys `separator` and `comment` are optional. `separator` is described in help-field of the options.
+`comment` is a text field only visible in the question edit form.
+
+`/OPTIONS/` are described in the help-field of the options below. If no options are enabled or disabled an empty `//` must be present.
+
+`regex` is a regular expression in the [PCRE syntax](https://www.php.net/manual/en/reference.pcre.pattern.syntax.php).
+The regex must be between double square brackets (\[\[\]\]). A short description of the most important regex features:
 
 |        |                Strukturen                |
 |:------:|:----------------------------------------:|
@@ -68,9 +81,9 @@ Auch wenn keine Optionen verändert werden (In diesem fall `//` hinzufügen).
 $string['options'] = "Options";
 $string['default_options'] = "Default Options";
 $string['options_help'] = /** @lang Markdown */
-    'Einige Optionen können aktiviert werden. Optionen müssen am Ende des Regulären Ausdrucks stehen.
+    'Einige Optionen können aktiviert/deaktiviert werden. 
 Weiterhin, müssen diese mit einem Schräger (`/`) anfangen und enden. Zum Beispiel: `/PI/`. Jede Option wird durch einen
-einzigen Buchstaben aktiviert oder deaktiviert.
+einzigen großen Buchstaben aktiviert und durch einen kleinen Buchstaben deaktiviert.
 
 **I: Ignoriere Groß-/Kleinschreibung**<br>
 Der reguläre Ausdruck wird Groß- und Kleinschreibung ignorieren.
@@ -92,18 +105,18 @@ Wenn aktiviert können diese Zeichen nicht mehr in anderen Regex-Funktionen verw
 der Antwort vorkommen.
 
 **O: Beliebige Reihenfolge**<br>
-Der reguläre Ausdruck muss aus mehreren regulären Ausdrucken bestehen (Auf jeder Zeile einer).
-Die Antworten (Auch auf jeder Zeile eine antwort) müssen von einem der regulären Ausdrücke gefunden werden, die 
+Der reguläre Ausdruck muss aus mehreren regulären Ausdrucken bestehen (`[[regex1]] [[regex2]]`).
+Die Antworten (von einem Separator getrennt. Dieser wird mittel dem Schlüssel `separator=` und ist standardmäßig ein Zeilenumbruch) müssen von einem der regulären Ausdrücke gefunden werden, die 
 Reihenfolge ist allerdings egal. Jeder regulärer Ausdruck kann nur einmal gefunden werden.
 Falsche, zu viele oder zu wenige Antworten geben Punktabzug.
 ';
 $string['default_options_help'] = /** @lang Markdown */
-    'Die folgenden Optionen sind standardmäßig aktiviert und können durch Angabe des jeweiligen Buchstaben deaktiviert werden.
+    'Die folgenden Optionen sind standardmäßig aktiviert und können durch Angabe des jeweiligen (kleinen) Buchstaben deaktiviert werden.
 
-**S: Unendlich Leerzeichen**<br>
+**s: Unendlich Leerzeichen**<br>
 Alle Leerzeichen innerhalb des Ausdrucks werden mit `([ \t]+)` ersetzt. Dadurch finden sie 1 oder mehr Whitespace Charakter.
 
-**T: Leerzeichen Trimmen**<br>
+**t: Leerzeichen Trimmen**<br>
 Leerzeilen zu Beginn und am Ende der Antwort, sowie Leerzeichen zu Beginn und am Ende jeder Zeile 
 der Antwort, werden ignoriert. Leerzeilen am Ende der Antwort werden immer ignoriert, egal ob diese
 Option aktiviert ist oder nicht.';
@@ -118,3 +131,7 @@ $string['pluginnameadding'] = '"RegEx Vergleicher" Frage hinzufügen';
 $string['pluginnameediting'] = '"RegEx Vergleicher" Frage editieren';
 $string['pluginnamesummary'] = '"RegEx Vergleicher" Fragetyp: Kann die Antwort von Studierenden mithilfe eines regulären Ausdrucks überprüfen';
 $string['dollarroofmustbeescaped'] = 'Die Regex Anker "$" und "^" können nicht verwendet werden. Falls diese als Literal gesucht werden sollen, können sie escaped werden: "\\$", "\\^"';
+$string['valerror_illegalsyntax'] = 'Ungültige Syntax.';
+$string['valerror_illegaloption'] = 'Ungültige Option "{$a}".';
+$string['valerror_illegalkeyorder'] = 'Ungültige Schlüssel-Reihenfolge. Erforderliche Reihenfolge: {$a}.';
+$string['valerror_unkownkey'] = 'Unbekannter Schlüssel "{$a}".';

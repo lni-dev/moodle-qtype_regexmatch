@@ -5,52 +5,63 @@ This file contains some example regular expressions which can be used within Reg
 ## Some basic examples
 Here are a few examples for simple regular expressions with only the default options enabled.
 
-| regular expression | matches (not a complete list)           | description                                                      |
-|--------------------|-----------------------------------------|------------------------------------------------------------------|
-| `test`             | `test`                                  | text                                                             |
-| `abc\|def`         | `abc`, `def`                            | The or-operator (`\|`) can match either the left or the right    |
-| `a*`               | empty answer, `a`, `aa`, `aaaaaa`       | The `*` matches zero or more times                               |
-| `a+`               | `a`, `aa`, `aaaaaa`                     | The `+` matches one or more times                                |
-| `(abc\|def)*`      | empty answer, `abc`, `def`, `abcabcdef` | The brackets `()` form a group                                   |
-| `[abcdef]`         | `a`, `b`, `e`                           | The square brackets `[]` match any of the characters inside them |
-| `[^abc]`           | `d`, `$`, `e`, `f`                      | `[^]` matches any characters except the ones inside the brackets |
-| `\*`               | `*`                                     | `\` is the escape character for .^$*+-?()[]{}\\\|                |
-| `a{3, 6}`          | `aaa`, `aaaa`, `aaaaa`, `aaaaaa`        | `{n,m}` matches Between n and m times                            |
+| regular expression  | matches (not a complete list)           | description                                                      |
+|---------------------|-----------------------------------------|------------------------------------------------------------------|
+| `[[test]]//`        | `test`                                  | text                                                             |
+| `[[abc\|def]]//`    | `abc`, `def`                            | The or-operator (`\|`) can match either the left or the right    |
+| `[[a*]]//`          | empty answer, `a`, `aa`, `aaaaaa`       | The `*` matches zero or more times                               |
+| `[[a+]]//`          | `a`, `aa`, `aaaaaa`                     | The `+` matches one or more times                                |
+| `[[(abc\|def)*]]//` | empty answer, `abc`, `def`, `abcabcdef` | The brackets `()` form a group                                   |
+| `[[[abcdef]]]//`    | `a`, `b`, `e`                           | The square brackets `[]` match any of the characters inside them |
+| `[[[^abc]]]//`      | `d`, `$`, `e`, `f`                      | `[^]` matches any characters except the ones inside the brackets |
+| `[[\*]]`            | `*`                                     | `\` is the escape character for .^$*+-?()[]{}\\\|                |
+| `[[a{3, 6}]]//`     | `aaa`, `aaaa`, `aaaaa`, `aaaaaa`        | `{n,m}` matches Between n and m times                            |
 
 
 ## Regexmatch Syntax
-Regular expressions in Regexmatch consist of the regex and the options: `regex/OPTIONS/`. 
+Regular expressions in Regexmatch consist of the regex, options and keys: 
+```
+[[regex]]/OPTIONS/
+separator=,
+comment=text
+```
 The `regex` uses the default syntax of regular expressions in PHP (without the requirement of a delimiter or the ability
 to specify modifiers). The internet provides vast amounts of information on how to write regular expression (not specific to Regexmatch):
 - A very good (but technical) explanation for different regex syntax can be found [here](https://stackoverflow.com/questions/22937618/reference-what-does-this-regex-mean/22944075#22944075).
 - Test regexes directly in the browser [here](https://regex101.com/) (Select `PCRE2` flavor).
 
-The `OPTIONS` are optional and described in [Options](#options).<br>
-The following are some valid regular expressions with no options changed that match `abc`:
+The `OPTIONS` described in [Options](#options).<br>
+The following is a valid regular expressions with no options changed that match `abc`:
 ```
-abc
-```
-```
-abc//
+[[abc]]//
 ```
 The following is a valid regular expressions that matches `abc` and has some options set:
 ```
-abc/I/
+[[abc]]/I/
 ```
-Additionally, all new lines before the options will be ignored. This means the following regular expressions are the same
+Additionally, all new lines and spaces before the options will be ignored. This means the following regular expressions are the same
 as the previous one:
 ```
-abc
+[[abc]]
 /I/
 ```
 ```
-abc
+[[abc]]     /I/
+```
+```
+[[abc]]
 
 /I/
 ```
+
+## Keys
+Regexmatch supports the keys `comment=` and `separator=`. 
+- `comment=` is a text field only visible inside the question edit form and has no other use.
+- `separator=` is a field for the separator the student has to enter between his answers if the Match Any Order option (`O`)
+  is enabled.
 
 ## Options
-All Options can be activated or disabled by a single capital letter.
+All Options can be activated by a single capital letter and disabled by its small letter counterpart.
 Some options are enabled by default. These are called default options.
 
 | Letter | Name                 | Default |
@@ -60,8 +71,8 @@ Some options are enabled by default. These are called default options.
 |   P    | Pipes and Semicolons |         |
 |   R    | Redirects            |         |
 |   O    | Match Any Order      |         |
-|   S    | Infinite Space       |    x    |
-|   T    | Trim Spaces          |    x    |
+|   s    | Infinite Space       |    x    |
+|   t    | Trim Spaces          |    x    |
 
 
 ### I: Ignore Case
@@ -79,13 +90,13 @@ and `([ \t]*\|[ \t]*)` respectively. Thereby infinite spaces are allowed around 
 will also match a new line.
 
 #### Examples:
-The regular expression `cat test.txt\|tee/P/` will match any of the following example answers
+The regular expression `[[cat test.txt\|tee]] /P/` will match any of the following example answers
 - `cat test.txt|tee`
 - `cat test.txt | tee`
 - `cat test.txt      |     tee`
 
 To note is here, that any spaces in front and after the pipe in the regex must also be contained in the answer:
-The regular expression `cat test.txt \| tee/P/` will match
+The regular expression `[[cat test.txt \| tee]] /P/` will match
 - `cat test.txt | tee`
 - `cat test.txt      |     tee`
 
@@ -93,7 +104,7 @@ but it will not match
 - `cat test.txt|tee`.
 
 The semicolon has the same properties, if this option is enabled. Additionally, the semicolon will also be matched
-by a new line´. Thus, the regular expression `cat test.txt;tee/P/` will match any of the following example answers:
+by a new line´. Thus, the regular expression `[[cat test.txt;tee]] /P/` will match any of the following example answers:
 
 - `cat test.txt;tee`
 - `cat test.txt   ;   tee`
@@ -110,14 +121,14 @@ If enabled redirections cannot be used in other regex-functions (eg.: lookbehind
 and after the redirect inside the regex, must also be contained in the answer.
 
 #### Examples:
-The regular expression `cat test.txt>2/R/` will match any of the following example answers
+The regular expression `[[cat test.txt>2]] /R/` will match any of the following example answers
 - `cat test.txt>2`
 - `cat test.txt > 2`
 - `cat test.txt      >     2`
 
 Similar to the pipe option it is important to remember that any spaces in front and after the redirect in the regex must
 also be contained in the answer:
-The regular expression `cat test.txt > tee/R/` will match
+The regular expression `[[cat test.txt > tee]] /R/` will match
 - `cat test.txt > tee`
 - `cat test.txt      >     tee`
 
@@ -126,7 +137,7 @@ but it will not match
 
 ### O: Match Any Order
 This option is experimental and subject to change. If this option is enabled the regex must consist of multiple 
-regexes (one on each line). The answers (also one answer per line) must match any of the regexes,
+regexes. The answers (separated by the `separator=`) must match any of the regexes,
 but order is not important. Each regex can only be matched by a single answer. Wrong, too many or too few answers
 results in a point deduction evaluation.
 
@@ -146,41 +157,36 @@ This fraction is then used to calculate the actual points for the given answer (
 ##### Examples:
 The regular expression
 ```
-cat
-dog
-alpaca
-/O/
+[[cat]] [[dog]] [[alpaca]] /O/
+separator=,
 ```
-
+or (new lines are allowed)
+```
+[[cat]]
+[[dog]]
+[[alpaca]]
+/O/
+separator=,
+```
 will match any of the following example answers with 100% correctness.
 
 ```
-cat
-dog
-alpaca
+cat,dog,alpaca
 ```
 ```
-alpaca
-cat
-dog
+alpaca,cat,dog
 ```
 
 If one line is not correct, too much or missing it will result in a point reduction. In this case the following answers will result
 in 66% correctness:
 ```
-alpaca
-cat
+alpaca,cat
 ```
 ```
-alpaca
-cat
-elephant
+alpaca,cat,elephant
 ```
 ```
-alpaca
-cat
-dog
-elephant
+alpaca,cat,dog,elephant
 ```
 
 ### I: Infinite Space
@@ -203,7 +209,7 @@ spaces of every line in the answer, will be ignored. Trailing empty lines will a
 ignored, even if this option is disabled.
 
 #### Examples
-The regular expression `test` will match any of the following example answers:
+The regular expression `[[test]]//` or `[[test]]/T/` will match any of the following example answers:
 - `test`
 - `    test      `
 
@@ -217,8 +223,5 @@ and also the following example answer
 ```
 
 ## Common Mistakes and special cases
-- If the last character in a regular expression is a `/` the options must be present, even if empty. For example to match
-  `abc/` the regular expression must be `abc///`.
 - If the regular expression contains spaces at the end of a line these must also be contained in the answer.
-  This is important to mention, because these spaces may not be visible.
-- If you encounter a problem with a complex regular expression, try to disable the Infinite Space (`I`) option.
+- If you encounter a problem with a complex regular expression, try to disable the Infinite Space (`i`) option.
