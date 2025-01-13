@@ -32,6 +32,10 @@ $string['regex_help'] = /** @lang Markdown */
 separator=,
 comment=text
 ```
+The following example matches `ls -la` and has no extra options enabled  (only the default options are enabled):
+```
+[[ls -la]]//
+```
 A more concrete description (with examples) can be found [here](https://github.com/lni-dev/moodle-qtype_regexmatch/blob/master/usage-examples.md).
 
 The keys `separator` and `comment` are optional. `separator` is described in help-field of the options.

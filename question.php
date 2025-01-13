@@ -152,21 +152,20 @@ class qtype_regexmatch_question extends question_graded_automatically {
 
             // Trim answer if enabled.
             if($correctAnswer->trimspaces) {
-                $parts = explode("\n", trim($processedAnswer));
-                $processedAnswer = '';
-                $first = true;
-                foreach ($parts as $part) {
-                    if ($first) $first = false;
-                    else $processedAnswer .= "\n";
-                    $processedAnswer .= trim($part);
-                }
+                $processedAnswer = trim($processedAnswer);
             }
-
 
             if($correctAnswer->matchAnyOrder) {
                 $answerLines = explode($correctAnswer->separator, $processedAnswer);
-
                 $answerLineCount = count($answerLines);
+
+                // Trim all answers if enabled.
+                if($correctAnswer->trimspaces) {
+                    for ($i = 0; $i < $answerLineCount; $i++) {
+                        $answerLines[$i] = trim($answerLines[$i]);
+                    }
+                }
+
                 foreach ($correctAnswer->regexes as $r) {
                     $r = $this->constructRegex($r, $correctAnswer);
 
@@ -412,44 +411,7 @@ class qtype_regexmatch_answer extends question_answer {
 
         } else {
             //Invalid syntax. Maybe it is an old regex
-            if(substr($unparsed, -1) == '/') {
-                // remove the '/' at the end
-                $unparsed = substr($unparsed, 0, strlen($unparsed) - 1);
-
-                $startOptionIndex = strrpos($unparsed, '/');
-
-                if($startOptionIndex !== false) {
-                    $options = substr($unparsed, $startOptionIndex + 1);
-                    $this->regexes = array(substr($unparsed, 0, $startOptionIndex));
-
-                    foreach (str_split($options) as $option) {
-                        switch ($option) {
-                            case 'I': $this->ignorecase = true; break;
-                            case 'D': $this->dotall = true; break;
-                            case 'P': $this->pipesemispace = true; break;
-                            case 'R': $this->redictspace = true; break;
-                            case 'O': $this->matchAnyOrder = true; break;
-
-                            // These are on by default, disable them instead.
-                            case 'S': $this->infspace = false; break;
-                            case 'T': $this->trimspaces = false; break;
-                        }
-                    }
-
-                    if($this->matchAnyOrder) {
-                        $this->regexes = preg_split("/\\n/", $this->regexes[0], -1, PREG_SPLIT_NO_EMPTY);
-                    }
-                } else {
-                    $this->regexes = array($unparsed);
-                }
-            } else {
-                $this->regexes = array($unparsed);
-            }
-
-            // remove all trailing empty lines from the regex
-            while (substr($this->regexes[0], -1) == "\n" || substr($this->regexes[0], -1) == "\r") {
-                $this->regexes[0] = substr($this->regexes[0], 0, strlen($this->regexes[0]) - 1);
-            }
+            $this->regexes = array("");
         }
 
 
