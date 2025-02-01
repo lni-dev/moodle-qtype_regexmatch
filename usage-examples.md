@@ -143,7 +143,7 @@ results in a point deduction evaluation.
 
 #### Evaluation
 The evaluation of the answer is calculated based on an internal point system. The maximum amount of points (`maxPoints`) 
-is the same as the amount of regexes (lines). The answer will be rated with points using the following rules:
+is the same as the amount of regexes. The answer will be rated with points using the following rules:
 - The `rating` starts with the value of `maxPoints`.
 - If too little answers are given, a point is deducted for each missing answer .
 - If too many answers  are given, a point is deducted for each answer  which is too much.

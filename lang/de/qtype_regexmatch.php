@@ -26,13 +26,13 @@
 $string['pluginname'] = 'RegEx Vergleicher';
 $string['regex'] = 'Regulärer Ausdruck';
 $string['regex_help'] = /** @lang Markdown */
-'Es muss der folgende Syntax eingehalten werden:
+'Es muss die folgende Syntax eingehalten werden:
 ```
 [[regex]] /OPTIONS/
 separator=,
 comment=text
 ```
-Das folgende Beispiel findet `ls -la` und hat keine extra Optionen aktiviert  (nur die default Optionen sind aktiviert):
+Das folgende Beispiel findet `ls -la` und hat keine extra Optionen aktiviert  (nur die Default-Optionen sind aktiviert):
 ```
 [[ls -la]]//
 ```
@@ -80,15 +80,13 @@ Hier ist eine kurze Beschreibung der wichtigsten regex Funktionen:
 | \B |           Keine Wortgrenze            |
 
 Die Regex Anker "$" und "^" können nicht verwendet werden. Falls diese als Literal gesucht werden
-sollen, können sie escaped werden: "\$", "\^". 
-Falls der Schräger (`/`) als letztes Zeichen in dem Regulären Ausdruck verwendet wird, müssen die Optionen angebeben werden.
-Auch wenn keine Optionen verändert werden (In diesem fall `//` hinzufügen).
+sollen, können sie escaped werden: "\$", "\^".
 ';
 $string['options'] = "Options";
 $string['default_options'] = "Default Options";
 $string['options_help'] = /** @lang Markdown */
     'Einige Optionen können aktiviert/deaktiviert werden. 
-Weiterhin, müssen diese mit einem Schräger (`/`) anfangen und enden. Zum Beispiel: `/PI/`. Jede Option wird durch einen
+Diese müssen mit einem Schrägstrich (`/`) anfangen und enden. Zum Beispiel: `/PI/`. Jede Option wird durch einen
 einzigen großen Buchstaben aktiviert und durch einen kleinen Buchstaben deaktiviert.
 
 **I: Ignoriere Groß-/Kleinschreibung**<br>
@@ -100,7 +98,7 @@ Alle Punkte (`.`) in dem regulären Ausdruck werden auch Zeilenumbrüche finden.
 **P: Semikolons und Pipes**<br>
 Shell spezifisch: Alle Semikolons `;` und maskierte Pipes `\|` werden jeweils
 durch `([ \t]*[;\n][ \t]*)` und `([ \t]*\|[ \t]*)` ersetzt.
-Dadurch finden diese unendlich Leerzeichen vor und nach dem Semikolon oder der Pipe.
+Dadurch finden diese beliebige viele Leerzeichen vor und nach dem Semikolon oder der Pipe.
 Zusätzlich kann das Semikolon auch eine Leerzeile finden. Note: Alle Leerzeichen vor und nach
 der Pipe / dem Semikolon im Regulären Ausdruck müssen auch innerhalb der Antwort vorkommen.
 
@@ -111,16 +109,16 @@ Wenn aktiviert können diese Zeichen nicht mehr in anderen Regex-Funktionen verw
 der Antwort vorkommen.
 
 **O: Beliebige Reihenfolge**<br>
-Der reguläre Ausdruck muss aus mehreren regulären Ausdrucken bestehen (`[[regex1]] [[regex2]]`).
+Der reguläre Ausdruck sollte aus mindestens zwei regulären Ausdrucken bestehen (`[[regex1]] [[regex2]]`), da bei nur einem regulären Ausdruck die Option nicht verändert.
 Die Antworten (Von dem Wert des Schlüssels `separator=` getrennt. Standardmäßig ein Zeilenumbruch.) müssen von einem der regulären Ausdrücke gefunden werden, die 
-Reihenfolge ist allerdings egal. Jeder regulärer Ausdruck kann nur einmal gefunden werden.
-Falsche, zu viele oder zu wenige Antworten geben Punktabzug.
+Reihenfolge ist allerdings egal. Jeder regulärer Ausdruck kann nur einmal gefunden werden. Es werden auch Teilmengen gefunden, die Teilpunkte geben. Genaue Berechnung der
+Punktzahl findet sich [hier](https://github.com/lni-dev/moodle-qtype_regexmatch/blob/master/usage-examples.md#evaluation).
 ';
 $string['default_options_help'] = /** @lang Markdown */
     'Die folgenden Optionen sind standardmäßig aktiviert und können durch Angabe des jeweiligen (kleinen) Buchstaben deaktiviert werden.
 
 **s: Unendlich Leerzeichen**<br>
-Alle Leerzeichen innerhalb des Ausdrucks werden mit `([ \t]+)` ersetzt. Dadurch finden sie 1 oder mehr Whitespace Charakter.
+Alle Leerzeichen innerhalb des Ausdrucks werden mit `([ \t]+)` ersetzt. Dadurch finden diese ein oder mehr Whitespace Charakter.
 
 **t: Leerzeichen Trimmen**<br>
 Leerzeilen zu Beginn und am Ende der Antwort, sowie Leerzeichen zu Beginn und am Ende jeder Zeile 
