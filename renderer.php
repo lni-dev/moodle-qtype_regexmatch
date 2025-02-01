@@ -42,7 +42,11 @@ class qtype_regexmatch_renderer extends qtype_renderer {
     ): string {
 
         // regexmatch question
+        /**
+         * @var $question qtype_regexmatch_question
+         */
         $question = $qa->get_question();
+
 
         // Text to be displayed for this question (set when creating)
         $questiontext = $question->format_questiontext($qa);
@@ -51,6 +55,17 @@ class qtype_regexmatch_renderer extends qtype_renderer {
         $currentanswer = $qa->get_last_qt_var('answer');
 
         $result = "";
+
+        // If the regex was not able to be parsed, show an error.
+        foreach ($question->answers as $correctAnswer) {
+            if($correctAnswer->regexes[0] === "") {
+                \core\notification::add(
+                    "Invalid regex syntax. It may be an old regex, please edit.",
+                    \core\notification::WARNING
+                );
+                break;
+            }
+        }
 
         // Add question text
         $result .= html_writer::tag('div', $questiontext, array('class' => 'qtext'));
