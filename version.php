@@ -37,4 +37,4 @@ $plugin->component = 'qtype_regexmatch';
 $plugin->version   = 2025020100;
 $plugin->requires  = 2022112807; // Moodle 4.1.7
 
-$plugin->maturity  = MATURITY_ALPHA;
+$plugin->maturity  = MATURITY_STABLE;
