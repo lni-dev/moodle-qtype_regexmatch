@@ -117,7 +117,7 @@ Punktzahl findet sich [hier](https://github.com/lni-dev/moodle-qtype_regexmatch/
 $string['default_options_help'] = /** @lang Markdown */
     'Die folgenden Optionen sind standardmäßig aktiviert und können durch Angabe des jeweiligen (kleinen) Buchstaben deaktiviert werden.
 
-**s: Unendlich Leerzeichen**<br>
+**s: Beliebig Viele Leerzeichen**<br>
 Alle Leerzeichen innerhalb des Ausdrucks werden mit `([ \t]+)` ersetzt. Dadurch finden diese ein oder mehr Whitespace Charakter.
 
 **t: Leerzeichen Trimmen**<br>
