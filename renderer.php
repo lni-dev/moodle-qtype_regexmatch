@@ -58,7 +58,7 @@ class qtype_regexmatch_renderer extends qtype_renderer {
 
         // If the regex was not able to be parsed, show an error.
         foreach ($question->answers as $correctAnswer) {
-            if($correctAnswer->regexes[0] === "") {
+            if($correctAnswer->regexes[0] === null) {
                 \core\notification::add(
                     "Invalid regex syntax. It may be an old regex, please edit.",
                     \core\notification::WARNING
