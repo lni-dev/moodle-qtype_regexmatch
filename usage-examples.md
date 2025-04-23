@@ -74,7 +74,7 @@ Regexmatch supports the keys `comment=` and `separator=`.
 - `comment=` is a text field only visible inside the question edit form and has no other use.
 - `separator=` is a field for the separator the student has to enter between his answers if the Match Any Order option (`O`).
   is enabled.
-<br>
+
 Regexmatch Cloze supports the keys `separator=`, `points=`, `size=`, `feedback=` and `comment=`.
 - `separator=` is a field for the separator the student has to enter between his answers if the Match Any Order option (`O`).
 - `points=` defines the maximum points for this gap.
