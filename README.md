@@ -33,24 +33,15 @@ References for installation on Windows and Ubuntu are given below.
 ### Ubuntu
 - Step-by-Step Guide: https://docs.moodle.org/404/en/Step-by-step_Installation_Guide_for_Ubuntu
 
-## Regex Match Installation (for development)
-
-Install the Regex Match plugin using any of the methods below. After the installation the moodle administration website
-`Website Administration` must be visited.
-
-### Installation Using Git
+## Regex Match Installation Using Git (for development)
 To install using git for the latest version (the master branch), type this command in the
 `<moodle-installation>/question/type` folder of your Moodle install:
 ```
 git clone https://github.com/lni-dev/moodle-qtype_regexmatch.git regexmatch
 ```
-Note: Repository is currently private.
-
-### Installation From Downloaded zip file
-Unzip it into the `<moodle-installation>/question/type` folder, and then rename the new folder to `regexmatch`.
+After the installation the moodle administration website `Website Administration` must be visited.
 
 ## Regex Match Installation/Update (for use)
-
 The Zip-File can be installed through the moodle Administration site:
 `Site administration` > `Plugins` > `Install plugins`.
 More Information about installing plugins can be found
@@ -82,7 +73,7 @@ This can be done in the moodle administration site:
 `Site administration` > `Courses` > `Asynchronous backups`
 
 ### Creating a new version
-Some steps must be taken if a new version of the plugin should be released.
+Some steps must be taken if a new version if the plugin should be released.
 1. Increase the plugin-version in the file `version.php`. More information can be found in the specified file.
 2. If any changes regarding the database were taken (e.g. a column/table added or removed), this can be
    done in `db/update.php`. The required code can mostly be generated using the moodle XMLDB Editor. More Information 

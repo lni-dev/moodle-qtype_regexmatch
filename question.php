@@ -247,17 +247,17 @@ class qtype_regexmatch_answer extends question_answer {
     /**
      * @var int points. Only used by the cloze regex plugin.
      */
-    public $points;
+    public $points = 1;
 
     /**
      * @var int size of the input field. Only used by the cloze regex plugin.
      */
-    public $size;
+    public $size = 5;
 
     /**
      * @var string feedback specified by the FEEDBACK_KEY.
      */
-    public $feedbackValue = "\n";
+    public $feedbackValue = "";
 
     public function __construct($id, $answer, $fraction, $feedback, $feedbackformat) {
         parent::__construct($id, $answer, $fraction, $feedback, $feedbackformat);
