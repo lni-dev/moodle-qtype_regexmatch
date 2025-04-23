@@ -1,4 +1,4 @@
-# Regexmatch usage examples
+# Regexmatch and Regexmatch Cloze usage examples
 
 This file contains some example regular expressions which can be used within Regexmatch
 
@@ -53,12 +53,35 @@ as the previous one:
 
 /I/
 ```
+## Regexmatch Cloze Syntax
+```
+[[regex]] /OPTIONS/
+%50 [[another regex with half the points]] /OPTIONS/
+%10 [[another regex with 10% points]] /OPTIONS/
+separator=,
+points=5
+size=10
+feedback=text
+comment=text
+```
+TODO
+
+### Examples
+TODO
 
 ## Keys
 Regexmatch supports the keys `comment=` and `separator=`. 
 - `comment=` is a text field only visible inside the question edit form and has no other use.
-- `separator=` is a field for the separator the student has to enter between his answers if the Match Any Order option (`O`)
+- `separator=` is a field for the separator the student has to enter between his answers if the Match Any Order option (`O`).
   is enabled.
+<br>
+Regexmatch Cloze supports the keys `separator=`, `points=`, `size=`, `feedback=` and `comment=`.
+- `separator=` is a field for the separator the student has to enter between his answers if the Match Any Order option (`O`).
+- `points=` defines the maximum points for this gap.
+- `size=` defines the size of the input field for this gap.
+- `feedack` defines the feedback for this gap.
+- `comment=` is a text field only visible inside the question edit form and has no other use.
+
 
 ## Options
 All Options can be activated by a single capital letter and disabled by its small letter counterpart.
