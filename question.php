@@ -32,7 +32,7 @@ if (!class_exists('qtype_regexmatch_regex')) {
 }
 
 const REGEXMATCH_ALLOWED_KEYS = array(QTYPE_REGEXMATCH_SEPARATOR_KEY, QTYPE_REGEXMATCH_COMMENT_KEY);
-const ALLOWED_OPTIONS = array('I', 'D', 'P', 'R', 'O', 'S', 'T', 'i', 'd', 'p', 'r', 'o', 's', 't');
+const REGEXMATCH_ALLOWED_OPTIONS = array('I', 'D', 'P', 'R', 'O', 'S', 'T', 'i', 'd', 'p', 'r', 'o', 's', 't');
 
 /**
 *This holds the definition of a particular question of this type.

@@ -138,7 +138,7 @@ class qtype_regexmatch_edit_form extends question_edit_form {
 
                         foreach (str_split($options) as $option) {
                             $found = false;
-                            foreach (ALLOWED_OPTIONS as $allowed) {
+                            foreach (REGEXMATCH_ALLOWED_OPTIONS as $allowed) {
                                 if ($option == $allowed) {
                                     $found = true;
                                 }
