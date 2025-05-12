@@ -27,7 +27,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-if (!class_exists('qtype_regexmatch_regex')) {
+if (!class_exists('qtype_regexmatch_common_regex')) {
     require_once($CFG->dirroot . '/question/type/regexmatch/common/common.php');
 }
 
@@ -52,7 +52,7 @@ const REGEXMATCH_ALLOWED_OPTIONS = array('I', 'D', 'P', 'R', 'O', 'S', 'T', 'i',
 class qtype_regexmatch_question extends question_graded_automatically {
 
     /**
-     * @var array<qtype_regexmatch_answer> array containing all the allowed regexes
+     * @var array<qtype_regexmatch_common_answer> array containing all the allowed regexes
      */
     public $answers = array();
     public $options = array();
@@ -107,12 +107,12 @@ class qtype_regexmatch_question extends question_graded_automatically {
         $answer = str_replace("\r", "", $answer);
 
         foreach ($this->answers as $correctAnswer) {
-            $value = qtype_regexmatch_try_regex($correctAnswer, $correctAnswer->regexes[0], $answer);
+            $value = qtype_regexmatch_common_try_regex($correctAnswer, $correctAnswer->regexes[0], $answer);
 
             if($value > 0.0) {
                 $value *= $correctAnswer->fraction;
                 if($ret == null || ($correctAnswer->fraction * $value) > $ret->fraction) {
-                    $ret = $value == 1.0 ? $correctAnswer : new qtype_regexmatch_answer($correctAnswer->id, $correctAnswer->answer, $correctAnswer->fraction * $value, $correctAnswer->feedback, $correctAnswer->feedbackformat);
+                    $ret = $value == 1.0 ? $correctAnswer : new qtype_regexmatch_common_answer($correctAnswer->id, $correctAnswer->answer, $correctAnswer->fraction * $value, $correctAnswer->feedback, $correctAnswer->feedbackformat);
                 }
             }
         }

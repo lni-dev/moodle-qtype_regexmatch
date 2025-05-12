@@ -65,8 +65,8 @@ class qtype_regexmatch extends question_type {
         return null;
     }
 
-    protected function make_answer($answer): qtype_regexmatch_answer {
-        return new qtype_regexmatch_answer(
+    protected function make_answer($answer): qtype_regexmatch_common_answer {
+        return new qtype_regexmatch_common_answer(
             $answer->id,
             $answer->answer,
             $answer->fraction,
