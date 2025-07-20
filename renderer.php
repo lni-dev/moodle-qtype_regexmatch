@@ -86,11 +86,6 @@ class qtype_regexmatch_renderer extends qtype_renderer {
 
         $result .= html_writer::tag('textarea', $currentanswer, $inputattributes);
 
-        /* if ($qa->get_state() == question_state::$invalid) {
-            $result .= html_writer::nonempty_tag('div',
-                    $question->get_validation_error(array('answer' => $currentanswer)),
-                    array('class' => 'validationerror'));
-        }*/
         return $result;
     }
 
