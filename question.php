@@ -57,6 +57,12 @@ class qtype_regexmatch_question extends question_graded_automatically {
     public $answers = array();
     public $options = array();
 
+    /**
+     * Question attempt started
+     * @param question_attempt_step $step
+     * @param $variant
+     * @return void
+     */
     public function start_attempt(
         question_attempt_step $step,
         $variant
@@ -64,11 +70,21 @@ class qtype_regexmatch_question extends question_graded_automatically {
         // probably not needed
     }
 
+    /**
+     * Whether given response is a complete answer to this question
+     * @param array $response
+     * @return bool true if the response is complete
+     */
     public function is_complete_response(array $response) {
         return array_key_exists('answer', $response) &&
             ($response['answer'] || $response['answer'] === '0');
     }
 
+    /**
+     * Validation errors for given response
+     * @param array $response
+     * @return string empty string (no error) or error string
+     */
     public function get_validation_error(array $response) {
         if ($this->is_gradable_response($response)) {
             return '';
@@ -76,19 +92,39 @@ class qtype_regexmatch_question extends question_graded_automatically {
         return get_string('pleaseenterananswer', 'qtype_regexmatch');
     }
 
+    /**
+     * Checks whether given responses are the same response.
+     * @param array $prevresponse
+     * @param array $newresponse
+     * @return bool true if both responses are the same.
+     */
     public function is_same_response(array $prevresponse, array $newresponse) {
         return question_utils::arrays_same_at_key(
             $prevresponse, $newresponse, 'answer');
     }
 
+    /**
+     * Data which is expected to be retrieved from the front end inputs
+     * @return array
+     */
     public function get_expected_data() {
         return array('answer' => PARAM_RAW);
     }
 
+    /**
+     * Summarise a response into a single string
+     * @param array $response
+     * @return mixed|null
+     */
     public function summarise_response(array $response) {
         return $response['answer'] ?? null;
     }
 
+    /**
+     * Get the response from a summary
+     * @param string $summary
+     * @return array|string[]
+     */
     public function un_summarise_response(string $summary): array {
         if (!empty($summary)) {
             return ['answer' => $summary];
@@ -98,6 +134,7 @@ class qtype_regexmatch_question extends question_graded_automatically {
     }
 
     /**
+     * Get the regex with the highest fraction for given answer
      * @param string $answer answer submitted from a student
      * @return mixed|null regex of {@link self::$answers}, which matches given answer or null if none matches
      */
@@ -106,13 +143,13 @@ class qtype_regexmatch_question extends question_graded_automatically {
 
         $answer = str_replace("\r", "", $answer);
 
-        foreach ($this->answers as $correctAnswer) {
-            $value = qtype_regexmatch_common_try_regex($correctAnswer, $correctAnswer->regexes[0], $answer);
+        foreach ($this->answers as $correctanswer) {
+            $value = qtype_regexmatch_common_try_regex($correctanswer, $correctanswer->regexes[0], $answer);
 
             if($value > 0.0) {
-                $value *= $correctAnswer->fraction;
-                if($ret == null || ($correctAnswer->fraction * $value) > $ret->fraction) {
-                    $ret = $value == 1.0 ? $correctAnswer : new qtype_regexmatch_common_answer($correctAnswer->id, $correctAnswer->answer, $correctAnswer->fraction * $value, $correctAnswer->feedback, $correctAnswer->feedbackformat);
+                $value *= $correctanswer->fraction;
+                if($ret == null || ($correctanswer->fraction * $value) > $ret->fraction) {
+                    $ret = $value == 1.0 ? $correctanswer : new qtype_regexmatch_common_answer($correctanswer->id, $correctanswer->answer, $correctanswer->fraction * $value, $correctanswer->feedback, $correctanswer->feedbackformat);
                 }
             }
         }
@@ -120,12 +157,17 @@ class qtype_regexmatch_question extends question_graded_automatically {
         return $ret;
     }
 
+    /**
+     * Get the fraction and graded state for given response
+     * @param array $response
+     * @return array fraction and graded state
+     */
     public function grade_response(array $response): array {
-        $submittedAnswer = $response['answer'] ?? null;
+        $submittedanswer = $response['answer'] ?? null;
         $fraction = 0;
 
-        if($submittedAnswer != null) {
-            $regex = $this->get_regex_for_answer($submittedAnswer);
+        if($submittedanswer != null) {
+            $regex = $this->get_regex_for_answer($submittedanswer);
             if($regex != null) {
                 $fraction = $regex->fraction;
             }
@@ -134,15 +176,34 @@ class qtype_regexmatch_question extends question_graded_automatically {
         return array($fraction, question_state::graded_state_for_fraction($fraction));
     }
 
+    /**
+     * Not possible.
+     * @return null
+     */
     public function get_correct_response() {
         return null;
     }
 
+    /**
+     * Does nothing.
+     * @param array $response
+     * @return array
+     */
     public function clear_wrong_from_response(array $response) {
         // We want to keep the previous answer as it is only a single answer field
         return $response;
     }
 
+    /**
+     * Checks file access.
+     * @param $qa
+     * @param $options
+     * @param $component
+     * @param $filearea
+     * @param $args
+     * @param $forcedownload
+     * @return mixed
+     */
     public function check_file_access($qa, $options, $component, $filearea,
             $args, $forcedownload) {
         if ($component == 'question' && $filearea == 'hint') {

@@ -44,27 +44,45 @@ require_once($CFG->dirroot . '/question/type/regexmatch/question.php');
 class qtype_regexmatch extends question_type {
 
     /**
-     * Response cannot be analysed, because the method get_possible_responses cannot be implemented.
+     * Response cannot be analyzed, because the method get_possible_responses cannot be implemented.
      * @return false
      */
     public function can_analyse_responses() {
         return false;
     }
 
+    /**
+     * Save question options, answers and hints
+     * @param $question
+     * @return void
+     */
     public function save_question_options($question) {
         parent::save_question_options($question);
         $this->save_question_answers($question);
         $this->save_hints($question);
     }
 
+    /**
+     * No extra question fields used
+     * @return null
+     */
     public function extra_question_fields() {
         return null;
     }
 
+    /**
+     * No extra answer fields used
+     * @return null
+     */
     public function extra_answer_fields() {
         return null;
     }
 
+    /**
+     * Create answer of type qtype_regexmatch_common_answer.
+     * @param $answer
+     * @return qtype_regexmatch_common_answer
+     */
     protected function make_answer($answer): qtype_regexmatch_common_answer {
         return new qtype_regexmatch_common_answer(
             $answer->id,
@@ -75,27 +93,59 @@ class qtype_regexmatch extends question_type {
         );
     }
 
+    /**
+     * Random quess score for this question type
+     * @param $questiondata
+     * @return int
+     */
     public function get_random_guess_score($questiondata) {
         return 0;
     }
 
+    /**
+     * move files
+     * @param $questionid
+     * @param $oldcontextid
+     * @param $newcontextid
+     * @return void
+     */
     public function move_files($questionid, $oldcontextid, $newcontextid) {
         parent::move_files($questionid, $oldcontextid, $newcontextid);
         $this->move_files_in_answers($questionid, $oldcontextid, $newcontextid);
         $this->move_files_in_hints($questionid, $oldcontextid, $newcontextid);
     }
 
+    /**
+     * delete files
+     * @param $questionid
+     * @param $contextid
+     * @return void
+     */
     protected function delete_files($questionid, $contextid) {
         parent::delete_files($questionid, $contextid);
         $this->delete_files_in_answers($questionid, $contextid);
         $this->delete_files_in_hints($questionid, $contextid);
     }
 
+    /**
+     * initialise question instance
+     * @param question_definition $question
+     * @param $questiondata
+     * @return void
+     */
     protected function initialise_question_instance(question_definition $question, $questiondata) {
         parent::initialise_question_instance($question, $questiondata);
         $this->initialise_question_answers($question, $questiondata);
     }
 
+    /**
+     * import questions of this type from xml
+     * @param $data
+     * @param $question
+     * @param qformat_xml $format
+     * @param $extra
+     * @return false
+     */
     public function import_from_xml($data, $question, qformat_xml $format, $extra = null) {
         global $CFG;
         require_once($CFG->dirroot.'/question/type/regexmatch/question.php');
@@ -130,6 +180,7 @@ class qtype_regexmatch extends question_type {
     }
 
     /**
+     * export questions of this type to xml.
      * @param qtype_regexmatch_question $question
      * @param qformat_xml $format
      * @param $extra

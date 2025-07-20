@@ -32,12 +32,12 @@ defined('MOODLE_INTERNAL') || die();
  * regexmatch question editing form definition.
  *
  * @copyright  2024 Linus Andera (linus@linusdev.de)
-
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_regexmatch_edit_form extends question_edit_form {
 
     /**
+     * Add specific form fields for editing
      * @param MoodleQuickForm $mform
      */
     protected function definition_inner($mform) {
@@ -58,6 +58,15 @@ class qtype_regexmatch_edit_form extends question_edit_form {
         $this->add_interactive_settings();
     }
 
+    /**
+     * Add specific fields for the repeating answers
+     * @param $mform
+     * @param $label
+     * @param $gradeoptions
+     * @param $repeatedoptions
+     * @param $answersoption
+     * @return array
+     */
     protected function get_per_answer_fields(
         $mform,
         $label,
@@ -97,6 +106,11 @@ class qtype_regexmatch_edit_form extends question_edit_form {
         return $repeated;
     }
 
+    /**
+     * Data preprocessing
+     * @param $question
+     * @return mixed
+     */
     protected function data_preprocessing($question) {
         $question = parent::data_preprocessing($question);
         $question = $this->data_preprocessing_answers($question);
@@ -105,18 +119,24 @@ class qtype_regexmatch_edit_form extends question_edit_form {
         return $question;
     }
 
+    /**
+     * validate user input
+     * @param $fromform
+     * @param $files
+     * @return array field => errors
+     */
     public function validation($fromform, $files): array {
         $errors = parent::validation($fromform, $files);
 
         $answers = $fromform['answer'];
 
-        $answerCount = 0;
-        $maxGrade = false;
+        $answercount = 0;
+        $maxgrade = false;
 
         foreach ($answers as $key => $answer) {
             if ($answer !== '') {
-                $answerCount++;
-                if ($fromform['fraction'][$key] == 1) $maxGrade = true;
+                $answercount++;
+                if ($fromform['fraction'][$key] == 1) $maxgrade = true;
 
 
                 // check syntax
@@ -150,28 +170,28 @@ class qtype_regexmatch_edit_form extends question_edit_form {
                         }
 
                         // Key Value pairs
-                        $keyValuePairs = substr($fromform['answer'][$key], $index + strlen($matches[0][0]));
-                        $nextKey = 0;
-                        foreach (preg_split("/\\n/", $keyValuePairs) as $keyValuePair) {
-                            if(preg_match("/[a-z]+=/", $keyValuePair, $matches)) {
+                        $keyvaluepairs = substr($fromform['answer'][$key], $index + strlen($matches[0][0]));
+                        $nextkey = 0;
+                        foreach (preg_split("/\\n/", $keyvaluepairs) as $keyvaluepair) {
+                            if(preg_match("/[a-z]+=/", $keyvaluepair, $matches)) {
                                 $match = $matches[0];
                                 $found = false;
-                                for (; $nextKey < count(REGEXMATCH_ALLOWED_KEYS); $nextKey++) {
-                                    if($match == REGEXMATCH_ALLOWED_KEYS[$nextKey]) {
+                                for (; $nextkey < count(REGEXMATCH_ALLOWED_KEYS); $nextkey++) {
+                                    if($match == REGEXMATCH_ALLOWED_KEYS[$nextkey]) {
                                         $found = true;
                                         break;
                                     }
                                 }
 
                                 if(!$found) {
-                                    $isAllowed = false;
+                                    $isallowed = false;
                                     foreach (REGEXMATCH_ALLOWED_KEYS as $allowed) {
                                         if ($allowed == $match) {
-                                            $isAllowed = true;
+                                            $isallowed = true;
                                             break;
                                         }
                                     }
-                                    if($isAllowed) {
+                                    if($isallowed) {
                                         $errors["answer[$key]"] = get_string('valerror_illegalkeyorder', 'qtype_regexmatch', implode(', ', REGEXMATCH_ALLOWED_KEYS));
                                     } else  {
                                         $errors["answer[$key]"] = get_string('valerror_unkownkey', 'qtype_regexmatch', $match);
@@ -190,21 +210,25 @@ class qtype_regexmatch_edit_form extends question_edit_form {
 
             } else if ($fromform['fraction'][$key] != 0 || !html_is_blank($fromform['feedback'][$key]['text'])) {
                 $errors["answer[$key]"] = get_string('fborgradewithoutregex', 'qtype_regexmatch');
-                $answerCount++;
+                $answercount++;
             }
 
 
         }
 
-        if ($answerCount==0)
+        if ($answercount==0)
             $errors['answer[0]'] = get_string('notenoughregexes', 'qtype_regexmatch');
 
-        if (!$maxGrade)
+        if (!$maxgrade)
             $errors['answer[0]'] = get_string('fractionsnomax', 'question');
 
         return $errors;
     }
 
+    /**
+     * question type name
+     * @return string
+     */
     public function qtype() {
         return 'regexmatch';
     }

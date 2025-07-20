@@ -70,10 +70,10 @@ function xmldb_qtype_regexmatch_upgrade($oldversion = 0) {
     }
 
     if($oldversion < 2024110802) {
-        $allQuestions = $DB->get_records('question', ["qtype" => "regexmatch"]);
-        foreach ($allQuestions as $question) {
-            $allAnswers = $DB->get_records('question_answers', ['question' => $question->id]);
-            foreach ($allAnswers as $answer) {
+        $all_questions = $DB->get_records('question', ["qtype" => "regexmatch"]);
+        foreach ($all_questions as $question) {
+            $all_answers = $DB->get_records('question_answers', ['question' => $question->id]);
+            foreach ($all_answers as $answer) {
                 $options = $DB->get_record_sql("SELECT * FROM {question_regexmatch_answers} WHERE answerid = $answer->id", null, IGNORE_MISSING);
 
                 if($options === false)

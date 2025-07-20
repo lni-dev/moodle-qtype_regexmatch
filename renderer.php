@@ -36,6 +36,14 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_regexmatch_renderer extends qtype_renderer {
+
+
+    /**
+     * Render question of type regexmatch
+     * @param question_attempt $qa
+     * @param question_display_options $options
+     * @return string
+     */
     public function formulation_and_controls(
         question_attempt $qa,
         question_display_options $options
@@ -57,8 +65,8 @@ class qtype_regexmatch_renderer extends qtype_renderer {
         $result = "";
 
         // If the regex was not able to be parsed, show an error.
-        foreach ($question->answers as $correctAnswer) {
-            if($correctAnswer->regexes[0] === null) {
+        foreach ($question->answers as $correctanswer) {
+            if($correctanswer->regexes[0] === null) {
                 \core\notification::add(
                     get_string('error_unparsable', 'qtype_regexmatch'),
                     \core\notification::WARNING
@@ -89,6 +97,11 @@ class qtype_regexmatch_renderer extends qtype_renderer {
         return $result;
     }
 
+    /**
+     * specific feedback for given question attempt
+     * @param question_attempt $qa
+     * @return string
+     */
     public function specific_feedback(question_attempt $qa): string {
         /* @var qtype_regexmatch_question $question */
         $question = $qa->get_question();
@@ -114,8 +127,12 @@ class qtype_regexmatch_renderer extends qtype_renderer {
         return $feedback;
     }
 
+    /**
+     * Cannot generate a correct response from a regexmatch question.
+     * @param question_attempt $qa
+     * @return string Always an empty string.
+     */
     public function correct_response(question_attempt $qa): string {
-        // Cannot generate correct response from regex.
         return '';
     }
 }
