@@ -38,10 +38,7 @@ $addons = [
                 'offlinefunctions' => [
                     'mobile_get_regexmatch' => [],// function in classes/output/mobile.php
                 ], // Function needs caching for offline.
-                'styles' => [
-                    'url' => '/question/type/regexmatch/mobile/styles_app.css',
-                    'version' => '1.00'
-                ]
+                'styles' => []
             ]
         ],
         'lang' => [
