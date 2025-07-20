@@ -60,7 +60,7 @@ class qtype_regexmatch_renderer extends qtype_renderer {
         foreach ($question->answers as $correctAnswer) {
             if($correctAnswer->regexes[0] === null) {
                 \core\notification::add(
-                    "Invalid regex syntax. It may be an old regex, please edit.",
+                    get_string('error_unparsable', 'qtype_regexmatch'),
                     \core\notification::WARNING
                 );
                 break;

@@ -131,3 +131,4 @@ $string['valerror_illegalsyntax'] = 'Illegal syntax.';
 $string['valerror_illegaloption'] = 'Illegal option "{$a}".';
 $string['valerror_illegalkeyorder'] = 'Illegal key order. Required order: {$a}.';
 $string['valerror_unkownkey'] = 'Unknown key "{$a}".';
+$string['error_unparsable'] = '"The regular expression was not able to be parsed due to an unknown error. Please edit the question."';
