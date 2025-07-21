@@ -31,8 +31,8 @@ if (!class_exists('qtype_regexmatch_common_regex')) {
     require_once($CFG->dirroot . '/question/type/regexmatch/common/common.php');
 }
 
-const REGEXMATCH_ALLOWED_KEYS = array(QTYPE_REGEXMATCH_SEPARATOR_KEY, QTYPE_REGEXMATCH_COMMENT_KEY);
-const REGEXMATCH_ALLOWED_OPTIONS = array('I', 'D', 'P', 'R', 'O', 'S', 'T', 'i', 'd', 'p', 'r', 'o', 's', 't');
+const QTYPE_REGEXMATCH_ALLOWED_KEYS = array(QTYPE_REGEXMATCH_COMMON_SEPARATOR_KEY, QTYPE_REGEXMATCH_COMMON_COMMENT_KEY);
+const QTYPE_REGEXMATCH_ALLOWED_OPTIONS = array('I', 'D', 'P', 'R', 'O', 'S', 'T', 'i', 'd', 'p', 'r', 'o', 's', 't');
 
 /**
 *This holds the definition of a particular question of this type.
