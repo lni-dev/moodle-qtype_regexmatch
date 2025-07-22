@@ -17,7 +17,7 @@
 /**
  * regexmatch question type  capability definition
  *
- * @package    qtype
+ * @package    qtype_regexmatch
  * @subpackage regexmatch
  * @copyright  2024 Linus Andera (linus@linusdev.de)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

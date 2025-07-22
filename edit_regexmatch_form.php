@@ -17,7 +17,7 @@
 /**
  * Defines the editing form for the regexmatch question type.
  *
- * @package    qtype
+ * @package    qtype_regexmatch
  * @subpackage regexmatch
  * @copyright  2024 Linus Andera (linus@linusdev.de)
 
@@ -59,13 +59,14 @@ class qtype_regexmatch_edit_form extends question_edit_form {
     }
 
     /**
-     * Add specific fields for the repeating answers
-     * @param $mform
-     * @param $label
-     * @param $gradeoptions
-     * @param $repeatedoptions
-     * @param $answersoption
-     * @return array
+     * Get the list of form elements to repeat, one for each answer.
+     * @param MoodleQuickForm $mform  the form being built.
+     * @param mixed $label the label to use for each option.
+     * @param mixed $gradeoptions the possible grades for each answer.
+     * @param mixed $repeatedoptions reference to array of repeated options to fill
+     * @param mixed $answersoption reference to return the name of $question->options
+     *      field holding an array of answers
+     * @return array of form fields.
      */
     protected function get_per_answer_fields(
         $mform,
@@ -107,9 +108,10 @@ class qtype_regexmatch_edit_form extends question_edit_form {
     }
 
     /**
-     * Data preprocessing
-     * @param $question
-     * @return mixed
+     * Perform an preprocessing needed on the data passed to set_data()
+     * before it is used to initialise the form.
+     * @param object $question the data being passed to the form.
+     * @return object $question the modified data.
      */
     protected function data_preprocessing($question) {
         $question = parent::data_preprocessing($question);
@@ -120,10 +122,12 @@ class qtype_regexmatch_edit_form extends question_edit_form {
     }
 
     /**
-     * validate user input
-     * @param $fromform
-     * @param $files
-     * @return array field => errors
+     * validate regex syntax
+     *
+     * @param array $fromform array of ("fieldname"=>value) of submitted data
+     * @param array $files array of uploaded files "element_name"=>tmp_file_path
+     * @return array of "element_name"=>"error_description" if there are errors,
+     *         or an empty array if everything is OK (true allowed for backwards compatibility too).
      */
     public function validation($fromform, $files): array {
         $errors = parent::validation($fromform, $files);
@@ -140,15 +144,15 @@ class qtype_regexmatch_edit_form extends question_edit_form {
 
 
                 // check syntax
-                if(preg_match('/(?<!\\\\)(\\\\\\\\)*[$^]/', $fromform['answer'][$key]) == 1) {
+                if (preg_match('/(?<!\\\\)(\\\\\\\\)*[$^]/', $fromform['answer'][$key]) == 1) {
                     $errors["answer[$key]"] = get_string('dollarroofmustbeescaped', 'qtype_regexmatch');
                 }
 
                 //check syntax
-                if(preg_match('%^(\[\[.*\]\]\\n? *)+/[a-zA-Z]*/.*$%s', $fromform['answer'][$key]) != 1) {
+                if (preg_match('%^(\[\[.*\]\]\\n? *)+/[a-zA-Z]*/.*$%s', $fromform['answer'][$key]) != 1) {
                     $errors["answer[$key]"] = get_string('valerror_illegalsyntax', 'qtype_regexmatch');
                 } else {
-                    if(preg_match("%]][ \\n]*/[a-zA-Z]*/%", $fromform['answer'][$key], $matches, PREG_OFFSET_CAPTURE)) {
+                    if (preg_match("%]][ \\n]*/[a-zA-Z]*/%", $fromform['answer'][$key], $matches, PREG_OFFSET_CAPTURE)) {
                         $index = intval($matches[0][1]);
 
                         // Options E.g.: "OPTIONS"
@@ -164,7 +168,7 @@ class qtype_regexmatch_edit_form extends question_edit_form {
                                 }
                             }
 
-                            if(!$found) {
+                            if (!$found) {
                                 $errors["answer[$key]"] = get_string('valerror_illegaloption', 'qtype_regexmatch', $option);
                             }
                         }
@@ -173,17 +177,17 @@ class qtype_regexmatch_edit_form extends question_edit_form {
                         $keyvaluepairs = substr($fromform['answer'][$key], $index + strlen($matches[0][0]));
                         $nextkey = 0;
                         foreach (preg_split("/\\n/", $keyvaluepairs) as $keyvaluepair) {
-                            if(preg_match("/[a-z]+=/", $keyvaluepair, $matches)) {
+                            if (preg_match("/[a-z]+=/", $keyvaluepair, $matches)) {
                                 $match = $matches[0];
                                 $found = false;
                                 for (; $nextkey < count(QTYPE_REGEXMATCH_ALLOWED_KEYS); $nextkey++) {
-                                    if($match == QTYPE_REGEXMATCH_ALLOWED_KEYS[$nextkey]) {
+                                    if ($match == QTYPE_REGEXMATCH_ALLOWED_KEYS[$nextkey]) {
                                         $found = true;
                                         break;
                                     }
                                 }
 
-                                if(!$found) {
+                                if (!$found) {
                                     $isallowed = false;
                                     foreach (QTYPE_REGEXMATCH_ALLOWED_KEYS as $allowed) {
                                         if ($allowed == $match) {
@@ -191,7 +195,7 @@ class qtype_regexmatch_edit_form extends question_edit_form {
                                             break;
                                         }
                                     }
-                                    if($isallowed) {
+                                    if ($isallowed) {
                                         $errors["answer[$key]"] = get_string('valerror_illegalkeyorder', 'qtype_regexmatch', implode(', ', QTYPE_REGEXMATCH_ALLOWED_KEYS));
                                     } else  {
                                         $errors["answer[$key]"] = get_string('valerror_unkownkey', 'qtype_regexmatch', $match);

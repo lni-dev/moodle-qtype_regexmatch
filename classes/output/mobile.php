@@ -18,7 +18,7 @@
  * Mobile output class for qtype_regexmatch
  *
  * @package    qtype_regexmatch
- * @copyright  2018 YOUR NAME
+ * @copyright  2025 Linus Andera
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,8 +30,6 @@ defined('MOODLE_INTERNAL') || die();
  * Mobile output class for regexmatch question type
  *
  * @package    qtype_regexmatch
- * @copyright  20XX YOUR NAME
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mobile {
 
@@ -46,10 +44,10 @@ class mobile {
             'templates' => [
                 [
                     'id' => 'main',
-                    'html' => file_get_contents($CFG->dirroot .'/question/type/regexmatch/mobile/qtype-regexmatch.html')
-                    ]
+                    'html' => file_get_contents($CFG->dirroot .'/question/type/regexmatch/mobile/qtype-regexmatch.html'),
+                    ],
             ],
-            'javascript' => file_get_contents($CFG->dirroot . '/question/type/regexmatch/mobile/mobile.js')
+            'javascript' => file_get_contents($CFG->dirroot . '/question/type/regexmatch/mobile/mobile.js'),
         ];
     }
 }

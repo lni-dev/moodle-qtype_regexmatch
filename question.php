@@ -17,7 +17,7 @@
 /**
  * regexmatch question definition class.
  *
- * @package    qtype
+ * @package    qtype_regexmatch
  * @subpackage regexmatch
  * @copyright  2024 Linus Andera (linus@linusdev.de)
 
@@ -31,15 +31,14 @@ if (!class_exists('qtype_regexmatch_common_regex')) {
     require_once($CFG->dirroot . '/question/type/regexmatch/common/common.php');
 }
 
-const QTYPE_REGEXMATCH_ALLOWED_KEYS = array(QTYPE_REGEXMATCH_COMMON_SEPARATOR_KEY, QTYPE_REGEXMATCH_COMMON_COMMENT_KEY);
-const QTYPE_REGEXMATCH_ALLOWED_OPTIONS = array('I', 'D', 'P', 'R', 'O', 'S', 'T', 'i', 'd', 'p', 'r', 'o', 's', 't');
-
 /**
-*This holds the definition of a particular question of this type.
-*If you load three questions from the question bank, then you will get three instances of
-*that class. This class is not just the question definition, it can also track the current
-*state of a question as a student attempts it through a question_attempt instance.
-*/
+ * @var array Allowed keys for regexmatch
+ */
+const QTYPE_REGEXMATCH_ALLOWED_KEYS = array(QTYPE_REGEXMATCH_COMMON_SEPARATOR_KEY, QTYPE_REGEXMATCH_COMMON_COMMENT_KEY);
+/**
+ * @var array Allowed options for regexmatch
+ */
+const QTYPE_REGEXMATCH_ALLOWED_OPTIONS = array('I', 'D', 'P', 'R', 'O', 'S', 'T', 'i', 'd', 'p', 'r', 'o', 's', 't');
 
 
 /**
@@ -51,9 +50,7 @@ const QTYPE_REGEXMATCH_ALLOWED_OPTIONS = array('I', 'D', 'P', 'R', 'O', 'S', 'T'
  */
 class qtype_regexmatch_question extends question_graded_automatically {
 
-    /**
-     * @var array<qtype_regexmatch_common_answer> array containing all the allowed regexes
-     */
+    /* @var array<qtype_regexmatch_common_answer> array containing all the allowed regexes */
     public $answers = array();
     public $options = array();
 
@@ -72,7 +69,8 @@ class qtype_regexmatch_question extends question_graded_automatically {
 
     /**
      * Whether given response is a complete answer to this question
-     * @param array $response
+     * @param array $response responses, as returned by
+     *       question_attempt_step::get_qt_data().
      * @return bool true if the response is complete
      */
     public function is_complete_response(array $response) {
@@ -82,7 +80,7 @@ class qtype_regexmatch_question extends question_graded_automatically {
 
     /**
      * Validation errors for given response
-     * @param array $response
+     * @param array $response the response
      * @return string empty string (no error) or error string
      */
     public function get_validation_error(array $response) {
@@ -94,10 +92,12 @@ class qtype_regexmatch_question extends question_graded_automatically {
 
     /**
      * Checks whether given responses are the same response.
-     * @param array $prevresponse
-     * @param array $newresponse
-     * @return bool true if both responses are the same.
-     */
+     * @param array $prevresponse the responses previously recorded for this question,
+     *      as returned by question_attempt_step::get_qt_data()
+     * @param array $newresponse the new responses, in the same format.
+     * @return bool whether the two sets of responses are the same - that is
+     *      whether the new set of responses can safely be discarded.
+ */
     public function is_same_response(array $prevresponse, array $newresponse) {
         return question_utils::arrays_same_at_key(
             $prevresponse, $newresponse, 'answer');
@@ -113,7 +113,7 @@ class qtype_regexmatch_question extends question_graded_automatically {
 
     /**
      * Summarise a response into a single string
-     * @param array $response
+     * @param array $response a response, as might be passed to grade_response().
      * @return mixed|null
      */
     public function summarise_response(array $response) {
@@ -122,7 +122,7 @@ class qtype_regexmatch_question extends question_graded_automatically {
 
     /**
      * Get the response from a summary
-     * @param string $summary
+     * @param string $summary a string, which might have come from summarise_response
      * @return array|string[]
      */
     public function un_summarise_response(string $summary): array {
@@ -136,7 +136,7 @@ class qtype_regexmatch_question extends question_graded_automatically {
     /**
      * Get the regex with the highest fraction for given answer
      * @param string $answer answer submitted from a student
-     * @return mixed|null regex of {@link self::$answers}, which matches given answer or null if none matches
+     * @return mixed|null regex of $answers, which matches given answer or null if none matches
      */
     public function get_regex_for_answer(string $answer) {
         $ret = null;
@@ -146,9 +146,9 @@ class qtype_regexmatch_question extends question_graded_automatically {
         foreach ($this->answers as $correctanswer) {
             $value = qtype_regexmatch_common_try_regex($correctanswer, $correctanswer->regexes[0], $answer);
 
-            if($value > 0.0) {
+            if ($value > 0.0) {
                 $value *= $correctanswer->fraction;
-                if($ret == null || ($correctanswer->fraction * $value) > $ret->fraction) {
+                if ($ret == null || ($correctanswer->fraction * $value) > $ret->fraction) {
                     $ret = $value == 1.0 ? $correctanswer : new qtype_regexmatch_common_answer($correctanswer->id, $correctanswer->answer, $correctanswer->fraction * $value, $correctanswer->feedback, $correctanswer->feedbackformat);
                 }
             }
@@ -166,9 +166,9 @@ class qtype_regexmatch_question extends question_graded_automatically {
         $submittedanswer = $response['answer'] ?? null;
         $fraction = 0;
 
-        if($submittedanswer != null) {
+        if ($submittedanswer != null) {
             $regex = $this->get_regex_for_answer($submittedanswer);
-            if($regex != null) {
+            if ($regex != null) {
                 $fraction = $regex->fraction;
             }
         }
@@ -186,8 +186,8 @@ class qtype_regexmatch_question extends question_graded_automatically {
 
     /**
      * Does nothing.
-     * @param array $response
-     * @return array
+     * @param array $response a response
+     * @return array a cleaned up response with the wrong bits reset.
      */
     public function clear_wrong_from_response(array $response) {
         // We want to keep the previous answer as it is only a single answer field
@@ -195,14 +195,14 @@ class qtype_regexmatch_question extends question_graded_automatically {
     }
 
     /**
-     * Checks file access.
-     * @param $qa
-     * @param $options
-     * @param $component
-     * @param $filearea
-     * @param $args
-     * @param $forcedownload
-     * @return mixed
+     * Checks whether the user is allow to be served a particular file.
+     * @param question_attempt $qa the question attempt being displayed.
+     * @param question_display_options $options the options that control display of the question.
+     * @param string $component the name of the component we are serving files for.
+     * @param string $filearea the name of the file area.
+     * @param array $args the remaining bits of the file path.
+     * @param bool $forcedownload whether the user must be forced to download the file.
+     * @return bool true if the user can access this file.
      */
     public function check_file_access($qa, $options, $component, $filearea,
             $args, $forcedownload) {

@@ -17,7 +17,7 @@
 /**
  * Multi-answer question type upgrade code.
  *
- * @package    qtype
+ * @package    qtype_regexmatch
  * @subpackage regexmatch
  * @copyright  2024 Linus Andera (linus@linusdev.de)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -69,33 +69,33 @@ function xmldb_qtype_regexmatch_upgrade($oldversion = 0) {
         upgrade_plugin_savepoint(true, 2024072500, 'qtype', 'regexmatch');
     }
 
-    if($oldversion < 2024110802) {
+    if ($oldversion < 2024110802) {
         $all_questions = $DB->get_records('question', ["qtype" => "regexmatch"]);
         foreach ($all_questions as $question) {
             $all_answers = $DB->get_records('question_answers', ['question' => $question->id]);
             foreach ($all_answers as $answer) {
                 $options = $DB->get_record_sql("SELECT * FROM {question_regexmatch_answers} WHERE answerid = $answer->id", null, IGNORE_MISSING);
 
-                if($options === false)
+                if ($options === false)
                     continue;
 
                 $answer->answer .= "/";
-                if($options->ignorecase === 1)
+                if ($options->ignorecase === 1)
                     $answer->answer .= "I";
 
-                if($options->dotall === 1)
+                if ($options->dotall === 1)
                     $answer->answer .= "D";
 
-                if($options->infspace === 0)
+                if ($options->infspace === 0)
                     $answer->answer .= "S";
 
-                if($options->trimspaces === 0)
+                if ($options->trimspaces === 0)
                     $answer->answer .= "T";
 
-                if($options->pipesemispace === 1)
+                if ($options->pipesemispace === 1)
                     $answer->answer .= "P";
 
-                if($options->redictspace === 1)
+                if ($options->redictspace === 1)
                     $answer->answer .= "R";
 
                 $answer->answer .= "/";

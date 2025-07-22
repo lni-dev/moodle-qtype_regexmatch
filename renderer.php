@@ -17,10 +17,9 @@
 /**
  * regexmatch question renderer class.
  *
- * @package    qtype
+ * @package    qtype_regexmatch
  * @subpackage regexmatch
  * @copyright  2024 Linus Andera (linus@linusdev.de)
-
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -32,7 +31,6 @@ defined('MOODLE_INTERNAL') || die();
  * Generates the output for regexmatch questions.
  *
  * @copyright  2024 Linus Andera (linus@linusdev.de)
-
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_regexmatch_renderer extends qtype_renderer {
@@ -40,9 +38,9 @@ class qtype_regexmatch_renderer extends qtype_renderer {
 
     /**
      * Render question of type regexmatch
-     * @param question_attempt $qa
-     * @param question_display_options $options
-     * @return string
+     * @param question_attempt $qa the question attempt to display.
+     * @param question_display_options $options controls what should and should not be displayed.
+     * @return string HTML fragment.
      */
     public function formulation_and_controls(
         question_attempt $qa,
@@ -50,9 +48,7 @@ class qtype_regexmatch_renderer extends qtype_renderer {
     ): string {
 
         // regexmatch question
-        /**
-         * @var $question qtype_regexmatch_question
-         */
+        /* @var $question qtype_regexmatch_question */
         $question = $qa->get_question();
 
 
@@ -66,7 +62,7 @@ class qtype_regexmatch_renderer extends qtype_renderer {
 
         // If the regex was not able to be parsed, show an error.
         foreach ($question->answers as $correctanswer) {
-            if($correctanswer->regexes[0] === null) {
+            if ($correctanswer->regexes[0] === null) {
                 \core\notification::add(
                     get_string('error_unparsable', 'qtype_regexmatch'),
                     \core\notification::WARNING
@@ -89,8 +85,10 @@ class qtype_regexmatch_renderer extends qtype_renderer {
             'class' => 'form-control d-inline',
         );
 
-        if ($options->readonly)
+        if ($options->readonly) {
             $inputattributes['readonly'] = 'readonly';
+        }
+
 
         $result .= html_writer::tag('textarea', $currentanswer, $inputattributes);
 
@@ -99,8 +97,8 @@ class qtype_regexmatch_renderer extends qtype_renderer {
 
     /**
      * specific feedback for given question attempt
-     * @param question_attempt $qa
-     * @return string
+     * @param question_attempt $qa the question attempt to display.
+     * @return string HTML fragment.
      */
     public function specific_feedback(question_attempt $qa): string {
         /* @var qtype_regexmatch_question $question */
@@ -110,10 +108,10 @@ class qtype_regexmatch_renderer extends qtype_renderer {
         $currentanswer = $qa->get_last_qt_var('answer');
 
         $feedback = '';
-        if($currentanswer != null) {
+        if ($currentanswer != null) {
             $regex = $question->get_regex_for_answer($currentanswer);
 
-            if($regex != null) {
+            if ($regex != null) {
                 $feedback = $question->format_text(
                     $regex->feedback,
                     $regex->feedbackformat,
@@ -129,7 +127,7 @@ class qtype_regexmatch_renderer extends qtype_renderer {
 
     /**
      * Cannot generate a correct response from a regexmatch question.
-     * @param question_attempt $qa
+     * @param question_attempt $qa the question attempt to display.
      * @return string Always an empty string.
      */
     public function correct_response(question_attempt $qa): string {

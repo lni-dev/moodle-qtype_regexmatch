@@ -17,7 +17,7 @@
 /**
  * Question type class for the regexmatch question type.
  *
- * @package    qtype
+ * @package    qtype_regexmatch
  * @subpackage regexmatch
  * @copyright  2024 Linus Andera (linus@linusdev.de)
 
@@ -52,9 +52,11 @@ class qtype_regexmatch extends question_type {
     }
 
     /**
-     * Save question options, answers and hints
-     * @param $question
-     * @return void
+     * Saves question-type specific options
+     *
+     * @param object $question This holds the information from the editing form,
+     *      it is not a standard question object.
+     * @return bool|stdClass $result->error or $result->notice
      */
     public function save_question_options($question) {
         parent::save_question_options($question);
@@ -79,8 +81,8 @@ class qtype_regexmatch extends question_type {
     }
 
     /**
-     * Create answer of type qtype_regexmatch_common_answer.
-     * @param $answer
+     * Create a qtype_regexmatch_common_answer
+     * @param object $answer the DB row from the question_answers table plus extra answer fields.
      * @return qtype_regexmatch_common_answer
      */
     protected function make_answer($answer): qtype_regexmatch_common_answer {
@@ -94,20 +96,21 @@ class qtype_regexmatch extends question_type {
     }
 
     /**
-     * Random quess score for this question type
-     * @param $questiondata
-     * @return int
+     * Calculate the score a monkey would get on a question by clicking randomly.
+     *
+     * @param stdClass $questiondata data defining a question, as returned by
+     *      question_bank::load_question_data().
+     * @return number 0
      */
     public function get_random_guess_score($questiondata) {
         return 0;
     }
 
     /**
-     * move files
-     * @param $questionid
-     * @param $oldcontextid
-     * @param $newcontextid
-     * @return void
+     * Move all the files belonging to this question, answers or hints from one context to another.
+     * @param int $questionid the question being moved.
+     * @param int $oldcontextid the context it is moving from.
+     * @param int $newcontextid the context it is moving to.
      */
     public function move_files($questionid, $oldcontextid, $newcontextid) {
         parent::move_files($questionid, $oldcontextid, $newcontextid);
@@ -116,10 +119,9 @@ class qtype_regexmatch extends question_type {
     }
 
     /**
-     * delete files
-     * @param $questionid
-     * @param $contextid
-     * @return void
+     * Delete all the files belonging to this question, answers or hints.
+     * @param int $questionid the question being deleted.
+     * @param int $contextid the context the question is in.
      */
     protected function delete_files($questionid, $contextid) {
         parent::delete_files($questionid, $contextid);
@@ -128,10 +130,9 @@ class qtype_regexmatch extends question_type {
     }
 
     /**
-     * initialise question instance
-     * @param question_definition $question
-     * @param $questiondata
-     * @return void
+     * Initialise the common question_definition fields and answers. Also calculates $question->defaultmark
+     * @param question_definition $question the question_definition we are creating.
+     * @param object $questiondata the question data loaded from the database.
      */
     protected function initialise_question_instance(question_definition $question, $questiondata) {
         parent::initialise_question_instance($question, $questiondata);
@@ -139,12 +140,12 @@ class qtype_regexmatch extends question_type {
     }
 
     /**
-     * import questions of this type from xml
-     * @param $data
-     * @param $question
-     * @param qformat_xml $format
-     * @param $extra
-     * @return false
+     * Import from xml
+     * @param mixed $data  import data
+     * @param mixed $question unused
+     * @param qformat_xml $format import format
+     * @param mixed $extra unused
+     * @return false|object
      */
     public function import_from_xml($data, $question, qformat_xml $format, $extra = null) {
         global $CFG;
@@ -180,17 +181,19 @@ class qtype_regexmatch extends question_type {
     }
 
     /**
-     * export questions of this type to xml.
-     * @param qtype_regexmatch_question $question
-     * @param qformat_xml $format
-     * @param $extra
-     * @return string
+     * Export to xml
+     * @param qtype_regexmatch_question $question question to export
+     * @param qformat_xml $format format to export to
+     * @param mixed $extra unused
+     * @return string exported
      */
     public function export_to_xml($question, qformat_xml $format, $extra = null) {
         $expout = parent::export_to_xml($question, $format, $extra);
 
-        if(!$expout)
+        if (!$expout) {
             $expout = '';
+        }
+
 
         $extraanswersfields = $this->extra_answer_fields();
         if (is_array($extraanswersfields))
@@ -200,7 +203,7 @@ class qtype_regexmatch extends question_type {
             $extra = '';
             if (is_array($extraanswersfields)) {
                 foreach ($extraanswersfields as $field) {
-                    if(!isset($answer->$field) || $answer->$field == 0)
+                    if (!isset($answer->$field) || $answer->$field == 0)
                         continue;
                     $exportedvalue = $format->xml_escape($answer->$field);
                     $extra .= "      <{$field}>{$exportedvalue}</{$field}>\n";
