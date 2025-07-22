@@ -158,7 +158,7 @@ class qtype_regexmatch_edit_form extends question_edit_form {
 
                         foreach (str_split($options) as $option) {
                             $found = false;
-                            foreach (REGEXMATCH_ALLOWED_OPTIONS as $allowed) {
+                            foreach (QTYPE_REGEXMATCH_ALLOWED_OPTIONS as $allowed) {
                                 if ($option == $allowed) {
                                     $found = true;
                                 }
@@ -176,8 +176,8 @@ class qtype_regexmatch_edit_form extends question_edit_form {
                             if(preg_match("/[a-z]+=/", $keyvaluepair, $matches)) {
                                 $match = $matches[0];
                                 $found = false;
-                                for (; $nextkey < count(REGEXMATCH_ALLOWED_KEYS); $nextkey++) {
-                                    if($match == REGEXMATCH_ALLOWED_KEYS[$nextkey]) {
+                                for (; $nextkey < count(QTYPE_REGEXMATCH_ALLOWED_KEYS); $nextkey++) {
+                                    if($match == QTYPE_REGEXMATCH_ALLOWED_KEYS[$nextkey]) {
                                         $found = true;
                                         break;
                                     }
@@ -185,14 +185,14 @@ class qtype_regexmatch_edit_form extends question_edit_form {
 
                                 if(!$found) {
                                     $isallowed = false;
-                                    foreach (REGEXMATCH_ALLOWED_KEYS as $allowed) {
+                                    foreach (QTYPE_REGEXMATCH_ALLOWED_KEYS as $allowed) {
                                         if ($allowed == $match) {
                                             $isallowed = true;
                                             break;
                                         }
                                     }
                                     if($isallowed) {
-                                        $errors["answer[$key]"] = get_string('valerror_illegalkeyorder', 'qtype_regexmatch', implode(', ', REGEXMATCH_ALLOWED_KEYS));
+                                        $errors["answer[$key]"] = get_string('valerror_illegalkeyorder', 'qtype_regexmatch', implode(', ', QTYPE_REGEXMATCH_ALLOWED_KEYS));
                                     } else  {
                                         $errors["answer[$key]"] = get_string('valerror_unkownkey', 'qtype_regexmatch', $match);
                                     }
