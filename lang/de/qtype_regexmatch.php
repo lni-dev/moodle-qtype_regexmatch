@@ -45,7 +45,7 @@ Die Schlüssel `separator=` und `comment=` sind Optional. `separator=` wird in d
 leere Optionen (`//`) angegeben werden.
 
 `regex` ist ein regulärer Ausdruck im [PCRE syntax](https://www.php.net/manual/en/reference.pcre.pattern.syntax.php).
-Der reguläre Ausdruck muss sich zwischen doppelten eckigen Klammern (\[\[\]\]) befinden. 
+Der reguläre Ausdruck muss sich zwischen doppelten eckigen Klammern (\[\[\]\]) befinden.
 Hier ist eine kurze Beschreibung der wichtigsten regex Funktionen:
 
 |        |                Strukturen                |
@@ -85,7 +85,7 @@ sollen, können sie escaped werden: "\$", "\^".
 $string['options'] = "Options";
 $string['default_options'] = "Default Options";
 $string['options_help'] = /* @lang Markdown */
-    'Einige Optionen können aktiviert/deaktiviert werden. 
+    'Einige Optionen können aktiviert/deaktiviert werden.
 Diese müssen mit einem Schrägstrich (`/`) anfangen und enden. Zum Beispiel: `/PI/`. Jede Option wird durch einen
 einzigen großen Buchstaben aktiviert und durch einen kleinen Buchstaben deaktiviert.
 

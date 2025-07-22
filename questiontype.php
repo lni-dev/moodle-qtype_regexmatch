@@ -14,20 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-declare(strict_types=1);
-
 /**
  * Question type class for the regexmatch question type.
  *
  * @package    qtype_regexmatch
  * @subpackage regexmatch
  * @copyright  2024 Linus Andera (linus@linusdev.de)
-
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
- /*https://docs.moodle.org/dev/Question_types#Question_type_and_question_definition_classes*/
-
 
 defined('MOODLE_INTERNAL') || die();
 

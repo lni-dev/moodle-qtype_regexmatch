@@ -208,15 +208,10 @@ class qtype_regexmatch_edit_form extends question_edit_form {
                     }
                 }
 
-
-
-
-
             } else if ($fromform['fraction'][$key] != 0 || !html_is_blank($fromform['feedback'][$key]['text'])) {
                 $errors["answer[$key]"] = get_string('fborgradewithoutregex', 'qtype_regexmatch');
                 $answercount++;
             }
-
 
         }
 
