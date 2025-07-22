@@ -15,20 +15,18 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Privacy Subsystem implementation for qtype_regexmatch.
+ * Provides the information to restore regexmatch questions
  *
  * @package    qtype_regexmatch
- * @copyright  @copyright  2024 Linus Andera (linus@linusdev.de)
+ * @subpackage backup-moodle2
+ * @copyright  2025 Linus Andera (linus@linusdev.de)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-namespace qtype_regexmatch\privacy;
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
  * Privacy Subsystem for qtype_regexmatch implementing null_provider.
- *
  */
 class provider implements \core_privacy\local\metadata\null_provider {
 
