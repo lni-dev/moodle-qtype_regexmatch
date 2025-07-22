@@ -1,4 +1,4 @@
-# Regexmatch and Regexmatch Cloze usage examples
+# Regexmatch usage examples
 
 This file contains some example regular expressions which can be used within Regexmatch
 
@@ -53,21 +53,6 @@ as the previous one:
 
 /I/
 ```
-## Regexmatch Cloze Syntax
-```
-[[regex]] /OPTIONS/
-%50 [[another regex with half the points]] /OPTIONS/
-%10 [[another regex with 10% points]] /OPTIONS/
-separator=,
-points=5
-size=10
-feedback=text
-comment=text
-```
-TODO
-
-### Examples
-TODO
 
 ## Keys
 Regexmatch supports the keys `comment=` and `separator=`. 
@@ -100,7 +85,7 @@ Some options are enabled by default. These are called default options.
 
 ### I: Ignore Case
 This option makes the regular expression ignore case.
-For example the regular expression `abc/I/` will match `abc`, `Abc`, `ABC`, `aBc`, etc. This option acts exactly as
+For example the regular expression `[[abc]]/I/` will match `abc`, `Abc`, `ABC`, `aBc`, etc. This option acts exactly as
 the PCRE option `IGNORE_CASE`.
 
 ### D: Dot All
