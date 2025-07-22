@@ -36,13 +36,13 @@ $addons = [
                 'delegate' => 'CoreQuestionDelegate', // Delegate (where to display the link to the add-on).
                 'method' => 'mobile_get_regexmatch',
                 'offlinefunctions' => [
-                    'mobile_get_regexmatch' => [],// function in classes/output/mobile.php
+                    'mobile_get_regexmatch' => [], // function in classes/output/mobile.php
                 ], // Function needs caching for offline.
-                'styles' => []
-            ]
+                'styles' => [],
+            ],
         ],
         'lang' => [
                     ['pluginname', 'qtype_regexmatch'], // matching value in  lang/en/qtype_regexmatch
         ],
-    ]
+    ],
 ];

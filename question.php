@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -13,6 +13,8 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+declare(strict_types=1);
 
 /**
  * regexmatch question definition class.
@@ -50,22 +52,14 @@ const QTYPE_REGEXMATCH_ALLOWED_OPTIONS = array('I', 'D', 'P', 'R', 'O', 'S', 'T'
  */
 class qtype_regexmatch_question extends question_graded_automatically {
 
-    /* @var array<qtype_regexmatch_common_answer> array containing all the allowed regexes */
-    public $answers = array();
-    public $options = array();
-
     /**
-     * Question attempt started
-     * @param question_attempt_step $step
-     * @param $variant
-     * @return void
+     * @var array<qtype_regexmatch_common_answer> array containing all the allowed regexes
      */
-    public function start_attempt(
-        question_attempt_step $step,
-        $variant
-    ) {
-        // probably not needed
-    }
+    public $answers = array();
+    /**
+     * @var mixed options
+     */
+    public $options = array();
 
     /**
      * Whether given response is a complete answer to this question
@@ -97,7 +91,7 @@ class qtype_regexmatch_question extends question_graded_automatically {
      * @param array $newresponse the new responses, in the same format.
      * @return bool whether the two sets of responses are the same - that is
      *      whether the new set of responses can safely be discarded.
- */
+     */
     public function is_same_response(array $prevresponse, array $newresponse) {
         return question_utils::arrays_same_at_key(
             $prevresponse, $newresponse, 'answer');
@@ -149,7 +143,13 @@ class qtype_regexmatch_question extends question_graded_automatically {
             if ($value > 0.0) {
                 $value *= $correctanswer->fraction;
                 if ($ret == null || ($correctanswer->fraction * $value) > $ret->fraction) {
-                    $ret = $value == 1.0 ? $correctanswer : new qtype_regexmatch_common_answer($correctanswer->id, $correctanswer->answer, $correctanswer->fraction * $value, $correctanswer->feedback, $correctanswer->feedbackformat);
+                    $ret = $value == 1.0 ? $correctanswer : new qtype_regexmatch_common_answer(
+                        $correctanswer->id,
+                        $correctanswer->answer,
+                        $correctanswer->fraction * $value,
+                        $correctanswer->feedback,
+                        $correctanswer->feedbackformat
+                    );
                 }
             }
         }

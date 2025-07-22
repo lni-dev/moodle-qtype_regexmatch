@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -13,6 +13,8 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+declare(strict_types=1);
 
 /**
  * regexmatch question renderer class.
@@ -51,7 +53,6 @@ class qtype_regexmatch_renderer extends qtype_renderer {
         /* @var $question qtype_regexmatch_question */
         $question = $qa->get_question();
 
-
         // Text to be displayed for this question (set when creating)
         $questiontext = $question->format_questiontext($qa);
 
@@ -88,7 +89,6 @@ class qtype_regexmatch_renderer extends qtype_renderer {
         if ($options->readonly) {
             $inputattributes['readonly'] = 'readonly';
         }
-
 
         $result .= html_writer::tag('textarea', $currentanswer, $inputattributes);
 

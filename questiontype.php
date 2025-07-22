@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -13,6 +13,8 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+declare(strict_types=1);
 
 /**
  * Question type class for the regexmatch question type.
@@ -194,17 +196,19 @@ class qtype_regexmatch extends question_type {
             $expout = '';
         }
 
-
         $extraanswersfields = $this->extra_answer_fields();
-        if (is_array($extraanswersfields))
+        if (is_array($extraanswersfields)) {
             array_shift($extraanswersfields);
+        }
 
         foreach ($question->options->answers as $answer) {
             $extra = '';
             if (is_array($extraanswersfields)) {
                 foreach ($extraanswersfields as $field) {
-                    if (!isset($answer->$field) || $answer->$field == 0)
+                    if (!isset($answer->$field) || $answer->$field == 0) {
                         continue;
+                    }
+
                     $exportedvalue = $format->xml_escape($answer->$field);
                     $extra .= "      <{$field}>{$exportedvalue}</{$field}>\n";
                 }

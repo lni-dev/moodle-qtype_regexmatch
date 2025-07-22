@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -13,6 +13,8 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+declare(strict_types=1);
 
 /**
  * Defines the editing form for the regexmatch question type.
@@ -87,7 +89,6 @@ class qtype_regexmatch_edit_form extends question_edit_form {
         $repeated[] = $mform->createElement('static', 'options', get_string('options', 'qtype_regexmatch'), 'I, D, P, R, O');
         $repeated[] = $mform->createElement('static', 'default-options', get_string('default_options', 'qtype_regexmatch'), 'S, T');
 
-
         $repeated[] = $mform->createElement('select',
             'fraction',
             get_string('gradenoun'),
@@ -140,15 +141,16 @@ class qtype_regexmatch_edit_form extends question_edit_form {
         foreach ($answers as $key => $answer) {
             if ($answer !== '') {
                 $answercount++;
-                if ($fromform['fraction'][$key] == 1) $maxgrade = true;
-
+                if ($fromform['fraction'][$key] == 1) {
+                    $maxgrade = true;
+                }
 
                 // check syntax
                 if (preg_match('/(?<!\\\\)(\\\\\\\\)*[$^]/', $fromform['answer'][$key]) == 1) {
                     $errors["answer[$key]"] = get_string('dollarroofmustbeescaped', 'qtype_regexmatch');
                 }
 
-                //check syntax
+                // check syntax
                 if (preg_match('%^(\[\[.*\]\]\\n? *)+/[a-zA-Z]*/.*$%s', $fromform['answer'][$key]) != 1) {
                     $errors["answer[$key]"] = get_string('valerror_illegalsyntax', 'qtype_regexmatch');
                 } else {
@@ -197,7 +199,7 @@ class qtype_regexmatch_edit_form extends question_edit_form {
                                     }
                                     if ($isallowed) {
                                         $errors["answer[$key]"] = get_string('valerror_illegalkeyorder', 'qtype_regexmatch', implode(', ', QTYPE_REGEXMATCH_ALLOWED_KEYS));
-                                    } else  {
+                                    } else {
                                         $errors["answer[$key]"] = get_string('valerror_unkownkey', 'qtype_regexmatch', $match);
                                     }
 
@@ -220,11 +222,13 @@ class qtype_regexmatch_edit_form extends question_edit_form {
 
         }
 
-        if ($answercount==0)
+        if ($answercount == 0) {
             $errors['answer[0]'] = get_string('notenoughregexes', 'qtype_regexmatch');
+        }
 
-        if (!$maxgrade)
+        if (!$maxgrade) {
             $errors['answer[0]'] = get_string('fractionsnomax', 'question');
+        }
 
         return $errors;
     }

@@ -18,13 +18,11 @@
  * Provides the information to restore numerical questions
  * @package    qtype_regexmatch
  * @subpackage backup-moodle2
- * @copyright  2025 Linus Andera
+ * @copyright  2025 Linus Andera (linus@linusdev.de)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
 defined('MOODLE_INTERNAL') || die();
-
 
 /**
  * Provides the information to restore numerical questions
@@ -33,6 +31,7 @@ class restore_qtype_regexmatch_plugin extends restore_qtype_extrafields_plugin {
 
     /**
      * Process the qtype/regexmatch element
+     * @param mixed $data data
      */
     public function process_regexmatch($data) {
     }
