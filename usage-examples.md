@@ -197,12 +197,12 @@ alpaca,cat,elephant
 alpaca,cat,dog,elephant
 ```
 
-### I: Infinite Space
-This option is enabled by default and can be disabled by specifying the letter `I` in the options.
+### S: Infinite Space
+This option is enabled by default and can be disabled by specifying the letter `S` in the options.
 If this option is enabled all spaces will be replaced with `([ \t]+)`. Thereby they match one or more whitespace characters.
 
 #### Examples
-The regular expression `some test sentence` will match any of the following example answers:
+The regular expression `[[some test sentence]]//` will match any of the following example answers:
 - `some test sentence`
 - `some     test     sentence`
 
@@ -232,4 +232,4 @@ and also the following example answer
 
 ## Common Mistakes and special cases
 - If the regular expression contains spaces at the end of a line these must also be contained in the answer.
-- If you encounter a problem with a complex regular expression, try to disable the Infinite Space (`i`) option.
+- If you encounter a problem with a complex regular expression, try to disable the Infinite Space (`s`) option.
