@@ -90,13 +90,13 @@ The following options exist:
 
 | Letter | Name                 | Default |
 |:------:|----------------------|:-------:|
-|   I    | Ignore Case          |         |
-|   D    | Dot All              |         |
-|   P    | Pipes and Semicolons |         |
-|   R    | Redirects            |         |
-|   O    | Match Any Order      |         |
-|   s    | Infinite Space       |    x    |
-|   t    | Trim Spaces          |    x    |
+|   I    | Ignore Case          |   no    |
+|   D    | Dot All              |   no    |
+|   P    | Pipes and Semicolons |   no    |
+|   R    | Redirects            |   no    |
+|   O    | Match Any Order      |   no    |
+|   s    | Infinite Space       |   YES   |
+|   t    | Trim Spaces          |   YES   |
 
 ## Regex (`<regex>`, `<regex-x>`)
 Regular expression in the PHP-PCRE syntax.
