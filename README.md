@@ -37,7 +37,7 @@ References for installation on Windows and Ubuntu are given below.
 To install using git for the latest version (the master branch), type this command in the
 `<moodle-installation>/question/type` folder of your Moodle install:
 ```
-git clone https://github.com/lni-dev/moodle-qtype_regexmatch.git regexmatch
+git clone --recurse-submodules https://github.com/lni-dev/moodle-qtype_regexmatch.git regexmatch
 ```
 After the installation the moodle administration website `Website Administration` must be visited.
 
