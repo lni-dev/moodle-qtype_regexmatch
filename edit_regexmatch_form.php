@@ -160,16 +160,18 @@ class qtype_regexmatch_edit_form extends question_edit_form {
                         $options = trim($options); // Now trim all spaces at the beginning and end
                         $options = substr($options, 1, strlen($options) - 2); // remove first and last "/"
 
-                        foreach (str_split($options) as $option) {
-                            $found = false;
-                            foreach (QTYPE_REGEXMATCH_ALLOWED_OPTIONS as $allowed) {
-                                if ($option == $allowed) {
-                                    $found = true;
+                        if($options !== '') {
+                            foreach (str_split($options) as $option) {
+                                $found = false;
+                                foreach (QTYPE_REGEXMATCH_ALLOWED_OPTIONS as $allowed) {
+                                    if ($option == $allowed) {
+                                        $found = true;
+                                    }
                                 }
-                            }
 
-                            if (!$found) {
-                                $errors["answer[$key]"] = get_string('valerror_illegaloption', 'qtype_regexmatch', $option);
+                                if (!$found) {
+                                    $errors["answer[$key]"] = get_string('valerror_illegaloption', 'qtype_regexmatch', $option);
+                                }
                             }
                         }
 
