@@ -5,7 +5,7 @@ This file contains information used for both the regexmatch question type and th
 Legend:
 - `<options>`: Options specified by a single letter
 - `<regex>`: The regular expression
-- `<separator-char>`: separator 
+- `<separator-char>`: separator. Can be surrounded by quotes ("). Useful if the separator should be a space character.
 - `<comment-text>`: comment. Only visible to the editor. Must not contain `/` as last char.
 - spaces: All spaces in the syntax are optional
 

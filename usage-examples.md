@@ -57,7 +57,7 @@ as the previous one:
 ## Keys
 Regexmatch supports the keys `comment=` and `separator=`. 
 - `separator=` is a field for the separator the student has to enter between his answers if the Match Any Order option (`O`).
-  is enabled.
+  is enabled. Can be surrounded by quotes ("). Useful if the separator should be a space character (example: `separator=" "`).
 - `comment=` is a text field only visible inside the question edit form and has no other use.
   This enables the author of the question to save some internal information.
 
@@ -144,6 +144,8 @@ If this option is enabled the regex must consist of multiple sub-regexes.
 The answers (separated by the `separator=`) must match any of the sub-regexes,
 but order is not important. Each sub-regex can only be matched by a single answer. Wrong answers, too many or too few answers
 result in a point substraction in the evaluation.
+
+The separator can be surrounded by quotes ("). Useful if the separator should be a space character (example: `separator=" "`).
 
 #### Evaluation
 The evaluation of the answer is calculated based on an internal point system. The maximum amount of points (`maxPoints`)
