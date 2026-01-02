@@ -34,7 +34,7 @@ if (!class_exists('qtype_regexmatch_common_regex')) {
 /**
  * @var array Allowed keys for regexmatch
  */
-const QTYPE_REGEXMATCH_ALLOWED_KEYS =[QTYPE_REGEXMATCH_COMMON_SEPARATOR_KEY, QTYPE_REGEXMATCH_COMMON_COMMENT_KEY];
+const QTYPE_REGEXMATCH_ALLOWED_KEYS = [QTYPE_REGEXMATCH_COMMON_SEPARATOR_KEY, QTYPE_REGEXMATCH_COMMON_COMMENT_KEY];
 /**
  * @var array Allowed options for regexmatch
  */
@@ -90,8 +90,7 @@ class qtype_regexmatch_question extends question_graded_automatically {
      *      whether the new set of responses can safely be discarded.
      */
     public function is_same_response(array $prevresponse, array $newresponse) {
-        return question_utils::arrays_same_at_key(
-            $prevresponse, $newresponse, 'answer');
+        return question_utils::arrays_same_at_key($prevresponse, $newresponse, 'answer');
     }
 
     /**
@@ -170,7 +169,7 @@ class qtype_regexmatch_question extends question_graded_automatically {
             }
         }
 
-        return array($fraction, question_state::graded_state_for_fraction($fraction));
+        return [$fraction, question_state::graded_state_for_fraction($fraction)];
     }
 
     /**
@@ -209,5 +208,3 @@ class qtype_regexmatch_question extends question_graded_automatically {
         }
     }
 }
-
-

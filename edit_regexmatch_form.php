@@ -87,7 +87,8 @@ class qtype_regexmatch_edit_form extends question_edit_form {
         $repeated[] = $mform->createElement('static', 'options', get_string('options', 'qtype_regexmatch'), 'I, D, P, R, O');
         $repeated[] = $mform->createElement('static', 'default-options', get_string('default_options', 'qtype_regexmatch'), 'S, T');
 
-        $repeated[] = $mform->createElement('select',
+        $repeated[] = $mform->createElement(
+            'select',
             'fraction',
             get_string('gradenoun'),
             $gradeoptions
@@ -161,7 +162,7 @@ class qtype_regexmatch_edit_form extends question_edit_form {
                         $options = trim($options); // Now trim all spaces at the beginning and end
                         $options = substr($options, 1, strlen($options) - 2); // remove first and last "/"
 
-                        if($options !== '') {
+                        if ($options !== '') {
                             foreach (str_split($options) as $option) {
                                 $found = false;
                                 foreach (QTYPE_REGEXMATCH_ALLOWED_OPTIONS as $allowed) {
@@ -203,7 +204,6 @@ class qtype_regexmatch_edit_form extends question_edit_form {
                                     } else {
                                         $errors["answer[$key]"] = get_string('valerror_unkownkey', 'qtype_regexmatch', $match);
                                     }
-
                                 }
                             }
                         }
