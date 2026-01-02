@@ -35,7 +35,6 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_regexmatch_edit_form extends question_edit_form {
-
     /**
      * Add specific form fields for editing
      * @param MoodleQuickForm $mform
@@ -75,13 +74,14 @@ class qtype_regexmatch_edit_form extends question_edit_form {
         &$repeatedoptions,
         &$answersoption
     ) {
-        $repeated = array();
+        $repeated = [];
 
         // Help button added in definition_inner
-        $repeated[] = $mform->createElement('textarea',
+        $repeated[] = $mform->createElement(
+            'textarea',
             'answer',
             $label,
-            array('size' => 1000)
+            ['size' => 1000]
         );
 
         $repeated[] = $mform->createElement('static', 'options', get_string('options', 'qtype_regexmatch'), 'I, D, P, R, O');
@@ -93,10 +93,11 @@ class qtype_regexmatch_edit_form extends question_edit_form {
             $gradeoptions
         );
 
-        $repeated[] = $mform->createElement('editor',
+        $repeated[] = $mform->createElement(
+            'editor',
             'feedback',
             get_string('feedback', 'question'),
-            array('rows' => 5),
+            ['rows' => 5],
             $this->editoroptions
         );
 
@@ -204,17 +205,14 @@ class qtype_regexmatch_edit_form extends question_edit_form {
                                     }
 
                                 }
-
                             }
                         }
                     }
                 }
-
             } else if ($fromform['fraction'][$key] != 0 || !html_is_blank($fromform['feedback'][$key]['text'])) {
                 $errors["answer[$key]"] = get_string('fborgradewithoutregex', 'qtype_regexmatch');
                 $answercount++;
             }
-
         }
 
         if ($answercount == 0) {

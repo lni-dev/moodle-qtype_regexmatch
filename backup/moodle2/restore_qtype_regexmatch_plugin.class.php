@@ -28,7 +28,6 @@ defined('MOODLE_INTERNAL') || die();
  * Provides the information to restore numerical questions
  */
 class restore_qtype_regexmatch_plugin extends restore_qtype_extrafields_plugin {
-
     /**
      * Process the qtype/regexmatch element
      * @param mixed $data data

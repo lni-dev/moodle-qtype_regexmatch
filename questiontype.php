@@ -38,7 +38,6 @@ require_once($CFG->dirroot . '/question/type/regexmatch/question.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_regexmatch extends question_type {
-
     /**
      * Response cannot be analyzed, because the method get_possible_responses cannot be implemented.
      * @return false
@@ -145,7 +144,7 @@ class qtype_regexmatch extends question_type {
      */
     public function import_from_xml($data, $question, qformat_xml $format, $extra = null) {
         global $CFG;
-        require_once($CFG->dirroot.'/question/type/regexmatch/question.php');
+        require_once($CFG->dirroot . '/question/type/regexmatch/question.php');
 
         if (!isset($data['@']['type']) || $data['@']['type'] != 'question_regexmatch') {
             return false;

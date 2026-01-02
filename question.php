@@ -34,11 +34,11 @@ if (!class_exists('qtype_regexmatch_common_regex')) {
 /**
  * @var array Allowed keys for regexmatch
  */
-const QTYPE_REGEXMATCH_ALLOWED_KEYS = array(QTYPE_REGEXMATCH_COMMON_SEPARATOR_KEY, QTYPE_REGEXMATCH_COMMON_COMMENT_KEY);
+const QTYPE_REGEXMATCH_ALLOWED_KEYS =[QTYPE_REGEXMATCH_COMMON_SEPARATOR_KEY, QTYPE_REGEXMATCH_COMMON_COMMENT_KEY];
 /**
  * @var array Allowed options for regexmatch
  */
-const QTYPE_REGEXMATCH_ALLOWED_OPTIONS = array('I', 'D', 'P', 'R', 'O', 'S', 'T', 'i', 'd', 'p', 'r', 'o', 's', 't');
+const QTYPE_REGEXMATCH_ALLOWED_OPTIONS = ['I', 'D', 'P', 'R', 'O', 'S', 'T', 'i', 'd', 'p', 'r', 'o', 's', 't'];
 
 
 /**
@@ -49,15 +49,14 @@ const QTYPE_REGEXMATCH_ALLOWED_OPTIONS = array('I', 'D', 'P', 'R', 'O', 'S', 'T'
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_regexmatch_question extends question_graded_automatically {
-
     /**
      * @var array<qtype_regexmatch_common_answer> array containing all the allowed regexes
      */
-    public $answers = array();
+    public $answers = [];
     /**
      * @var mixed options
      */
-    public $options = array();
+    public $options = [];
 
     /**
      * Whether given response is a complete answer to this question
@@ -100,7 +99,7 @@ class qtype_regexmatch_question extends question_graded_automatically {
      * @return array
      */
     public function get_expected_data() {
-        return array('answer' => PARAM_RAW);
+        return ['answer' => PARAM_RAW];
     }
 
     /**
@@ -202,13 +201,11 @@ class qtype_regexmatch_question extends question_graded_automatically {
      * @param bool $forcedownload whether the user must be forced to download the file.
      * @return bool true if the user can access this file.
      */
-    public function check_file_access($qa, $options, $component, $filearea,
-            $args, $forcedownload) {
+    public function check_file_access($qa, $options, $component, $filearea, $args, $forcedownload) {
         if ($component == 'question' && $filearea == 'hint') {
             return $this->check_hint_file_access($qa, $options, $args);
         } else {
-            return parent::check_file_access($qa, $options, $component, $filearea,
-                    $args, $forcedownload);
+            return parent::check_file_access($qa, $options, $component, $filearea, $args, $forcedownload);
         }
     }
 }

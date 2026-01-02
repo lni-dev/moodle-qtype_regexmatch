@@ -32,7 +32,6 @@ defined('MOODLE_INTERNAL') || die();
  * @package    qtype_regexmatch
  */
 class mobile {
-
     /**
      * Returns the regexmatch question type for the quiz the mobile app.
      *
@@ -44,7 +43,7 @@ class mobile {
             'templates' => [
                 [
                     'id' => 'main',
-                    'html' => file_get_contents($CFG->dirroot .'/question/type/regexmatch/mobile/qtype-regexmatch.html'),
+                    'html' => file_get_contents($CFG->dirroot . '/question/type/regexmatch/mobile/qtype-regexmatch.html'),
                     ],
             ],
             'javascript' => file_get_contents($CFG->dirroot . '/question/type/regexmatch/mobile/mobile.js'),

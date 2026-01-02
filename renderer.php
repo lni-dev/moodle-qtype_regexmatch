@@ -34,8 +34,6 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_regexmatch_renderer extends qtype_renderer {
-
-
     /**
      * Render question of type regexmatch
      * @param question_attempt $qa the question attempt to display.
@@ -71,18 +69,18 @@ class qtype_regexmatch_renderer extends qtype_renderer {
         }
 
         // Add question text
-        $result .= html_writer::tag('div', $questiontext, array('class' => 'qtext'));
+        $result .= html_writer::tag('div', $questiontext, ['class' => 'qtext']);
 
         // Add input field
         $inputname = $qa->get_qt_field_name('answer');
-        $inputattributes = array(
+        $inputattributes = [
             'type' => 'text',
             'name' => $inputname,
             'value' => $currentanswer,
             'id' => $inputname,
             'size' => 80,
             'class' => 'form-control d-inline',
-        );
+        ];
 
         if ($options->readonly) {
             $inputattributes['readonly'] = 'readonly';
@@ -114,7 +112,8 @@ class qtype_regexmatch_renderer extends qtype_renderer {
                     $regex->feedback,
                     $regex->feedbackformat,
                     $qa,
-                    'question', 'answerfeedback',
+                    'question',
+                    'answerfeedback',
                     $regex->id
                 );
             }
